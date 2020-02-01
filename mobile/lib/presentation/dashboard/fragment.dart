@@ -8,6 +8,8 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/transaction.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
+import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
+import 'package:simpati/presentation/dashboard/item/data.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -75,15 +77,35 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (ctx) => DashboardBloc(),
-      child: Column(
+      child: ListView(
+        shrinkWrap: true,
         children: <Widget>[
           createAppBar(context),
           getSpace(),
-          getPatientCountSection('Jumlah Pasien Kamu'),
+          getSection(SectionData(
+            'Jumlah Pasien Kamu',
+            CardData('Ibu', '200', iconData: LineIcons.female),
+            CardData('Anak', '200', iconData: LineIcons.child),
+          )),
           getSpace(isSmall: false),
-          getPatientCountSection('Gender Anak'),
+          getSection(SectionData(
+            'Kondisi Ibu',
+            CardData('Fit', '200'),
+            CardData('Kurang Fit', '200'),
+          )),
           getSpace(isSmall: false),
-          getPatientCountSection('Kondisi Anak'),
+          getSection(SectionData(
+            'Gender Anak',
+            CardData('Ibu', '200', iconData: LineIcons.child),
+            CardData('Anak', '200', iconData: LineIcons.child),
+          )),
+          getSpace(isSmall: false),
+          getSection(SectionData(
+            'Kondisi Anak',
+            CardData('Sehat', '200'),
+            CardData('Stunting', '200'),
+          )),
+          getSpace(isSmall: false),
         ],
       ),
     );
@@ -93,19 +115,19 @@ class _HomeScreen extends StatelessWidget {
     return isSmall ? Container(height: 8) : Container(height: 28);
   }
 
-  Widget getPatientCountSection(String title) {
+  Widget getSection(SectionData data) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: AppTextStyle.sectionTitle),
+          Text(data.name, style: AppTextStyle.sectionTitle),
           getSpace(),
           Row(
             children: <Widget>[
-              buildCard('200', 'Ibu', LineIcons.female),
-              buildCard('300', 'Anak', LineIcons.child),
+              buildCard(data.first),
+              buildCard(data.second),
             ],
           )
         ],
@@ -113,34 +135,7 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildCard(String value, String desc, IconData iconData) {
-    return Expanded(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(iconData, size: 28),
-                  Container(width: 2),
-                  Text(
-                    desc,
-                    style: AppTextStyle.sectionData.copyWith(fontSize: 16),
-                  ),
-                ],
-              ),
-              Container(height: 4),
-              Text(
-                value,
-                style: AppTextStyle.sectionData,
-                textAlign: TextAlign.end,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  Widget buildCard(CardData data) {
+    return DashboardContentCard(data);
   }
 }
