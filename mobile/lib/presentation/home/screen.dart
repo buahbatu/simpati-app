@@ -7,12 +7,14 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/presentation/dashboard/fragment.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
+import 'package:simpati/presentation/kid/fragment.dart';
+import 'package:simpati/presentation/mother/fragment.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<BaseHomeFragment> fragments = <BaseHomeFragment>[
     DashboardFragment(0),
-    // WalletFragment(1),
-    // BudgetFragment(2),
+    MotherFragment(1),
+    KidFragment(2),
     // NewsFragment(3),
     DrawerFragmentHelper(4),
   ];
