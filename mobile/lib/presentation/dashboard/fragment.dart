@@ -36,49 +36,11 @@ class DashboardFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createActionButton() {
-    return Builder(
-      builder: (ctx) {
-        // ignore: close_sinks
-        final bloc = BlocProvider.of<DashboardBloc>(ctx);
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: MaterialButton(
-            onPressed: () {
-              bloc.add(Add(Transaction.mock));
-            },
-            onLongPress: () async {
-              print('long press');
-              // TODO:
-              // bool available = await speech.initialize(
-              //   onStatus: onStatus,
-              //   onError: onError,
-              // );
-
-              // if (!listening) {
-              //   if (available) {
-              //     speech.listen(onResult: onListen);
-              //     listening = true;
-              //   } else {
-              //     print("The user has denied the use of speech recognition.");
-              //     listening = false;
-              //   }
-              // } else {
-              //   speech.stop();
-              //   listening = false;
-              // }
-            },
-            color: AppColor.primaryColor,
-            shape: CircleBorder(),
-            padding: const EdgeInsets.all(16),
-            child: Icon(LineIcons.plus, color: Colors.white),
-          ),
-        );
-      },
-    );
-  }
-
   Widget createAppBar(BuildContext context) {
+    final userName = 'Alif Akbar';
+    final greeting = 'Selamat Datang!';
+    final posyanduName = 'Posyandu Kasih Ibu';
+
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -86,9 +48,9 @@ class _HomeScreen extends StatelessWidget {
         direction: Axis.vertical,
         spacing: 2,
         children: <Widget>[
-          Text('Hi Alif Akbar,', style: AppTextStyle.titleName),
+          Text('Hi $userName,', style: AppTextStyle.titleName),
           Text(
-            'Selamat Datang!',
+            greeting,
             style: AppTextStyle.title.copyWith(
               color: AppColor.primaryColor,
               fontSize: 14,
@@ -99,9 +61,11 @@ class _HomeScreen extends StatelessWidget {
       backgroundColor: AppColor.appBackground,
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.search),
+          icon: Icon(LineIcons.info),
           color: AppColor.primaryColor,
-          onPressed: () => context.showComingSoonNotice(),
+          onPressed: () {
+            context.showAppInfo(userName, posyanduName);
+          },
         )
       ],
     );
@@ -111,46 +75,72 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (ctx) => DashboardBloc(),
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          Column(
+          createAppBar(context),
+          getSpace(),
+          getPatientCountSection('Jumlah Pasien Kamu'),
+          getSpace(isSmall: false),
+          getPatientCountSection('Gender Anak'),
+          getSpace(isSmall: false),
+          getPatientCountSection('Kondisi Anak'),
+        ],
+      ),
+    );
+  }
+
+  Container getSpace({bool isSmall = true}) {
+    return isSmall ? Container(height: 8) : Container(height: 28);
+  }
+
+  Widget getPatientCountSection(String title) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(title, style: AppTextStyle.sectionTitle),
+          getSpace(),
+          Row(
             children: <Widget>[
-              createAppBar(context),
-              // CashflowCard(),
-              Expanded(child: getContents())
+              buildCard('200', 'Ibu', LineIcons.female),
+              buildCard('300', 'Anak', LineIcons.child),
             ],
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: createActionButton(),
           )
         ],
       ),
     );
   }
 
-  Widget getContents() {
-    return BlocBuilder<DashboardBloc, ScrollFragmentState<Transaction>>(
-      builder: (context, state) {
-        final String assetName = 'assets/no_data.svg';
-        final Widget svg = SvgPicture.asset(
-          assetName,
-          height: 120,
-          semanticsLabel: 'Data Kosong',
-        );
-        return Column(
-          children: <Widget>[
-            Container(height: 64),
-            svg,
-            Container(height: 12),
-            Text('Data Kosong', style: AppTextStyle.titleName),
-          ],
-        );
-      },
+  Widget buildCard(String value, String desc, IconData iconData) {
+    return Expanded(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(iconData, size: 28),
+                  Container(width: 2),
+                  Text(
+                    desc,
+                    style: AppTextStyle.sectionData.copyWith(fontSize: 16),
+                  ),
+                ],
+              ),
+              Container(height: 4),
+              Text(
+                value,
+                style: AppTextStyle.sectionData,
+                textAlign: TextAlign.end,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-  }
-
-  Container getSpace({bool isSmall = true}) {
-    return isSmall ? Container(height: 8) : Container(height: 28);
   }
 }
