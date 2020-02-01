@@ -1,12 +1,9 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/domain/entity/transaction.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
 import 'package:simpati/presentation/dashboard/item/data.dart';
@@ -77,35 +74,42 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (ctx) => DashboardBloc(),
-      child: ListView(
-        shrinkWrap: true,
+      child: Column(
         children: <Widget>[
           createAppBar(context),
-          getSpace(),
-          getSection(SectionData(
-            'Jumlah Pasien Kamu',
-            CardData('Ibu', '200', iconData: LineIcons.female),
-            CardData('Anak', '200', iconData: LineIcons.child),
-          )),
-          getSpace(isSmall: false),
-          getSection(SectionData(
-            'Kondisi Ibu',
-            CardData('Fit', '200'),
-            CardData('Kurang Fit', '200'),
-          )),
-          getSpace(isSmall: false),
-          getSection(SectionData(
-            'Gender Anak',
-            CardData('Ibu', '200', iconData: LineIcons.child),
-            CardData('Anak', '200', iconData: LineIcons.child),
-          )),
-          getSpace(isSmall: false),
-          getSection(SectionData(
-            'Kondisi Anak',
-            CardData('Sehat', '200'),
-            CardData('Stunting', '200'),
-          )),
-          getSpace(isSmall: false),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(0),
+              children: <Widget>[
+                getSpace(),
+                getSection(SectionData(
+                  'Jumlah Pasien Kamu',
+                  CardData('Ibu', '200', iconData: LineIcons.female),
+                  CardData('Anak', '200', iconData: LineIcons.child),
+                )),
+                getSpace(isSmall: false),
+                getSection(SectionData(
+                  'Kondisi Ibu',
+                  CardData('Fit', '200'),
+                  CardData('Kurang Fit', '200'),
+                )),
+                getSpace(isSmall: false),
+                getSection(SectionData(
+                  'Gender Anak',
+                  CardData('Ibu', '200', iconData: LineIcons.child),
+                  CardData('Anak', '200', iconData: LineIcons.child),
+                )),
+                getSpace(isSmall: false),
+                getSection(SectionData(
+                  'Kondisi Anak',
+                  CardData('Sehat', '200'),
+                  CardData('Stunting', '200'),
+                )),
+                getSpace(isSmall: false),
+              ],
+            ),
+          ),
         ],
       ),
     );

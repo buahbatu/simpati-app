@@ -49,24 +49,6 @@ class _HomeScreen extends StatelessWidget {
             },
             onLongPress: () async {
               print('long press');
-              // TODO:
-              // bool available = await speech.initialize(
-              //   onStatus: onStatus,
-              //   onError: onError,
-              // );
-
-              // if (!listening) {
-              //   if (available) {
-              //     speech.listen(onResult: onListen);
-              //     listening = true;
-              //   } else {
-              //     print("The user has denied the use of speech recognition.");
-              //     listening = false;
-              //   }
-              // } else {
-              //   speech.stop();
-              //   listening = false;
-              // }
             },
             color: AppColor.primaryColor,
             shape: CircleBorder(),
@@ -86,13 +68,16 @@ class _HomeScreen extends StatelessWidget {
         direction: Axis.vertical,
         spacing: 2,
         children: <Widget>[
-          Text('Hi Alif Akbar,', style: AppTextStyle.titleName),
           Text(
-            'Selamat Datang!',
+            'Daftar Ibu',
             style: AppTextStyle.title.copyWith(
               color: AppColor.primaryColor,
-              fontSize: 14,
+              fontSize: 16,
             ),
+          ),
+          Text(
+            '300 Orang',
+            style: AppTextStyle.titleName.copyWith(fontSize: 12),
           ),
         ],
       ),
