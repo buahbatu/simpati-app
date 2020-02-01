@@ -37,7 +37,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.simpati"
+        applicationId "com.buahbatu.simpati"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()

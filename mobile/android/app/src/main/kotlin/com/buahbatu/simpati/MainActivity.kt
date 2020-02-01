@@ -1,4 +1,4 @@
-package com.example.simpati
+package com.buahbatu.simpati
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
