@@ -7,11 +7,12 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/presentation/mother/bloc.dart';
+import 'package:simpati/presentation/mother/page/add_page.dart';
+import 'package:simpati/presentation/mother/fragment/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
-import 'package:simpati/presentation/mother/item/mother_card.dart';
+import 'package:simpati/presentation/mother/fragment/item/mother_card.dart';
 
 class MotherFragment implements BaseHomeFragment {
   MotherFragment(this.position);
@@ -40,17 +41,10 @@ class _HomeScreen extends StatelessWidget {
   Widget createActionButton() {
     return Builder(
       builder: (ctx) {
-        // ignore: close_sinks
-        final bloc = BlocProvider.of<MotherBloc>(ctx);
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () {
-              bloc.add(Add(Mother.mock));
-            },
-            onLongPress: () async {
-              print('long press');
-            },
+            onPressed: () async => addMotherData(ctx),
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -59,6 +53,16 @@ class _HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  void addMotherData(BuildContext context) async {
+    // ignore: close_sinks
+    final bloc = BlocProvider.of<MotherBloc>(context);
+    final data = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (ctx) => MotherAddPage()));
+
+    // if data != null
+    bloc.add(Add(Mother.mock));
   }
 
   Widget createAppBar(BuildContext context) {

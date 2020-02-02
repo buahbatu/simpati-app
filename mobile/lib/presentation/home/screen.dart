@@ -7,8 +7,8 @@ import 'package:simpati/presentation/article/fragment.dart';
 import 'package:simpati/presentation/dashboard/fragment.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
-import 'package:simpati/presentation/kid/fragment.dart';
-import 'package:simpati/presentation/mother/fragment.dart';
+import 'package:simpati/presentation/kid/fragment/fragment.dart';
+import 'package:simpati/presentation/mother/fragment/fragment.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<BaseHomeFragment> fragments = <BaseHomeFragment>[

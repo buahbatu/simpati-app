@@ -7,11 +7,12 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/kid.dart';
-import 'package:simpati/presentation/kid/bloc.dart';
+import 'package:simpati/presentation/kid/fragment/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
-import 'package:simpati/presentation/kid/item/kid_card.dart';
+import 'package:simpati/presentation/kid/fragment/item/kid_card.dart';
+import 'package:simpati/presentation/kid/page/add_page.dart';
 
 class KidFragment implements BaseHomeFragment {
   KidFragment(this.position);
@@ -40,17 +41,10 @@ class _HomeScreen extends StatelessWidget {
   Widget createActionButton() {
     return Builder(
       builder: (ctx) {
-        // ignore: close_sinks
-        final bloc = BlocProvider.of<KidBloc>(ctx);
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () {
-              bloc.add(Add(Kid.mock));
-            },
-            onLongPress: () async {
-              print('long press');
-            },
+            onPressed: () async => addKidData(ctx),
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -59,6 +53,16 @@ class _HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  void addKidData(BuildContext context) async {
+    // ignore: close_sinks
+    final bloc = BlocProvider.of<KidBloc>(context);
+    final data = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (ctx) => KidAddPage()));
+
+    // if data != null
+    bloc.add(Add(Kid.mock));
   }
 
   Widget createAppBar(BuildContext context) {
