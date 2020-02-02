@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:simpati/domain/entity/mother.dart';
 
 class MotherInfoPage extends StatelessWidget {
+  final Mother initialData;
+
+  const MotherInfoPage({Key key, this.initialData}) : super(key: key);
+
   Widget createAppBar(BuildContext context) {
     return AppBar(
-      elevation: 0,
-      title: Text('Tambah Ibu'),
+      title: Text(initialData?.fullName ?? 'Tambah Ibu'),
+      actions: <Widget>[
+        if (initialData == null)
+          FlatButton(
+            child: Text('Simpan'),
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+      ],
       bottom: TabBar(
         indicatorColor: Colors.black54,
         tabs: [

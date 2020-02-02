@@ -58,8 +58,11 @@ class _HomeScreen extends StatelessWidget {
   void addMotherData(BuildContext context) async {
     // ignore: close_sinks
     final bloc = BlocProvider.of<MotherBloc>(context);
-    final data = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => MotherInfoPage()));
+    final data = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MotherInfoPage(),
+      ),
+    );
 
     // if data != null
     bloc.add(Add(Mother.mock));
