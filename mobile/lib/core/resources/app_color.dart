@@ -5,6 +5,7 @@ class AppColor {
   // solid
   static Color appBackground = HexColor('F3F3F3');
   static Color primaryColor = HexColor('F34949');
+  static Color gradientColor = HexColor('FF8C9F');
 
   // gradient
   static Gradient cardGradient = LinearGradient(colors: <Color>[
