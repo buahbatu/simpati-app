@@ -6,16 +6,16 @@ import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/domain/entity/kid.dart';
-import 'package:simpati/presentation/kid/fragment/bloc.dart';
+import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/presentation/mother/fragment/home/bloc.dart';
+import 'package:simpati/presentation/mother/fragment/home/item/mother_card.dart';
+import 'package:simpati/presentation/mother/page/info_page.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
-import 'package:simpati/presentation/kid/fragment/item/kid_card.dart';
-import 'package:simpati/presentation/kid/page/info_page.dart';
 
-class KidFragment implements BaseHomeFragment {
-  KidFragment(this.position);
+class MotherFragment implements BaseHomeFragment {
+  MotherFragment(this.position);
 
   @override
   void onTabSelected(BuildContext mContext) {
@@ -24,8 +24,8 @@ class KidFragment implements BaseHomeFragment {
 
   @override
   BottomNavyBarItem bottomNavyBarItem = BottomNavyBarItem(
-    icon: Icon(LineIcons.child),
-    title: Text('Anak'),
+    icon: Icon(LineIcons.female),
+    title: Text('Ibu'),
     activeColor: AppColor.primaryColor,
     inactiveColor: Colors.grey,
   );
@@ -44,7 +44,7 @@ class _HomeScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () async => addKidData(ctx),
+            onPressed: () async => addMotherData(ctx),
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -55,14 +55,17 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  void addKidData(BuildContext context) async {
+  void addMotherData(BuildContext context) async {
     // ignore: close_sinks
-    final bloc = BlocProvider.of<KidBloc>(context);
-    final data = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => KidInfoPage()));
+    final bloc = BlocProvider.of<MotherBloc>(context);
+    final data = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => MotherInfoPage(),
+      ),
+    );
 
     // if data != null
-    bloc.add(Add(Kid.mock));
+    bloc.add(Add(Mother.mock));
   }
 
   Widget createAppBar(BuildContext context) {
@@ -74,7 +77,7 @@ class _HomeScreen extends StatelessWidget {
         spacing: 2,
         children: <Widget>[
           Text(
-            'Daftar Anak',
+            'Daftar Ibu',
             style: AppTextStyle.title.copyWith(
               color: AppColor.primaryColor,
               fontSize: 16,
@@ -101,7 +104,7 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
-      create: (ctx) => KidBloc(),
+      create: (ctx) => MotherBloc(),
       child: Stack(
         children: <Widget>[
           Column(
@@ -121,12 +124,12 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget getContents() {
-    return BlocBuilder<KidBloc, ScrollFragmentState<Kid>>(
+    return BlocBuilder<MotherBloc, ScrollFragmentState<Mother>>(
       builder: (context, state) {
         return state.items.isNotEmpty
             ? ListView(
                 padding: const EdgeInsets.all(0),
-                children: state.items.map((d) => KidCard(d)).toList(),
+                children: state.items.map((d) => MotherCard(d)).toList(),
               )
             : Column(
                 children: <Widget>[
@@ -138,9 +141,5 @@ class _HomeScreen extends StatelessWidget {
               );
       },
     );
-  }
-
-  Container getSpace({bool isSmall = true}) {
-    return isSmall ? Container(height: 8) : Container(height: 28);
   }
 }
