@@ -66,27 +66,33 @@ class _HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
       create: (ctx) => DashboardBloc(),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          createAppBar(context),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(0),
-              children: <Widget>[
-                Container(height: 64),
-                AppImages.noDataImage,
-                Container(height: 12),
-                Text(
-                  'Data Kosong',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.titleName,
+          Column(
+            children: <Widget>[
+              createAppBar(context),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  children: <Widget>[
+                    Container(height: 64),
+                    AppImages.noDataImage,
+                    Container(height: 12),
+                    Text(
+                      'Data Kosong',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.titleName,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+          Container(height: safeHeight, color: AppColor.primaryColor),
         ],
       ),
     );

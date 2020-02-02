@@ -99,6 +99,7 @@ class _HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
       create: (ctx) => MotherBloc(),
       child: Stack(
@@ -109,6 +110,7 @@ class _HomeScreen extends StatelessWidget {
               Expanded(child: getContents())
             ],
           ),
+          Container(height: safeHeight, color: AppColor.primaryColor),
           Align(
             alignment: Alignment.bottomRight,
             child: createActionButton(),

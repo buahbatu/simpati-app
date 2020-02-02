@@ -75,43 +75,49 @@ class _HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
       create: (ctx) => DashboardBloc(),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          createAppBar(context),
-          Expanded(
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(0),
-              children: <Widget>[
-                getSpace(),
-                getSection(SectionData('Jumlah Pasien Kamu', [
-                  CardData('Ibu', '200000', 'orang',
-                      iconData: LineIcons.female),
-                  CardData('Anak', '200000', 'orang',
-                      iconData: LineIcons.child),
-                ])),
-                getSpace(isSmall: false),
-                getSection(SectionData('Kondisi Ibu', [
-                  CardData('Fit', '80', '%', isNextLine: false),
-                  CardData('Kurang Fit', '20', '%', isNextLine: false),
-                ])),
-                getSpace(isSmall: false),
-                getSection(SectionData('Kondisi Anak', [
-                  CardData('Sehat', '50', '%', isNextLine: false),
-                  CardData('Kurang Gizi', '30', '%', isNextLine: false),
-                  CardData('Stunting', '20', '%', isNextLine: false),
-                ])),
-                getSpace(isSmall: false),
-                getSection(SectionData('Gender Anak', [
-                  CardData('Laki', '200000', 'orang'),
-                  CardData('Perempuan', '200000', 'orang'),
-                ])),
-                getSpace(isSmall: false),
-              ],
-            ),
+          Column(
+            children: <Widget>[
+              createAppBar(context),
+              Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  children: <Widget>[
+                    getSpace(),
+                    getSection(SectionData('Jumlah Pasien Kamu', [
+                      CardData('Ibu', '200000', 'orang',
+                          iconData: LineIcons.female),
+                      CardData('Anak', '200000', 'orang',
+                          iconData: LineIcons.child),
+                    ])),
+                    getSpace(isSmall: false),
+                    getSection(SectionData('Kondisi Ibu', [
+                      CardData('Fit', '80', '%', isNextLine: false),
+                      CardData('Kurang Fit', '20', '%', isNextLine: false),
+                    ])),
+                    getSpace(isSmall: false),
+                    getSection(SectionData('Kondisi Anak', [
+                      CardData('Sehat', '50', '%', isNextLine: false),
+                      CardData('Kurang Gizi', '30', '%', isNextLine: false),
+                      CardData('Stunting', '20', '%', isNextLine: false),
+                    ])),
+                    getSpace(isSmall: false),
+                    getSection(SectionData('Gender Anak', [
+                      CardData('Laki', '200000', 'orang'),
+                      CardData('Perempuan', '200000', 'orang'),
+                    ])),
+                    getSpace(isSmall: false),
+                  ],
+                ),
+              ),
+            ],
           ),
+          Container(height: safeHeight, color: AppColor.primaryColor),
         ],
       ),
     );
