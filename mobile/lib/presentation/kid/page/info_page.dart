@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MotherAddPage extends StatelessWidget {
+class KidInfoPage extends StatelessWidget {
   Widget createAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title: Text('Tambah Ibu'),
+      title: Text('Tambah Anak'),
       actions: <Widget>[
         FlatButton(
           textColor: Colors.white,

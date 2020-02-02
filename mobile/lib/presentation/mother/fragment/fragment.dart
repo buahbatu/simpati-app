@@ -7,7 +7,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/presentation/mother/page/add_page.dart';
+import 'package:simpati/presentation/mother/page/info_page.dart';
 import 'package:simpati/presentation/mother/fragment/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
@@ -59,7 +59,7 @@ class _HomeScreen extends StatelessWidget {
     // ignore: close_sinks
     final bloc = BlocProvider.of<MotherBloc>(context);
     final data = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => MotherAddPage()));
+        .push(MaterialPageRoute(builder: (ctx) => MotherInfoPage()));
 
     // if data != null
     bloc.add(Add(Mother.mock));

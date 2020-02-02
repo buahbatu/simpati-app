@@ -88,7 +88,7 @@ class KidCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: AppColor.gradientColor),
+          color: AppColor.accentColor),
       child: Text(
         title,
         style: AppTextStyle.caption.copyWith(fontSize: 10),

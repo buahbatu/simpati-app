@@ -41,7 +41,6 @@ dependencies:
   google_fonts: ^0.2.0
   bottom_navy_bar: ^5.2.2
 
-
 dev_dependencies:
   # Test
   flutter_test:
