@@ -2,19 +2,20 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/presentation/article/fragment.dart';
 import 'package:simpati/presentation/dashboard/fragment.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
+import 'package:simpati/presentation/kid/fragment/home/fragment.dart';
+import 'package:simpati/presentation/mother/fragment/home/fragment.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<BaseHomeFragment> fragments = <BaseHomeFragment>[
     DashboardFragment(0),
-    // WalletFragment(1),
-    // BudgetFragment(2),
-    // NewsFragment(3),
-    DrawerFragmentHelper(4),
+    MotherFragment(1),
+    KidFragment(2),
+    ArticleFragment(3)
   ];
 
   @override
@@ -46,25 +47,4 @@ class HomeScreen extends StatelessWidget {
       );
     });
   }
-}
-
-class DrawerFragmentHelper implements BaseHomeFragment {
-  DrawerFragmentHelper(this.position);
-
-  @override
-  BottomNavyBarItem bottomNavyBarItem = BottomNavyBarItem(
-    icon: Icon(LineIcons.bars, color: AppColor.primaryColor),
-    title: Text('Lainnya'),
-  );
-
-  @override
-  Widget view = Container();
-
-  @override
-  void onTabSelected(BuildContext mContext) {
-    Scaffold.of(mContext).openEndDrawer();
-  }
-
-  @override
-  int position;
 }

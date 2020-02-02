@@ -4,7 +4,8 @@ import 'package:native_color/native_color.dart';
 class AppColor {
   // solid
   static Color appBackground = HexColor('F3F3F3');
-  static Color primaryColor = HexColor('6076E1');
+  static Color primaryColor = HexColor('F34949');
+  static Color accentColor = HexColor('FF8C9F');
 
   // gradient
   static Gradient cardGradient = LinearGradient(colors: <Color>[

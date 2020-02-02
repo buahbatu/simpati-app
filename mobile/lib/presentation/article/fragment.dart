@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
@@ -11,8 +12,8 @@ import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
 
-class DashboardFragment implements BaseHomeFragment {
-  DashboardFragment(this.position);
+class ArticleFragment implements BaseHomeFragment {
+  ArticleFragment(this.position);
 
   @override
   void onTabSelected(BuildContext mContext) {
@@ -21,8 +22,8 @@ class DashboardFragment implements BaseHomeFragment {
 
   @override
   BottomNavyBarItem bottomNavyBarItem = BottomNavyBarItem(
-    icon: Icon(LineIcons.home),
-    title: Text('Beranda'),
+    icon: Icon(LineIcons.newspaper_o),
+    title: Text('Artikel'),
     activeColor: AppColor.primaryColor,
     inactiveColor: Colors.grey,
   );
@@ -36,10 +37,6 @@ class DashboardFragment implements BaseHomeFragment {
 
 class _HomeScreen extends StatelessWidget {
   Widget createAppBar(BuildContext context) {
-    final userName = 'Khusnaini Aghniya';
-    final greeting = 'Selamat Datang!';
-    final posyanduName = 'Posyandu Kasih Ibu';
-
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -47,12 +44,11 @@ class _HomeScreen extends StatelessWidget {
         direction: Axis.vertical,
         spacing: 2,
         children: <Widget>[
-          Text('Hi $userName,', style: AppTextStyle.titleName),
           Text(
-            greeting,
+            'Artikel Pilihan',
             style: AppTextStyle.title.copyWith(
               color: AppColor.primaryColor,
-              fontSize: 14,
+              fontSize: 16,
             ),
           ),
         ],
@@ -60,14 +56,9 @@ class _HomeScreen extends StatelessWidget {
       backgroundColor: AppColor.appBackground,
       actions: <Widget>[
         IconButton(
-          icon: Icon(LineIcons.info),
+          icon: Icon(Icons.search),
           color: AppColor.primaryColor,
-          onPressed: () => context.showAppInfo(
-            userName: userName,
-            posyanduName: posyanduName,
-            onLoginClick: () {},
-            onLogoutClick: () {},
-          ),
+          onPressed: () => context.showComingSoonNotice(),
         )
       ],
     );
@@ -88,30 +79,14 @@ class _HomeScreen extends StatelessWidget {
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
                   children: <Widget>[
-                    getSpace(),
-                    getSection(SectionData('Jumlah Pasien Kamu', [
-                      CardData('Ibu', '200000', 'orang',
-                          iconData: LineIcons.female),
-                      CardData('Anak', '200000', 'orang',
-                          iconData: LineIcons.child),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Kondisi Ibu', [
-                      CardData('Fit', '80', '%', isNextLine: false),
-                      CardData('Kurang Fit', '20', '%', isNextLine: false),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Kondisi Anak', [
-                      CardData('Sehat', '50', '%', isNextLine: false),
-                      CardData('Kurang Gizi', '30', '%', isNextLine: false),
-                      CardData('Stunting', '20', '%', isNextLine: false),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Gender Anak', [
-                      CardData('Laki', '200000', 'orang'),
-                      CardData('Perempuan', '200000', 'orang'),
-                    ])),
-                    getSpace(isSmall: false),
+                    Container(height: 64),
+                    AppImages.noDataImage,
+                    Container(height: 12),
+                    Text(
+                      'Data Kosong',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.titleName,
+                    ),
                   ],
                 ),
               ),

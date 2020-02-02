@@ -14,6 +14,16 @@ class AppTextStyle {
     color: Colors.black38,
   );
 
+  static TextStyle sectionTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+  );
+
+  static TextStyle sectionData = TextStyle(
+    fontSize: 36,
+    fontWeight: FontWeight.w500,
+  );
+
   static const TextStyle caption = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
