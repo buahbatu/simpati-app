@@ -12,7 +12,7 @@ class MotherProfileFragment extends StatelessWidget {
           Container(height: 21),
           CircleAvatar(
             radius: 64,
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.black26,
             child: Icon(LineIcons.female, color: Colors.white, size: 42),
           ),
           buildField('Nama Lengkap'),
