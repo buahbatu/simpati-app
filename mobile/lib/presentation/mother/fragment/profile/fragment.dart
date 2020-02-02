@@ -15,17 +15,20 @@ class MotherProfileFragment extends StatelessWidget {
             backgroundColor: Colors.black26,
             child: Icon(LineIcons.female, color: Colors.white, size: 42),
           ),
-          buildField('Nama Lengkap'),
-          buildField('Nama Saumi'),
-          buildField('Alamat'),
-          buildField('Provinsi'),
-          buildField('Kota'),
+          // buildField('Nama Lengkap'),
+          // buildField('Nama Suami'),
+          // buildField('Nomor Telpon'),
+
+          // buildField('Alamat'),
+          // buildField('Provinsi'),
+          // buildField('Kota'),
           // buildField('Titik Koordinat', isEnabled: false),
-          buildField('Tinggi Badan', suffix: 'cm'),
-          buildField('Berat Badan', suffix: 'Kg'),
-          buildField('Tekanan Darah'),
-          buildField('Golongan Darah', isEnabled: false),
-          buildField('Tekanan Darah'),
+
+          // buildField('Tinggi Badan', suffix: 'cm'),
+          // buildField('Berat Badan', suffix: 'Kg'),
+          // buildField('Tekanan Darah'),
+          // buildField('Golongan Darah', isEnabled: false),
+          // buildField('Tekanan Darah'),
         ],
       ),
     );
@@ -43,7 +46,11 @@ class MotherProfileFragment extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         alignLabelWithHint: true,
+        isDense: true,
         suffixText: suffix,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(6),
+        ),
       ),
     );
   }

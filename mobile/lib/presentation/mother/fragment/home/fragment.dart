@@ -9,7 +9,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/presentation/mother/fragment/home/bloc.dart';
 import 'package:simpati/presentation/mother/fragment/home/item/mother_card.dart';
-import 'package:simpati/presentation/mother/page/info_page.dart';
+import 'package:simpati/presentation/mother/page/add_page.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -60,7 +60,7 @@ class _HomeScreen extends StatelessWidget {
     final bloc = BlocProvider.of<MotherBloc>(context);
     final data = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MotherInfoPage(),
+        builder: (ctx) => MotherAddPage(),
       ),
     );
 
