@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 
 extension MessageUtils on BuildContext {
@@ -13,7 +14,13 @@ extension MessageUtils on BuildContext {
     showSnackBar(SnackBar(content: Text('Coming Soon..')));
   }
 
-  void showAppInfo(String userName, String posyanduName) async {
+  void showAppInfo(
+    String userName,
+    String posyanduName, {
+    VoidCallback onLoginClick,
+    VoidCallback onLogoutClick,
+    bool isLogin = false,
+  }) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String name = packageInfo.version;
 
@@ -25,9 +32,8 @@ extension MessageUtils on BuildContext {
       child: Dialog(
         child: Container(
           padding: const EdgeInsets.all(16),
-          child: Wrap(
-            direction: Axis.vertical,
-            spacing: 2,
+          child: ListView(
+            shrinkWrap: true,
             children: <Widget>[
               Text(
                 'Simpati',
@@ -35,9 +41,36 @@ extension MessageUtils on BuildContext {
               ),
               Text('Ver $name', style: AppTextStyle.titleName),
               Container(height: 20),
-              Text(posyanduName, style: AppTextStyle.itemTitle),
-              Text(userName,
-                  style: AppTextStyle.caption.copyWith(color: Colors.black87)),
+              if (isLogin)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(posyanduName, style: AppTextStyle.itemTitle),
+                        Text(
+                          userName,
+                          style: AppTextStyle.caption
+                              .copyWith(color: Colors.black87),
+                        ),
+                      ],
+                    ),
+                    FlatButton(
+                      color: AppColor.primaryColor,
+                      child: Text('Logout'),
+                      textColor: Colors.white,
+                      onPressed: onLogoutClick,
+                    ),
+                  ],
+                ),
+              if (!isLogin)
+                FlatButton(
+                  color: AppColor.primaryColor,
+                  child: Text('Login'),
+                  textColor: Colors.white,
+                  onPressed: onLoginClick,
+                ),
               Container(height: 20),
               Row(
                 children: <Widget>[

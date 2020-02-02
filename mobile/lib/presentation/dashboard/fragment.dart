@@ -62,9 +62,12 @@ class _HomeScreen extends StatelessWidget {
         IconButton(
           icon: Icon(LineIcons.info),
           color: AppColor.primaryColor,
-          onPressed: () {
-            context.showAppInfo(userName, posyanduName);
-          },
+          onPressed: () => context.showAppInfo(
+            userName,
+            posyanduName,
+            onLoginClick: () {},
+            onLogoutClick: () {},
+          ),
         )
       ],
     );
