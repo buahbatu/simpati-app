@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class SectionData {
   final String name;
-  final CardData first;
-  final CardData second;
+  final List<CardData> items;
 
-  SectionData(this.name, this.first, this.second);
+  SectionData(this.name, this.items);
 }
 
 class CardData {

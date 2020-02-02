@@ -9,7 +9,8 @@ class DashboardContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      width: 150,
       child: Card(
         margin: const EdgeInsets.all(0),
         child: Padding(
