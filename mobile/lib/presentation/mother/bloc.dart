@@ -1,15 +1,14 @@
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
-import 'package:simpati/domain/entity/transaction.dart';
+import 'package:simpati/domain/entity/mother.dart';
 
-class MotherBloc extends ScrollFragmentBloc<Transaction> {
+class MotherBloc extends ScrollFragmentBloc<Mother> {
   @override
-  ScrollFragmentState<Transaction> get initialState =>
-      ScrollFragmentState(items);
+  ScrollFragmentState<Mother> get initialState => ScrollFragmentState(items);
 
   @override
-  Stream<ScrollFragmentState<Transaction>> mapEventToState(
+  Stream<ScrollFragmentState<Mother>> mapEventToState(
       ScrollFragmentEvent event) async* {
-    if (event is Add<Transaction>) {
+    if (event is Add<Mother>) {
       items.add(event.item);
       yield ScrollFragmentState(items);
     }

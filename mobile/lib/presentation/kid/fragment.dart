@@ -6,11 +6,13 @@ import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/domain/entity/kid.dart';
 import 'package:simpati/domain/entity/transaction.dart';
 import 'package:simpati/presentation/kid/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
+import 'package:simpati/presentation/kid/item/kid_card.dart';
 
 class KidFragment implements BaseHomeFragment {
   KidFragment(this.position);
@@ -45,28 +47,10 @@ class _HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
             onPressed: () {
-              bloc.add(Add(Transaction.mock));
+              bloc.add(Add(Kid.mock));
             },
             onLongPress: () async {
               print('long press');
-              // TODO:
-              // bool available = await speech.initialize(
-              //   onStatus: onStatus,
-              //   onError: onError,
-              // );
-
-              // if (!listening) {
-              //   if (available) {
-              //     speech.listen(onResult: onListen);
-              //     listening = true;
-              //   } else {
-              //     print("The user has denied the use of speech recognition.");
-              //     listening = false;
-              //   }
-              // } else {
-              //   speech.stop();
-              //   listening = false;
-              // }
             },
             color: AppColor.primaryColor,
             shape: CircleBorder(),
@@ -119,7 +103,6 @@ class _HomeScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               createAppBar(context),
-              // CashflowCard(),
               Expanded(child: getContents())
             ],
           ),
@@ -133,7 +116,7 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget getContents() {
-    return BlocBuilder<KidBloc, ScrollFragmentState<Transaction>>(
+    return BlocBuilder<KidBloc, ScrollFragmentState<Kid>>(
       builder: (context, state) {
         final String assetName = 'assets/no_data.svg';
         final Widget svg = SvgPicture.asset(
@@ -141,14 +124,19 @@ class _HomeScreen extends StatelessWidget {
           height: 120,
           semanticsLabel: 'Data Kosong',
         );
-        return Column(
-          children: <Widget>[
-            Container(height: 64),
-            svg,
-            Container(height: 12),
-            Text('Data Kosong', style: AppTextStyle.titleName),
-          ],
-        );
+        return state.items.isNotEmpty
+            ? ListView(
+                padding: const EdgeInsets.all(0),
+                children: state.items.map((d) => KidCard(d)).toList(),
+              )
+            : Column(
+                children: <Widget>[
+                  Container(height: 64),
+                  svg,
+                  Container(height: 12),
+                  Text('Data Kosong', style: AppTextStyle.titleName),
+                ],
+              );
       },
     );
   }

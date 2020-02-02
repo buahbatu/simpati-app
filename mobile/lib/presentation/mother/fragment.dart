@@ -7,7 +7,6 @@ import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/domain/entity/transaction.dart';
 import 'package:simpati/presentation/mother/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
@@ -47,7 +46,7 @@ class _HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
             onPressed: () {
-              bloc.add(Add(Transaction.mock));
+              bloc.add(Add(Mother.mock));
             },
             onLongPress: () async {
               print('long press');
@@ -116,7 +115,7 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget getContents() {
-    return BlocBuilder<MotherBloc, ScrollFragmentState<Transaction>>(
+    return BlocBuilder<MotherBloc, ScrollFragmentState<Mother>>(
       builder: (context, state) {
         final String assetName = 'assets/no_data.svg';
         final Widget svg = SvgPicture.asset(
@@ -127,8 +126,7 @@ class _HomeScreen extends StatelessWidget {
         return state.items.isNotEmpty
             ? ListView(
                 padding: const EdgeInsets.all(0),
-                children:
-                    state.items.map((d) => MotherCard(Mother.mock)).toList(),
+                children: state.items.map((d) => MotherCard(d)).toList(),
               )
             : Column(
                 children: <Widget>[
