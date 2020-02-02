@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/presentation/dashboard/item/data.dart';
 
@@ -12,7 +13,7 @@ class DashboardContentCard extends StatelessWidget {
     return Expanded(
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -27,12 +28,32 @@ class DashboardContentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(height: 4),
-              Text(
-                cardData.value,
-                style: AppTextStyle.sectionData,
-                textAlign: TextAlign.end,
+              Container(height: 8),
+              Row(
+                children: <Widget>[
+                  Text(
+                    cardData.value,
+                    style: AppTextStyle.sectionData,
+                    textAlign: TextAlign.end,
+                  ),
+                  if (!cardData.isNextLine)
+                    Text(
+                      cardData.unit,
+                      style: AppTextStyle.sectionData.copyWith(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
+                ],
               ),
+              if (cardData.isNextLine)
+                Text(
+                  cardData.unit,
+                  style: AppTextStyle.sectionData.copyWith(
+                    fontSize: 12,
+                    color: Colors.black54,
+                  ),
+                ),
             ],
           ),
         ),

@@ -9,9 +9,17 @@ class SectionData {
 }
 
 class CardData {
-  final IconData iconData;
   final String value;
   final String desc;
+  final String unit;
+  final bool isNextLine;
+  final IconData iconData;
 
-  CardData(this.desc, this.value, {this.iconData});
+  CardData(
+    this.desc,
+    this.value,
+    this.unit, {
+    this.iconData,
+    this.isNextLine = true,
+  });
 }
