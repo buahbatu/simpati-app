@@ -14,9 +14,9 @@ extension MessageUtils on BuildContext {
     showSnackBar(SnackBar(content: Text('Coming Soon..')));
   }
 
-  void showAppInfo(
+  void showAppInfo({
     String userName,
-    String posyanduName, {
+    String posyanduName,
     VoidCallback onLoginClick,
     VoidCallback onLogoutClick,
     bool isLogin = false,
@@ -27,6 +27,25 @@ extension MessageUtils on BuildContext {
     if (packageInfo.packageName.split('.').last.toLowerCase() == 'debug')
       name += '-debug';
 
+    var profileRow = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(posyanduName ?? '', style: AppTextStyle.itemTitle),
+            Text(userName ?? '',
+                style: AppTextStyle.caption.copyWith(color: Colors.black87)),
+          ],
+        ),
+        FlatButton(
+          color: AppColor.primaryColor,
+          child: Text('Logout'),
+          textColor: Colors.white,
+          onPressed: onLogoutClick,
+        ),
+      ],
+    );
     showDialog(
       context: this,
       child: Dialog(
@@ -41,29 +60,7 @@ extension MessageUtils on BuildContext {
               ),
               Text('Ver $name', style: AppTextStyle.titleName),
               Container(height: 20),
-              if (isLogin)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(posyanduName, style: AppTextStyle.itemTitle),
-                        Text(
-                          userName,
-                          style: AppTextStyle.caption
-                              .copyWith(color: Colors.black87),
-                        ),
-                      ],
-                    ),
-                    FlatButton(
-                      color: AppColor.primaryColor,
-                      child: Text('Logout'),
-                      textColor: Colors.white,
-                      onPressed: onLogoutClick,
-                    ),
-                  ],
-                ),
+              if (isLogin) profileRow,
               if (!isLogin)
                 FlatButton(
                   color: AppColor.primaryColor,
@@ -78,10 +75,7 @@ extension MessageUtils on BuildContext {
                     'Supported by ',
                     style: AppTextStyle.titleName.copyWith(fontSize: 10),
                   ),
-                  Image.asset(
-                    'assets/tsel.png',
-                    height: 16,
-                  )
+                  Image.asset('assets/tsel.png', height: 16)
                 ],
               ),
             ],

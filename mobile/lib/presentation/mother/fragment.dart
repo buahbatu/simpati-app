@@ -1,10 +1,10 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/presentation/mother/bloc.dart';
@@ -117,12 +117,6 @@ class _HomeScreen extends StatelessWidget {
   Widget getContents() {
     return BlocBuilder<MotherBloc, ScrollFragmentState<Mother>>(
       builder: (context, state) {
-        final String assetName = 'assets/no_data.svg';
-        final Widget svg = SvgPicture.asset(
-          assetName,
-          height: 120,
-          semanticsLabel: 'Data Kosong',
-        );
         return state.items.isNotEmpty
             ? ListView(
                 padding: const EdgeInsets.all(0),
@@ -131,7 +125,7 @@ class _HomeScreen extends StatelessWidget {
             : Column(
                 children: <Widget>[
                   Container(height: 64),
-                  svg,
+                  AppImages.noDataImage,
                   Container(height: 12),
                   Text('Data Kosong', style: AppTextStyle.titleName),
                 ],
