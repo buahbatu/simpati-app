@@ -86,7 +86,7 @@ class _HomeScreen extends StatelessWidget {
         direction: Axis.vertical,
         spacing: 2,
         children: <Widget>[
-          Text('Hi Alif Akbar,', style: AppTextStyle.titleName),
+          Text('Hi Khusnaini Aghniya,', style: AppTextStyle.titleName),
           Text(
             'Selamat Datang!',
             style: AppTextStyle.title.copyWith(

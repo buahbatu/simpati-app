@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:package_info/package_info.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 
@@ -46,10 +45,9 @@ extension MessageUtils on BuildContext {
                     'Supported by ',
                     style: AppTextStyle.titleName.copyWith(fontSize: 10),
                   ),
-                  SvgPicture.asset(
-                    'assets/telkomsel.svg',
+                  Image.asset(
+                    'assets/tsel.png',
                     height: 16,
-                    semanticsLabel: 'Data Kosong',
                   )
                 ],
               ),

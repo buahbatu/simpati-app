@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/presentation/dashboard/item/data.dart';
 
@@ -12,6 +11,7 @@ class DashboardContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Card(
+        margin: const EdgeInsets.all(0),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(

@@ -101,7 +101,6 @@ class _HomeScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               createAppBar(context),
-              // CashflowCard(),
               Expanded(child: getContents())
             ],
           ),
@@ -123,15 +122,41 @@ class _HomeScreen extends StatelessWidget {
           height: 120,
           semanticsLabel: 'Data Kosong',
         );
-        return Column(
-          children: <Widget>[
-            Container(height: 64),
-            svg,
-            Container(height: 12),
-            Text('Data Kosong', style: AppTextStyle.titleName),
-          ],
-        );
+        return state.items.isNotEmpty
+            ? ListView(
+                children: state.items.map((d) => createCard()).toList(),
+              )
+            : Column(
+                children: <Widget>[
+                  Container(height: 64),
+                  svg,
+                  Container(height: 12),
+                  Text('Data Kosong', style: AppTextStyle.titleName),
+                ],
+              );
       },
+    );
+  }
+
+  Widget createCard() {
+    return Container(
+      color: Colors.blue,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            child: Icon(LineIcons.female),
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                'Khusnaini Aghniya',
+                style: AppTextStyle.sectionData.copyWith(fontSize: 16),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

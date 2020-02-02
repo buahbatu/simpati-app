@@ -36,7 +36,7 @@ class DashboardFragment implements BaseHomeFragment {
 
 class _HomeScreen extends StatelessWidget {
   Widget createAppBar(BuildContext context) {
-    final userName = 'Alif Akbar';
+    final userName = 'Khusnaini Aghniya';
     final greeting = 'Selamat Datang!';
     final posyanduName = 'Posyandu Kasih Ibu';
 
@@ -131,6 +131,7 @@ class _HomeScreen extends StatelessWidget {
           Row(
             children: <Widget>[
               buildCard(data.first),
+              Container(width: 8),
               buildCard(data.second),
             ],
           )
