@@ -6,7 +6,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
-import 'package:simpati/presentation/dashboard/item/data.dart';
+import 'package:simpati/presentation/dashboard/item/card_data.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -84,8 +84,10 @@ class _HomeScreen extends StatelessWidget {
               children: <Widget>[
                 getSpace(),
                 getSection(SectionData('Jumlah Pasien Kamu', [
-                  CardData('Ibu', '200', 'orang', iconData: LineIcons.female),
-                  CardData('Anak', '200', 'orang', iconData: LineIcons.child),
+                  CardData('Ibu', '200000', 'orang',
+                      iconData: LineIcons.female),
+                  CardData('Anak', '200000', 'orang',
+                      iconData: LineIcons.child),
                 ])),
                 getSpace(isSmall: false),
                 getSection(SectionData('Kondisi Ibu', [
@@ -100,8 +102,8 @@ class _HomeScreen extends StatelessWidget {
                 ])),
                 getSpace(isSmall: false),
                 getSection(SectionData('Gender Anak', [
-                  CardData('Laki', '200', 'orang'),
-                  CardData('Perempuan', '200', 'orang'),
+                  CardData('Laki', '200000', 'orang'),
+                  CardData('Perempuan', '200000', 'orang'),
                 ])),
                 getSpace(isSmall: false),
               ],

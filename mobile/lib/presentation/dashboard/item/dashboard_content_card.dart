@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/presentation/dashboard/item/data.dart';
+import 'package:simpati/presentation/dashboard/item/card_data.dart';
 
 class DashboardContentCard extends StatelessWidget {
   final CardData cardData;

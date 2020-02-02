@@ -6,11 +6,13 @@ import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/transaction.dart';
 import 'package:simpati/presentation/mother/bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
+import 'package:simpati/presentation/mother/item/mother_card.dart';
 
 class MotherFragment implements BaseHomeFragment {
   MotherFragment(this.position);
@@ -125,7 +127,8 @@ class _HomeScreen extends StatelessWidget {
         return state.items.isNotEmpty
             ? ListView(
                 padding: const EdgeInsets.all(0),
-                children: state.items.map((d) => createCard()).toList(),
+                children:
+                    state.items.map((d) => MotherCard(Mother.mock)).toList(),
               )
             : Column(
                 children: <Widget>[
@@ -137,89 +140,5 @@ class _HomeScreen extends StatelessWidget {
               );
       },
     );
-  }
-
-  Widget createCard() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          CircleAvatar(
-            child: Icon(LineIcons.female, color: Colors.white),
-            backgroundColor: AppColor.gradientColor,
-          ),
-          Container(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Khusnaini Aghniya',
-                      style: AppTextStyle.sectionData.copyWith(fontSize: 14),
-                    ),
-                    Text(
-                      '24 thn',
-                      style:
-                          AppTextStyle.caption.copyWith(color: Colors.black87),
-                    ),
-                  ],
-                ),
-                Text(
-                  'Jl Singosari No. 62',
-                  style: AppTextStyle.caption.copyWith(color: Colors.black38),
-                ),
-                Container(height: 8),
-                Wrap(
-                  spacing: 4,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: AppColor.gradientColor),
-                      child: Text(
-                        '1 Anak',
-                        style: AppTextStyle.caption.copyWith(fontSize: 10),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: AppColor.gradientColor),
-                      child: Text(
-                        'Berat Ideal',
-                        style: AppTextStyle.caption.copyWith(fontSize: 10),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: AppColor.gradientColor),
-                      child: Text(
-                        'Gizi Baik',
-                        style: AppTextStyle.caption.copyWith(fontSize: 10),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container getSpace({bool isSmall = true}) {
-    return isSmall ? Container(height: 8) : Container(height: 28);
   }
 }
