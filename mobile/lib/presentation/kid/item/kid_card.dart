@@ -40,8 +40,8 @@ class KidCard extends StatelessWidget {
                 Wrap(
                   spacing: 4,
                   children: <Widget>[
-                    createChip('${data.childCount} Anak'),
-                    createChip('Berat Ideal'),
+                    createChip('Ibu Sophia'),
+                    createChip('Gemuk'),
                     createChip('Gizi Baik'),
                   ],
                 ),
@@ -67,7 +67,6 @@ class KidCard extends StatelessWidget {
 
     final diffDay = DateTime.now().day - data.dateOfBirth.day;
 
-    print(month);
     if (diffDay < 0) {
       month -= 1;
     }
