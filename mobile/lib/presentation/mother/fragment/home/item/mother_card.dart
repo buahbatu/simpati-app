@@ -21,7 +21,7 @@ class MotherCard extends StatelessWidget {
 
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => MotherInfoPage(initialData: data),
+        builder: (ctx) => MotherInfoPage(data),
       ),
     );
 

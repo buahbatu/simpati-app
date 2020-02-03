@@ -19,6 +19,12 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle registerTitle = TextStyle(
+    fontSize: 21,
+    fontWeight: FontWeight.bold,
+    color: AppColor.primaryColor
+  );
+
   static TextStyle sectionData = TextStyle(
     fontSize: 36,
     fontWeight: FontWeight.w500,

@@ -83,43 +83,43 @@ class _HomeScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               createAppBar(context),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(0),
-                  children: <Widget>[
-                    getSpace(),
-                    getSection(SectionData('Jumlah Pasien Kamu', [
-                      CardData('Ibu', '200000', 'orang',
-                          iconData: LineIcons.female),
-                      CardData('Anak', '200000', 'orang',
-                          iconData: LineIcons.child),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Kondisi Ibu', [
-                      CardData('Fit', '80', '%', isNextLine: false),
-                      CardData('Kurang Fit', '20', '%', isNextLine: false),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Kondisi Anak', [
-                      CardData('Sehat', '50', '%', isNextLine: false),
-                      CardData('Kurang Gizi', '30', '%', isNextLine: false),
-                      CardData('Stunting', '20', '%', isNextLine: false),
-                    ])),
-                    getSpace(isSmall: false),
-                    getSection(SectionData('Gender Anak', [
-                      CardData('Laki', '200000', 'orang'),
-                      CardData('Perempuan', '200000', 'orang'),
-                    ])),
-                    getSpace(isSmall: false),
-                  ],
-                ),
-              ),
+              Expanded(child: createContent()),
             ],
           ),
           Container(height: safeHeight, color: AppColor.primaryColor),
         ],
       ),
+    );
+  }
+
+  ListView createContent() {
+    return ListView(
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(0),
+      children: <Widget>[
+        getSpace(),
+        getSection(SectionData('Jumlah Pasien Kamu', [
+          CardData('Ibu', '200000', 'orang', iconData: LineIcons.female),
+          CardData('Anak', '200000', 'orang', iconData: LineIcons.child),
+        ])),
+        getSpace(isSmall: false),
+        getSection(SectionData('Kondisi Ibu', [
+          CardData('Fit', '80', '%', isNextLine: false),
+          CardData('Kurang Fit', '20', '%', isNextLine: false),
+        ])),
+        getSpace(isSmall: false),
+        getSection(SectionData('Kondisi Anak', [
+          CardData('Sehat', '50', '%', isNextLine: false),
+          CardData('Kurang Gizi', '30', '%', isNextLine: false),
+          CardData('Stunting', '20', '%', isNextLine: false),
+        ])),
+        getSpace(isSmall: false),
+        getSection(SectionData('Gender Anak', [
+          CardData('Laki', '200000', 'orang'),
+          CardData('Perempuan', '200000', 'orang'),
+        ])),
+        getSpace(isSmall: false),
+      ],
     );
   }
 
@@ -138,14 +138,10 @@ class _HomeScreen extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: data.items.map((d) => buildCard(d)).toList(),
+            children: data.items.map((d) => DashboardContentCard(d)).toList(),
           )
         ],
       ),
     );
-  }
-
-  Widget buildCard(CardData data) {
-    return DashboardContentCard(data);
   }
 }

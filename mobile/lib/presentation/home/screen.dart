@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
-import 'package:simpati/presentation/article/fragment.dart';
+import 'package:simpati/presentation/article/fragment/fragment.dart';
 import 'package:simpati/presentation/dashboard/fragment.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
