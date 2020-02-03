@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:simpati/domain/entity/kid.dart';
 
 class KidInfoPage extends StatelessWidget {
+  final Kid initialData;
+
+  const KidInfoPage({Key key, this.initialData}) : super(key: key);
+  
   Widget createAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
