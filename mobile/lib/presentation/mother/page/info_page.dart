@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/presentation/mother/fragment/kids/fragment.dart';
-import 'package:simpati/presentation/mother/fragment/pregnancy/fragment.dart';
-import 'package:simpati/presentation/mother/fragment/profile/fragment.dart';
 
 class MotherInfoPage extends StatelessWidget {
   final Mother initialData;
@@ -39,9 +36,9 @@ class MotherInfoPage extends StatelessWidget {
         appBar: createAppBar(context),
         body: TabBarView(
           children: [
-            MotherProfileFragment(),
-            MotherPregnancyFragment(),
-            MotherKidsFragment(),
+            Text('data 1'),
+            Text('data 2'),
+            Text('data 3'),
           ],
         ),
       ),

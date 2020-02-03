@@ -12,7 +12,7 @@ import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
 import 'package:simpati/presentation/kid/fragment/home/bloc.dart';
 import 'package:simpati/presentation/kid/fragment/home/item/kid_card.dart';
-import 'package:simpati/presentation/kid/page/info_page.dart';
+import 'package:simpati/presentation/kid/page/add_page.dart';
 
 class KidFragment implements BaseHomeFragment {
   KidFragment(this.position);
@@ -59,7 +59,7 @@ class _HomeScreen extends StatelessWidget {
     // ignore: close_sinks
     final bloc = BlocProvider.of<KidBloc>(context);
     final data = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => KidInfoPage()));
+        .push(MaterialPageRoute(builder: (ctx) => KidAddPage()));
 
     // if data != null
     bloc.add(Add(Kid.mock));
