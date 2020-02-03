@@ -21,7 +21,7 @@ class KidCard extends StatelessWidget {
 
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => KidInfoPage(initialData: data),
+        builder: (ctx) => KidInfoPage(data),
       ),
     );
 

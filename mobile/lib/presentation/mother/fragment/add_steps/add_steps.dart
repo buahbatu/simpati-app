@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/core/utils/form_utils.dart';
 
 class Step1AddMother extends StatelessWidget {
   @override
@@ -19,11 +20,11 @@ class Step1AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                buildField('Nama Lengkap'),
+                FormUtils.buildField('Nama Lengkap'),
                 Container(height: 8),
-                buildField('Tanggal Lahir', isEnabled: false),
+                FormUtils.buildField('Tanggal Lahir', isEnabled: false),
                 Container(height: 21),
-                buildField('Nama Suami'),
+                FormUtils.buildField('Nama Suami'),
               ],
             ),
           ),
@@ -37,27 +38,6 @@ class Step1AddMother extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  TextFormField buildField(
-    String label, {
-    bool isEnabled = true,
-    String suffix,
-  }) {
-    return TextFormField(
-      maxLines: 1,
-      textInputAction: TextInputAction.next,
-      enabled: isEnabled,
-      decoration: InputDecoration(
-        labelText: label,
-        alignLabelWithHint: true,
-        isDense: true,
-        suffixText: suffix,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
       ),
     );
   }
@@ -80,15 +60,15 @@ class Step2AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                buildField('Nomor Telpon'),
+                FormUtils.buildField('Nomor Telpon'),
                 Container(height: 8),
-                buildField('Alamat'),
+                FormUtils.buildField('Alamat'),
                 Container(height: 8),
-                buildField('Provinsi'),
+                FormUtils.buildField('Provinsi'),
                 Container(height: 8),
-                buildField('Kota'),
+                FormUtils.buildField('Kota'),
                 Container(height: 8),
-                buildField('Titik Koordinat', isEnabled: false),
+                FormUtils.buildField('Titik Koordinat', isEnabled: false),
               ],
             ),
           ),
@@ -102,27 +82,6 @@ class Step2AddMother extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  TextFormField buildField(
-    String label, {
-    bool isEnabled = true,
-    String suffix,
-  }) {
-    return TextFormField(
-      maxLines: 1,
-      textInputAction: TextInputAction.next,
-      enabled: isEnabled,
-      decoration: InputDecoration(
-        labelText: label,
-        alignLabelWithHint: true,
-        isDense: true,
-        suffixText: suffix,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
       ),
     );
   }
@@ -145,13 +104,13 @@ class Step3AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                buildField('Golongan Darah', isEnabled: false),
+                FormUtils.buildField('Golongan Darah', isEnabled: false),
                 Container(height: 8),
-                buildField('Berat Badan', suffix: 'Kg'),
+                FormUtils.buildField('Berat Badan', suffix: 'Kg'),
                 Container(height: 8),
-                buildField('Tekanan Darah'),
+                FormUtils.buildField('Tekanan Darah'),
                 Container(height: 8),
-                buildField('Tinggi Badan', suffix: 'cm'),
+                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
               ],
             ),
           ),
@@ -165,27 +124,6 @@ class Step3AddMother extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  TextFormField buildField(
-    String label, {
-    bool isEnabled = true,
-    String suffix,
-  }) {
-    return TextFormField(
-      maxLines: 1,
-      textInputAction: TextInputAction.next,
-      enabled: isEnabled,
-      decoration: InputDecoration(
-        labelText: label,
-        alignLabelWithHint: true,
-        isDense: true,
-        suffixText: suffix,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
       ),
     );
   }

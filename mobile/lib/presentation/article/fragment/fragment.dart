@@ -9,8 +9,6 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/presentation/article/fragment/bloc.dart';
 import 'package:simpati/presentation/article/fragment/item/article_card.dart';
-import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
-import 'package:simpati/presentation/dashboard/item/card_data.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -104,31 +102,5 @@ class _HomeScreen extends StatelessWidget {
               );
       },
     );
-  }
-
-  Container getSpace({bool isSmall = true}) {
-    return isSmall ? Container(height: 8) : Container(height: 28);
-  }
-
-  Widget getSection(SectionData data) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(data.name, style: AppTextStyle.sectionTitle),
-          getSpace(),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: data.items.map((d) => buildCard(d)).toList(),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildCard(CardData data) {
-    return DashboardContentCard(data);
   }
 }

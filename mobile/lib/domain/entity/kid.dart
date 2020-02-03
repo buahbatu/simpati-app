@@ -5,6 +5,7 @@ class Kid {
   final String idIbu;
   final String fullName;
   final String address;
+  final String bloodType;
   final double weight;
   final double height;
   final DateTime dateOfBirth;
@@ -15,6 +16,7 @@ class Kid {
     this.idIbu,
     this.fullName,
     this.address,
+    this.bloodType,
     this.weight,
     this.height,
     this.dateOfBirth, {
@@ -26,6 +28,7 @@ class Kid {
     '1',
     'Akbar Haqiqi',
     'Jl Singosari 2',
+    'A',
     50,
     150,
     DateFormat('dd/MM/yyyy').parse('1/10/2019'),

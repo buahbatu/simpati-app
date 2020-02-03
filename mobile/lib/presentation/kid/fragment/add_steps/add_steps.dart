@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/core/utils/form_utils.dart';
 
 class Step1AddKid extends StatelessWidget {
   @override
@@ -19,13 +20,13 @@ class Step1AddKid extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                buildField('Nama Lengkap'),
+                FormUtils.buildField('Nama Lengkap'),
                 Container(height: 8),
-                buildField('Tanggal Lahir', isEnabled: false),
+                FormUtils.buildField('Tanggal Lahir', isEnabled: false),
                 Container(height: 8),
-                buildField('Jenis Kelamin', isEnabled: false),
+                FormUtils.buildField('Jenis Kelamin', isEnabled: false),
                 Container(height: 21),
-                buildField('Nama Ibu'),
+                FormUtils.buildField('Nama Ibu'),
               ],
             ),
           ),
@@ -39,27 +40,6 @@ class Step1AddKid extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  TextFormField buildField(
-    String label, {
-    bool isEnabled = true,
-    String suffix,
-  }) {
-    return TextFormField(
-      maxLines: 1,
-      textInputAction: TextInputAction.next,
-      enabled: isEnabled,
-      decoration: InputDecoration(
-        labelText: label,
-        alignLabelWithHint: true,
-        isDense: true,
-        suffixText: suffix,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
       ),
     );
   }
@@ -82,11 +62,11 @@ class Step2AddKid extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                buildField('Tinggi Badan', suffix: 'cm'),
+                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
                 Container(height: 8),
-                buildField('Berat Badan', suffix: 'Kg'),
+                FormUtils.buildField('Berat Badan', suffix: 'Kg'),
                 Container(height: 8),
-                buildField('Golongan Darah', isEnabled: false),
+                FormUtils.buildField('Golongan Darah', isEnabled: false),
               ],
             ),
           ),
@@ -100,27 +80,6 @@ class Step2AddKid extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  TextFormField buildField(
-    String label, {
-    bool isEnabled = true,
-    String suffix,
-  }) {
-    return TextFormField(
-      maxLines: 1,
-      textInputAction: TextInputAction.next,
-      enabled: isEnabled,
-      decoration: InputDecoration(
-        labelText: label,
-        alignLabelWithHint: true,
-        isDense: true,
-        suffixText: suffix,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6),
-        ),
       ),
     );
   }
