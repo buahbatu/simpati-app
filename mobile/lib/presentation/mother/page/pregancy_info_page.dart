@@ -5,6 +5,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
+import 'package:simpati/presentation/mother/dialog/med_check.dart';
 
 class PregnancyInfoPage extends StatelessWidget {
   final int index;
@@ -33,6 +34,8 @@ class PregnancyInfoPage extends StatelessWidget {
           createNameSection(),
           Container(height: 8),
           createPersonalInfo(),
+          Container(height: 8),
+          createPredictionInfo(),
           Container(height: 8),
           createCheckupHistory(),
         ],
@@ -76,11 +79,18 @@ class PregnancyInfoPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Kondisi Tubuh', style: AppTextStyle.sectionTitle),
+          Text('Kondisi Tubuh Ibu', style: AppTextStyle.sectionTitle),
           Container(height: 21),
           FormUtils.buildField(
             'Tanggal Terakhir Menstruasi',
             value: initialData.lastMenstruation.standardFormat(),
+            isEnabled: false,
+          ),
+          Container(height: 8),
+          FormUtils.buildField(
+            'Tekanan Darah',
+            value: '120/60',
+            suffix: 'mmHg',
             isEnabled: false,
           ),
           Container(height: 8),
@@ -112,6 +122,56 @@ class PregnancyInfoPage extends StatelessWidget {
             children: <Widget>[
               FormUtils.createChip('Berat Ideal'),
               FormUtils.createChip('Gizi Baik'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget createPredictionInfo() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Kondisi Kandungan', style: AppTextStyle.sectionTitle),
+          Container(height: 21),
+          FormUtils.buildField(
+            'Tanggal Perkiraan Lahir',
+            value: DateTime.now().standardFormat(),
+            isEnabled: false,
+          ),
+          Container(height: 8),
+          Row(
+            children: <Widget>[
+              Flexible(
+                child: FormUtils.buildField(
+                  'Perkiraan Jenis Kelamin',
+                  value: 'Laki - Laki',
+                  isEnabled: false,
+                ),
+                flex: 5,
+              ),
+              Container(width: 8),
+              Flexible(
+                child: FormUtils.buildField(
+                  'Berat Janin',
+                  value: initialData.weight.toString(),
+                  suffix: 'g',
+                  isEnabled: false,
+                ),
+                flex: 3,
+              ),
+            ],
+          ),
+          Container(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: <Widget>[
+              FormUtils.createChip('Air Ketuban Baik'),
             ],
           ),
         ],
@@ -160,7 +220,10 @@ class PregnancyInfoPage extends StatelessWidget {
                   color: AppColor.primaryColor,
                   child: Icon(LineIcons.plus, color: Colors.white),
                   onPressed: () {
-                    // showDialog(context: context, child: MedicalCheckDialog());
+                    showDialog(
+                      context: context,
+                      child: PregnancyMedicalCheckDialog(),
+                    );
                   },
                 ),
               ],

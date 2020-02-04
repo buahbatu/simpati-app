@@ -5,6 +5,7 @@ class AppColor {
   // solid
   static Color appBackground = HexColor('F3F3F3');
   static Color primaryColor = HexColor('F34949');
+  static Color primaryDarkColor = HexColor('BD5454');
   static Color accentColor = HexColor('FF8C9F');
   static Color profileBgColor = HexColor('B4B4B4');
 

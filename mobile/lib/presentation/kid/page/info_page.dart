@@ -211,7 +211,7 @@ class KidInfoPage extends StatelessWidget {
                   color: AppColor.primaryColor,
                   child: Icon(LineIcons.plus, color: Colors.white),
                   onPressed: () {
-                    showDialog(context: context, child: MedicalCheckDialog());
+                    showDialog(context: context, child: KidMedicalCheckDialog());
                   },
                 ),
               ],

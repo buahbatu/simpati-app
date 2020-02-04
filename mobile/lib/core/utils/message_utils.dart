@@ -19,7 +19,7 @@ extension MessageUtils on BuildContext {
     String posyanduName,
     VoidCallback onLoginClick,
     VoidCallback onLogoutClick,
-    bool isLogin = false,
+    bool isLogin = true,
   }) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String name = packageInfo.version;
@@ -33,15 +33,15 @@ extension MessageUtils on BuildContext {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(posyanduName ?? '', style: AppTextStyle.itemTitle),
+            Text(posyanduName ?? '', style: AppTextStyle.title.copyWith()),
             Text(userName ?? '',
-                style: AppTextStyle.caption.copyWith(color: Colors.black87)),
+                style: AppTextStyle.caption.copyWith(color: Colors.white)),
           ],
         ),
         FlatButton(
-          color: AppColor.primaryColor,
+          color: Colors.white,
+          textColor: AppColor.primaryColor,
           child: Text('Logout'),
-          textColor: Colors.white,
           onPressed: onLogoutClick,
         ),
       ],
@@ -49,6 +49,7 @@ extension MessageUtils on BuildContext {
     showDialog(
       context: this,
       child: Dialog(
+        backgroundColor: AppColor.primaryDarkColor,
         child: Container(
           padding: const EdgeInsets.all(16),
           child: ListView(
@@ -56,26 +57,34 @@ extension MessageUtils on BuildContext {
             children: <Widget>[
               Text(
                 'Simpati',
-                style: AppTextStyle.calenderTitle.copyWith(fontSize: 16),
+                style: AppTextStyle.calenderTitle
+                    .copyWith(fontSize: 18, color: Colors.white),
               ),
-              Text('Ver $name', style: AppTextStyle.titleName),
+              Container(height: 2),
+              Text('Ver $name',
+                  style:
+                      AppTextStyle.titleName.copyWith(color: Colors.white70)),
               Container(height: 20),
               if (isLogin) profileRow,
               if (!isLogin)
                 FlatButton(
-                  color: AppColor.primaryColor,
+                  color: Colors.white,
+                  textColor: AppColor.primaryColor,
                   child: Text('Login'),
-                  textColor: Colors.white,
                   onPressed: onLoginClick,
                 ),
               Container(height: 20),
+              Text(
+                'Supported by',
+                style: AppTextStyle.titleName
+                    .copyWith(fontSize: 10, color: Colors.white),
+              ),
+              Container(height: 12),
               Row(
                 children: <Widget>[
-                  Text(
-                    'Supported by ',
-                    style: AppTextStyle.titleName.copyWith(fontSize: 10),
-                  ),
-                  Image.asset('assets/tsel.png', height: 16)
+                  Image.asset('assets/sumedang.png', height: 18),
+                  Container(width: 8),
+                  Image.asset('assets/tsel.png', height: 18),
                 ],
               ),
             ],
