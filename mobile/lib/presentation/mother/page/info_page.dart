@@ -36,6 +36,8 @@ class MotherInfoPage extends StatelessWidget {
           Container(height: 8),
           createChildInfo(),
           Container(height: 8),
+          createHealtCheckInfo(),
+          Container(height: 8),
           createPregnancyInfo(),
         ],
       ),
@@ -184,6 +186,56 @@ class MotherInfoPage extends StatelessWidget {
         Container(height: 8, width: 1),
         Text(name, style: AppTextStyle.caption.copyWith(color: Colors.black))
       ],
+    );
+  }
+
+  Widget createHealtCheckInfo() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Informasi Kesehatan', style: AppTextStyle.sectionTitle),
+          Container(height: 21),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField('Berat Badan',
+                    value: initialData.weight.toString(),
+                    isEnabled: false,
+                    suffix: 'Kg'),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField('Tekanan Darah',
+                    value: '120/80', isEnabled: false, suffix: 'mmHg'),
+              ),
+            ],
+          ),
+          Container(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: <Widget>[
+              createChip('Berat Badan Ideal'),
+              createChip('Gizi Baik'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container createChip(String title) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
+      child: Text(
+        title,
+        style: AppTextStyle.caption.copyWith(fontSize: 14),
+      ),
     );
   }
 
