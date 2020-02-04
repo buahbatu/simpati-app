@@ -6,6 +6,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/kid.dart';
 import 'package:simpati/presentation/kid/item/growth_chart.dart';
+import 'package:simpati/presentation/kid/page/med_check.dart';
 
 class KidInfoPage extends StatelessWidget {
   final Kid initialData;
@@ -170,42 +171,46 @@ class KidInfoPage extends StatelessWidget {
   }
 
   Widget createCheckupHistory() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
-          Container(height: 12),
-          Wrap(
-            spacing: 8,
-            children: <Widget>[
-              ...List.generate(
-                10,
-                (i) => FlatButton(
+    return Builder(builder: (context) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+            Container(height: 12),
+            Wrap(
+              spacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  36,
+                  (i) => FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Text('Ke ${i + 1}'),
+                    onPressed: () {},
+                  ),
+                ),
+                FlatButton(
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
-                    side: BorderSide(color: Colors.black),
                   ),
-                  child: Text('Periksa ke ${i + 1}'),
-                  onPressed: () {},
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {
+                    showDialog(context: context, child: MedicalCheckDialog());
+                  },
                 ),
-              ),
-              FlatButton(
-                padding: const EdgeInsets.all(0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                color: AppColor.primaryColor,
-                child: Icon(LineIcons.plus, color: Colors.white),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget createHealthCheckInfo() {

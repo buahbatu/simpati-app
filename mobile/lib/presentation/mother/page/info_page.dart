@@ -7,8 +7,8 @@ import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/presentation/kid/page/add_page.dart';
-import 'package:simpati/presentation/pregnancy/page/add_page.dart';
-import 'package:simpati/presentation/pregnancy/page/info_page.dart';
+import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
+import 'package:simpati/presentation/mother/page/pregancy_info_page.dart';
 
 class MotherInfoPage extends StatelessWidget {
   final Mother initialData;
@@ -337,7 +337,7 @@ class MotherInfoPage extends StatelessWidget {
                       direction: Axis.vertical,
                       spacing: 2,
                       children: <Widget>[
-                        Text('Kehamilan ke ${i + 1}',
+                        Text('Ke ${i + 1}',
                             style: AppTextStyle.itemTitle),
                         Text('2019',
                             style:
@@ -361,10 +361,10 @@ class MotherInfoPage extends StatelessWidget {
                   ),
                   color: AppColor.primaryColor,
                   child: Icon(LineIcons.plus, color: Colors.white),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => PregnancyAddPage(initialData)));
-                  },
+                  onPressed: () => showDialog(
+                    context: context,
+                    child: AddPregnancyDialog(1, initialData),
+                  ),
                 ),
               ],
             ),
