@@ -81,17 +81,25 @@ class MotherInfoPage extends StatelessWidget {
             isEnabled: false,
           ),
           Container(height: 8),
-          FormUtils.buildField(
-            'Tinggi Badan',
-            value: initialData.height.toString(),
-            suffix: 'cm',
-            isEnabled: false,
-          ),
-          Container(height: 8),
-          FormUtils.buildField(
-            'Golongan Darah',
-            value: initialData.bloodType,
-            isEnabled: false,
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField(
+                  'Tinggi Badan',
+                  value: initialData.height.toString(),
+                  suffix: 'cm',
+                  isEnabled: false,
+                ),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField(
+                  'Golongan Darah',
+                  value: initialData.bloodType,
+                  isEnabled: false,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -108,14 +116,14 @@ class MotherInfoPage extends StatelessWidget {
           Text('Informasi Kontak', style: AppTextStyle.sectionTitle),
           Container(height: 21),
           FormUtils.buildField(
-            'Nama Suami',
-            value: initialData.husbandName,
+            'Nomor Telpon',
+            value: initialData.phoneNumber,
             isEnabled: false,
           ),
           Container(height: 8),
           FormUtils.buildField(
-            'Nomor Telpon',
-            value: initialData.phoneNumber,
+            'Nama Suami',
+            value: initialData.husbandName,
             isEnabled: false,
           ),
         ],
