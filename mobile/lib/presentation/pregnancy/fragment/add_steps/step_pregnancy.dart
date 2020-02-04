@@ -13,7 +13,7 @@ class Step1AddPregnancy extends StatelessWidget {
         children: <Widget>[
           Text('Informasi Awal', style: AppTextStyle.registerTitle),
           Text(
-            'Kondisi ibu pada masa awal masa kehamilan',
+            'Kondisi ibu pada awal masa kehamilan',
             style: AppTextStyle.titleName.copyWith(fontSize: 12),
           ),
           Expanded(

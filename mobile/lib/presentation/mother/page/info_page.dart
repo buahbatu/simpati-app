@@ -5,8 +5,10 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/presentation/kid/page/add_page.dart';
 import 'package:simpati/presentation/pregnancy/page/add_page.dart';
+import 'package:simpati/presentation/pregnancy/page/info_page.dart';
 
 class MotherInfoPage extends StatelessWidget {
   final Mother initialData;
@@ -342,7 +344,11 @@ class MotherInfoPage extends StatelessWidget {
                                 AppTextStyle.titleName.copyWith(fontSize: 10)),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => PregnancyInfoPage(i, Pregnancy.mock),
+                      ));
+                    },
                   ),
                 ),
                 FlatButton(
