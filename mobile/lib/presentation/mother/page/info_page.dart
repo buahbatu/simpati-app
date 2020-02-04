@@ -200,7 +200,17 @@ class MotherInfoPage extends StatelessWidget {
                 initialData.childCount,
                 (i) => createChildCircle('Alif'),
               ),
-              createChildCircle('Tambah', isAdd: true),
+              SizedBox(
+                height: 59,
+                width: 59,
+                child: FlatButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: CircleBorder(),
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {},
+                ),
+              ),
             ],
           ),
         ],
@@ -208,29 +218,25 @@ class MotherInfoPage extends StatelessWidget {
     );
   }
 
-  Widget createChildCircle(String name, {bool isAdd = false}) {
+  Widget createChildCircle(String name) {
     return Column(
       children: <Widget>[
         Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            if (!isAdd)
-              CircleAvatar(
-                radius: 29.5,
-                backgroundColor: AppColor.accentColor,
-              ),
-            if (!isAdd)
-              CircleAvatar(
-                radius: 27,
-                backgroundColor: Colors.white,
-              ),
             CircleAvatar(
-                radius: isAdd ? 29.5 : 26,
-                backgroundColor:
-                    isAdd ? AppColor.primaryColor : AppColor.profileBgColor,
-                child: isAdd
-                    ? Icon(LineIcons.plus, color: Colors.white)
-                    : Icon(LineIcons.child, color: Colors.white, size: 36)),
+              radius: 29.5,
+              backgroundColor: AppColor.accentColor,
+            ),
+            CircleAvatar(
+              radius: 27,
+              backgroundColor: Colors.white,
+            ),
+            CircleAvatar(
+              radius: 26,
+              backgroundColor: AppColor.profileBgColor,
+              child: Icon(LineIcons.child, color: Colors.white, size: 36),
+            ),
           ],
         ),
         Container(height: 8, width: 1),

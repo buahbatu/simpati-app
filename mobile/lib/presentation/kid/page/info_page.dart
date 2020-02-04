@@ -158,12 +158,12 @@ class KidInfoPage extends StatelessWidget {
           Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
           Container(height: 12),
           GrowthChart(),
-          Container(height: 12),
+          Container(height: 21),
           Wrap(
             spacing: 8,
             children: <Widget>[
               ...List.generate(
-                3,
+                10,
                 (i) => FlatButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
@@ -173,13 +173,15 @@ class KidInfoPage extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
+              SizedBox(
+                width: 34,
+                child: FlatButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: CircleBorder(),
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {},
                 ),
-                color: AppColor.primaryColor,
-                child: Text('Tambah', style: TextStyle(color: Colors.white)),
-                onPressed: () {},
               ),
             ],
           ),
@@ -224,7 +226,7 @@ class KidInfoPage extends StatelessWidget {
               Container(width: 8),
               Expanded(
                 child: FormUtils.buildField('Lingkar Kepala',
-                    value: '100', isEnabled: false, suffix: 'Kg'),
+                    value: '100', isEnabled: false, suffix: 'cm'),
               ),
             ],
           ),

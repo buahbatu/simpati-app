@@ -62,11 +62,23 @@ class Step2AddKid extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
-                Container(height: 8),
-                FormUtils.buildField('Berat Badan', suffix: 'Kg'),
-                Container(height: 8),
                 FormUtils.buildField('Golongan Darah', isEnabled: false),
+                Container(height: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField('Berat Badan', suffix: 'Kg'),
+                    ),
+                  ],
+                ),
+                Container(height: 8),
+                FormUtils.buildField('Suhu Badan', suffix: '°C'),
+                Container(height: 8),
+                FormUtils.buildField('Lingkar Kepala', suffix: 'cm'),
               ],
             ),
           ),
