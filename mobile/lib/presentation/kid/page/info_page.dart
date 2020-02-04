@@ -5,6 +5,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/kid.dart';
+import 'package:simpati/presentation/kid/item/growth_chart.dart';
 
 class KidInfoPage extends StatelessWidget {
   final Kid initialData;
@@ -155,6 +156,8 @@ class KidInfoPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+          Container(height: 12),
+          GrowthChart(),
           Container(height: 12),
           Wrap(
             spacing: 8,
