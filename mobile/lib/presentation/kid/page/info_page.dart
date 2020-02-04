@@ -192,15 +192,14 @@ class KidInfoPage extends StatelessWidget {
                   onPressed: () {},
                 ),
               ),
-              SizedBox(
-                width: 34,
-                child: FlatButton(
-                  padding: const EdgeInsets.all(0),
-                  shape: CircleBorder(),
-                  color: AppColor.primaryColor,
-                  child: Icon(LineIcons.plus, color: Colors.white),
-                  onPressed: () {},
+              FlatButton(
+                padding: const EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
                 ),
+                color: AppColor.primaryColor,
+                child: Icon(LineIcons.plus, color: Colors.white),
+                onPressed: () {},
               ),
             ],
           ),

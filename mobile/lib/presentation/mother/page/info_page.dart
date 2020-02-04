@@ -5,6 +5,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/presentation/pregnancy/page/add_page.dart';
 
 class MotherInfoPage extends StatelessWidget {
   final Mother initialData;
@@ -261,13 +262,13 @@ class MotherInfoPage extends StatelessWidget {
                     value: initialData.weight.toString(),
                     isEnabled: false,
                     suffix: 'Kg'),
-                    flex: 3,
+                flex: 3,
               ),
               Container(width: 8),
               Flexible(
                 child: FormUtils.buildField('Tekanan Darah',
                     value: '120/80', isEnabled: false, suffix: 'mmHg'),
-                    flex: 4,
+                flex: 4,
               ),
             ],
           ),
@@ -298,40 +299,66 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createPregnancyInfo() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
-          Container(height: 21),
-          Wrap(
-            spacing: 8,
-            children: <Widget>[
-              ...List.generate(
-                initialData.childCount,
-                (i) => FlatButton(
+    return Builder(builder: (context) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
+            Container(height: 21),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  // initialData.childCount,
+                  4,
+                  (i) => FlatButton(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      spacing: 2,
+                      children: <Widget>[
+                        Text('Kehamilan ke ${i + 1}',
+                            style:
+                                AppTextStyle.itemTitle),
+                        Text('2019',
+                            style:
+                                AppTextStyle.titleName.copyWith(fontSize: 10)),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                FlatButton(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
-                    side: BorderSide(color: Colors.black),
                   ),
-                  child: Text('Kehamilan ke ${i + 1}'),
-                  onPressed: () {},
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => PregnancyAddPage(initialData)));
+                  },
                 ),
-              ),
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                color: AppColor.primaryColor,
-                child: Text('Tambah', style: TextStyle(color: Colors.white)),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
