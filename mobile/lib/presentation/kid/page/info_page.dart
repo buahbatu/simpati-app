@@ -32,6 +32,8 @@ class KidInfoPage extends StatelessWidget {
           Container(height: 8),
           createPersonalInfo(),
           Container(height: 8),
+          createHealthCheckInfo(),
+          Container(height: 8),
           createCheckupHistory(),
           Container(height: 8),
           createImmunizationHistory(),
@@ -129,6 +131,74 @@ class KidInfoPage extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget createHealthCheckInfo() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Informasi Kesehatan', style: AppTextStyle.sectionTitle),
+          Container(height: 21),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField('Panjang Badan',
+                    value: initialData.height.toString(),
+                    isEnabled: false,
+                    suffix: 'cm'),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField('Berat Badan',
+                    value: initialData.weight.toString(),
+                    isEnabled: false,
+                    suffix: 'Kg'),
+              ),
+            ],
+          ),
+          Container(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField('Suhu Badan',
+                    value: '40', isEnabled: false, suffix: '°C'),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField('Lingkar Kepala',
+                    value: '100', isEnabled: false, suffix: 'Kg'),
+              ),
+            ],
+          ),
+          Container(height: 21),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: <Widget>[
+              createChip('Panjang Badan Ideal'),
+              createChip('Berat Ideal - sesuai umur'),
+              createChip('Berat Ideal - sesuai tinggi'),
+              createChip('Gizi Baik'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container createChip(String title) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
+      child: Text(
+        title,
+        style: AppTextStyle.caption.copyWith(fontSize: 14),
       ),
     );
   }

@@ -36,7 +36,7 @@ class MotherInfoPage extends StatelessWidget {
           Container(height: 8),
           createChildInfo(),
           Container(height: 8),
-          createHealtCheckInfo(),
+          createHealthCheckInfo(),
           Container(height: 8),
           createPregnancyInfo(),
         ],
@@ -189,7 +189,7 @@ class MotherInfoPage extends StatelessWidget {
     );
   }
 
-  Widget createHealtCheckInfo() {
+  Widget createHealthCheckInfo() {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -218,7 +218,7 @@ class MotherInfoPage extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              createChip('Berat Badan Ideal'),
+              createChip('Berat Ideal'),
               createChip('Gizi Baik'),
             ],
           ),
