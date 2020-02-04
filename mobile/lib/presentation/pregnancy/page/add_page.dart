@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/presentation/mother/fragment/add_steps/add_steps.dart';
+import 'package:simpati/presentation/pregnancy/fragment/add_steps/step_pregnancy.dart';
 
 class PregnancyAddPage extends StatelessWidget {
   final Mother motherData;
@@ -19,19 +19,10 @@ class PregnancyAddPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: AppColor.appBackground,
-        appBar: createAppBar(context),
-        body: TabBarView(
-          children: [
-            Step1AddMother(),
-            Step2AddMother(),
-            Step3AddMother(),
-          ],
-        ),
-      ),
+    return Scaffold(
+      backgroundColor: AppColor.appBackground,
+      appBar: createAppBar(context),
+      body: Step1AddPregnancy(),
     );
   }
 }

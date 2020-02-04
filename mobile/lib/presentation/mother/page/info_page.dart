@@ -5,6 +5,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/presentation/kid/page/add_page.dart';
 import 'package:simpati/presentation/pregnancy/page/add_page.dart';
 
 class MotherInfoPage extends StatelessWidget {
@@ -185,38 +186,44 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createChildInfo() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Daftar Anak', style: AppTextStyle.sectionTitle),
-          Container(height: 21),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: <Widget>[
-              ...List.generate(
-                initialData.childCount,
-                (i) => createChildCircle('Alif'),
-              ),
-              SizedBox(
-                height: 59,
-                width: 59,
-                child: FlatButton(
-                  padding: const EdgeInsets.all(0),
-                  shape: CircleBorder(),
-                  color: AppColor.primaryColor,
-                  child: Icon(LineIcons.plus, color: Colors.white),
-                  onPressed: () {},
+    return Builder(builder: (context) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Daftar Anak', style: AppTextStyle.sectionTitle),
+            Container(height: 21),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  initialData.childCount,
+                  (i) => createChildCircle('Alif'),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+                SizedBox(
+                  height: 59,
+                  width: 59,
+                  child: FlatButton(
+                    padding: const EdgeInsets.all(0),
+                    shape: CircleBorder(),
+                    color: AppColor.primaryColor,
+                    child: Icon(LineIcons.plus, color: Colors.white),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => KidAddPage(),
+                      ));
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget createChildCircle(String name) {
@@ -329,8 +336,7 @@ class MotherInfoPage extends StatelessWidget {
                       spacing: 2,
                       children: <Widget>[
                         Text('Kehamilan ke ${i + 1}',
-                            style:
-                                AppTextStyle.itemTitle),
+                            style: AppTextStyle.itemTitle),
                         Text('2019',
                             style:
                                 AppTextStyle.titleName.copyWith(fontSize: 10)),
