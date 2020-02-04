@@ -2,10 +2,13 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:native_color/native_color.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/presentation/article/fragment/item/article_card.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
 import 'package:simpati/presentation/dashboard/item/card_data.dart';
@@ -85,7 +88,7 @@ class _HomeScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               createAppBar(context),
-              Expanded(child: createContent()),
+              Expanded(child: createContent(context)),
             ],
           ),
           Container(height: safeHeight, color: AppColor.primaryColor),
@@ -94,62 +97,70 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  ListView createContent() {
+  ListView createContent(BuildContext context) {
     return ListView(
       shrinkWrap: true,
       padding: const EdgeInsets.all(0),
       children: <Widget>[
         getSpace(),
-        getMotherSection(),
-        SvgPicture.asset('assets/undraw_children.svg', height: 120),
-        getSection(SectionData('Jumlah Pasien Kamu', [
-          CardData('Ibu', '200000', 'orang', iconData: LineIcons.female),
-          CardData('Anak', '200000', 'orang', iconData: LineIcons.child),
-        ])),
-        getSpace(isSmall: false),
-        getSection(SectionData('Kondisi Ibu', [
-          CardData('Fit', '80', '%', isNextLine: false),
-          CardData('Kurang Fit', '20', '%', isNextLine: false),
-        ])),
-        getSpace(isSmall: false),
-        getSection(SectionData('Kondisi Anak', [
-          CardData('Sehat', '50', '%', isNextLine: false),
-          CardData('Kurang Gizi', '30', '%', isNextLine: false),
-          CardData('Stunting', '20', '%', isNextLine: false),
-        ])),
-        getSpace(isSmall: false),
-        getSection(SectionData('Gender Anak', [
-          CardData('Laki', '200000', 'orang'),
-          CardData('Perempuan', '200000', 'orang'),
-        ])),
-        getSpace(isSmall: false),
+        getSection(
+          context,
+          SectionData(
+            LineIcons.female,
+            'Rekap Kondisi Ibu',
+            2000,
+            'orang',
+            AppColor.redGradient,
+            'assets/undraw_mom.svg',
+            [
+              CardData('Berat Ideal', '80%'),
+              CardData('Gizi Baik', '90%'),
+              CardData('Sedang Hamil', '300'),
+            ],
+          ),
+        ),
+        getSpace(),
+        getSection(
+          context,
+          SectionData(
+            LineIcons.child,
+            'Rekap Kondisi Anak',
+            2000,
+            'orang',
+            AppColor.yellowGradient,
+            'assets/undraw_children.svg',
+            [
+              CardData('Berat Ideal', '80%'),
+              CardData('Panjang Ideal', '90%'),
+              CardData('Gizi Baik', '90%'),
+              CardData('Sudah Imunisasi', '98%'),
+              CardData('Telat Imunisasi', '30%'),
+            ],
+          ),
+        ),
+        getSpace(),
+        ...getArticleSections(),
       ],
     );
   }
 
-  Container getMotherSection() {
-    Gradient cardGradient = LinearGradient(
-      colors: <Color>[
-        // HexColor('F3B16D'),
-        HexColor('FFE324'),
-        HexColor('FFB533'),
-      ],
-      end: Alignment.topLeft,
-      begin: Alignment.bottomRight,
-    );
-
+  Widget getSection(BuildContext context, SectionData data) {
+    final horizontalItem = 3;
+    final padding = 16 * 2 * 2;
+    final space = 8 * (horizontalItem - 1);
+    final contentWidth =
+        (MediaQuery.of(context).size.width - padding - space) / horizontalItem;
     return Container(
       decoration: BoxDecoration(
-        gradient: cardGradient,
+        gradient: data.gradient,
         borderRadius: BorderRadius.circular(6),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
-      height: 200,
       child: Stack(
         children: <Widget>[
           Align(
-            child: SvgPicture.asset('assets/undraw_mom.svg', height: 120),
+            child: SvgPicture.asset(data.assetPath, height: 120),
             alignment: Alignment.topRight,
           ),
           Column(
@@ -157,17 +168,31 @@ class _HomeScreen extends StatelessWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Icon(LineIcons.female, size: 28, color: Colors.white),
+                  Icon(data.iconData, size: 28, color: Colors.white),
                   Container(width: 2),
-                  Text('Data Ibu',
-                      style: AppTextStyle.sectionTitle
-                          .copyWith(color: Colors.white)),
+                  Text(data.name, style: AppTextStyle.sectionTitle),
                 ],
               ),
+              Container(height: 16),
               Text(
-                '200000',
-                style: AppTextStyle.sectionData.copyWith(color: Colors.white),
+                NumberFormat().format(data.value),
+                style: AppTextStyle.sectionData,
                 textAlign: TextAlign.end,
+              ),
+              Text(
+                data.unit,
+                style: AppTextStyle.sectionData.copyWith(
+                  fontSize: 12,
+                  color: Colors.white,
+                ),
+              ),
+              Container(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: data.items
+                    .map((d) => DashboardContentCard(contentWidth, d))
+                    .toList(),
               ),
             ],
           ),
@@ -176,25 +201,25 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  Container getSpace({bool isSmall = true}) {
-    return isSmall ? Container(height: 8) : Container(height: 28);
+  List<Widget> getArticleSections() {
+    return <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(
+          'Artikel Terbaru',
+          style: AppTextStyle.title.copyWith(
+            color: AppColor.primaryColor,
+            fontSize: 16,
+          ),
+        ),
+      ),
+      ArticleCard(Article.mock),
+      ArticleCard(Article.mock),
+      ArticleCard(Article.mock),
+    ];
   }
 
-  Widget getSection(SectionData data) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(data.name, style: AppTextStyle.sectionTitle),
-          getSpace(),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: data.items.map((d) => DashboardContentCard(d)).toList(),
-          )
-        ],
-      ),
-    );
+  Container getSpace({bool isSmall = true}) {
+    return isSmall ? Container(height: 8) : Container(height: 28);
   }
 }
