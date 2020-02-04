@@ -17,7 +17,7 @@ class AppTextStyle {
   static TextStyle sectionTitle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   static TextStyle registerTitle = TextStyle(
@@ -45,8 +45,8 @@ class AppTextStyle {
   );
 
   static TextStyle itemTitle = TextStyle(
-    fontSize: 12,
-    color: Colors.black87,
+    fontSize: 14,
+    color: Colors.black,
   );
 
   static TextStyle chip = TextStyle(

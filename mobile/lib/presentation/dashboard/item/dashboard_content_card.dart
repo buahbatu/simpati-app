@@ -20,7 +20,7 @@ class DashboardContentCard extends StatelessWidget {
           Text(
             cardData.desc,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
           ),

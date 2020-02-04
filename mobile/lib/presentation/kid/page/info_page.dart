@@ -194,7 +194,7 @@ class KidInfoPage extends StatelessWidget {
                       direction: Axis.vertical,
                       spacing: 2,
                       children: <Widget>[
-                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
+                        Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
                         Text('30 Feb 2020',
                             style:
                                 AppTextStyle.titleName.copyWith(fontSize: 10)),

@@ -31,7 +31,10 @@ class ArticleCard extends StatelessWidget {
             Container(height: 8),
             Text(
               data.title,
-              style: AppTextStyle.sectionData.copyWith(fontSize: 14),
+              style: AppTextStyle.sectionData.copyWith(
+                fontSize: 14,
+                color: Colors.black,
+              ),
             ),
             Container(height: 4),
             Text(

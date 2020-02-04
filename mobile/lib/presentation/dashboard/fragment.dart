@@ -138,7 +138,7 @@ class _HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        getSpace(),
+        getSpace(isSmall: true),
         ...getArticleSections(),
       ],
     );
@@ -170,7 +170,11 @@ class _HomeScreen extends StatelessWidget {
                 children: <Widget>[
                   Icon(data.iconData, size: 28, color: Colors.white),
                   Container(width: 2),
-                  Text(data.name, style: AppTextStyle.sectionTitle),
+                  Text(
+                    data.name,
+                    style:
+                        AppTextStyle.sectionTitle.copyWith(color: Colors.white),
+                  ),
                 ],
               ),
               Container(height: 16),
