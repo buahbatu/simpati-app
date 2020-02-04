@@ -37,6 +37,8 @@ class KidInfoPage extends StatelessWidget {
           Container(height: 8),
           createHealthCheckInfo(),
           Container(height: 8),
+          createWeightHistory(),
+          Container(height: 8),
           createCheckupHistory(),
           Container(height: 8),
           createImmunizationHistory(),
@@ -148,6 +150,25 @@ class KidInfoPage extends StatelessWidget {
     );
   }
 
+  Widget createWeightHistory() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Perkembangan Berat', style: AppTextStyle.sectionTitle),
+          Container(height: 12),
+          Text(
+            '(Kg)',
+            style: TextStyle(color: Colors.black38, fontSize: 10),
+          ),
+          GrowthChart(),
+        ],
+      ),
+    );
+  }
+
   Widget createCheckupHistory() {
     return Container(
       color: Colors.white,
@@ -157,8 +178,6 @@ class KidInfoPage extends StatelessWidget {
         children: <Widget>[
           Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
           Container(height: 12),
-          GrowthChart(),
-          Container(height: 21),
           Wrap(
             spacing: 8,
             children: <Widget>[

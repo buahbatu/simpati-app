@@ -10,14 +10,6 @@ class GrowthChart extends StatelessWidget {
       child: LineChart(
         LineChartData(
           borderData: FlBorderData(show: false),
-          axisTitleData: FlAxisTitleData(
-            topTitle: AxisTitle(
-              showTitle: true,
-              titleText: 'Perkembangan Berat Tiap Bulan',
-              textAlign: TextAlign.start,
-              textStyle: TextStyle(color: Colors.black38, fontSize: 12),
-            ),
-          ),
           lineTouchData: const LineTouchData(enabled: false),
           lineBarsData: [
             ...getTemplateBars(),
@@ -32,15 +24,15 @@ class GrowthChart extends StatelessWidget {
               showTitles: true,
               textStyle: TextStyle(fontSize: 10, color: Colors.black45),
               getTitles: (value) {
-                switch (value.toInt()) {
-                  case 12:
-                    return '12';
-                  case 24:
-                    return '24';
-                  case 36:
-                    return '36';
+                if (value == 12) {
+                  return '12';
+                } else if (value == 24) {
+                  return '24';
+                } else if (value == 35) {
+                  return '34 (bln)';
+                } else {
+                  return '';
                 }
-                return '';
               },
               margin: 8,
             ),
@@ -171,9 +163,10 @@ class GrowthChart extends StatelessWidget {
       LineChartBarData(
         spots: const [
           FlSpot(0, 2.2),
-          FlSpot(2, 3.8),
-          FlSpot(7, 6),
-          FlSpot(19, 9),
+          FlSpot(2, 3.7),
+          FlSpot(7, 6.2),
+          FlSpot(10, 7.2),
+          FlSpot(19, 9.3),
           FlSpot(24, 10),
           FlSpot(30, 11),
           FlSpot(36, 11.9),

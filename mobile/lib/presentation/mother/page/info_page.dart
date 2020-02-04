@@ -256,16 +256,18 @@ class MotherInfoPage extends StatelessWidget {
           Container(height: 21),
           Row(
             children: <Widget>[
-              Expanded(
+              Flexible(
                 child: FormUtils.buildField('Berat Badan',
                     value: initialData.weight.toString(),
                     isEnabled: false,
                     suffix: 'Kg'),
+                    flex: 3,
               ),
               Container(width: 8),
-              Expanded(
+              Flexible(
                 child: FormUtils.buildField('Tekanan Darah',
                     value: '120/80', isEnabled: false, suffix: 'mmHg'),
+                    flex: 4,
               ),
             ],
           ),
