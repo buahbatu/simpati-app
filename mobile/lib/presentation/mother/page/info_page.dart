@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/utils/date_utils.dart';
+import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/presentation/kid/page/add_page.dart';
@@ -286,8 +286,8 @@ class MotherInfoPage extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              createChip('Berat Ideal'),
-              createChip('Gizi Baik'),
+              FormUtils.createChip('Berat Ideal'),
+              FormUtils.createChip('Gizi Baik'),
             ],
           ),
         ],
@@ -295,17 +295,7 @@ class MotherInfoPage extends StatelessWidget {
     );
   }
 
-  Container createChip(String title) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
-      child: Text(
-        title,
-        style: AppTextStyle.caption.copyWith(fontSize: 14),
-      ),
-    );
-  }
+  
 
   Widget createPregnancyInfo() {
     return Builder(builder: (context) {
@@ -337,8 +327,7 @@ class MotherInfoPage extends StatelessWidget {
                       direction: Axis.vertical,
                       spacing: 2,
                       children: <Widget>[
-                        Text('Ke ${i + 1}',
-                            style: AppTextStyle.itemTitle),
+                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
                         Text('2019',
                             style:
                                 AppTextStyle.titleName.copyWith(fontSize: 10)),

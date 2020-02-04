@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/core/utils/date_utils.dart';
+import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 
 class PregnancyInfoPage extends StatelessWidget {
@@ -28,35 +30,144 @@ class PregnancyInfoPage extends StatelessWidget {
       body: ListView(
         shrinkWrap: true,
         children: [
-          // createNameSection(),
-          // Container(height: 8),
-          // createPhotoSection(),
+          createNameSection(),
+          Container(height: 8),
+          createPersonalInfo(),
+          Container(height: 8),
+          createCheckupHistory(),
         ],
       ),
     );
   }
 
-  // Widget createNameSection() {
-  //   return Container(
-  //     color: Colors.white,
-  //     padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         Text(initialData.fullName, style: AppTextStyle.registerTitle),
-  //         Row(
-  //           crossAxisAlignment: CrossAxisAlignment.end,
-  //           children: <Widget>[
-  //             Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
-  //             Container(width: 4),
-  //             Text(
-  //               initialData.address,
-  //               style: AppTextStyle.titleName.copyWith(fontSize: 12),
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget createNameSection() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Kehamilan ke ${index + 1}', style: AppTextStyle.registerTitle),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Icon(LineIcons.female, size: 16, color: Colors.black38),
+              Container(width: 4),
+              Text(
+                'Khusnaini Aghniya',
+                style: AppTextStyle.titleName.copyWith(fontSize: 12),
+              ),
+            ],
+          ),
+          Container(height: 8),
+          Text(
+            'Perkiraan Lahir 23 Agustus 2019',
+            style: AppTextStyle.titleName.copyWith(fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget createPersonalInfo() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Kondisi Tubuh', style: AppTextStyle.sectionTitle),
+          Container(height: 21),
+          FormUtils.buildField(
+            'Tanggal Terakhir Menstruasi',
+            value: initialData.lastMenstruation.standardFormat(),
+            isEnabled: false,
+          ),
+          Container(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField(
+                  'Tinggi Badan',
+                  value: initialData.height.toString(),
+                  suffix: 'cm',
+                  isEnabled: false,
+                ),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField(
+                  'Berat Badan',
+                  value: initialData.weight.toString(),
+                  suffix: 'Kg',
+                  isEnabled: false,
+                ),
+              ),
+            ],
+          ),
+          Container(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: <Widget>[
+              FormUtils.createChip('Berat Ideal'),
+              FormUtils.createChip('Gizi Baik'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget createCheckupHistory() {
+    return Builder(builder: (context) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+            Container(height: 12),
+            Wrap(
+              spacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  36,
+                  (i) => FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      spacing: 2,
+                      children: <Widget>[
+                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
+                        Text('30 Feb 2020',
+                            style:
+                                AppTextStyle.titleName.copyWith(fontSize: 10)),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                FlatButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {
+                    // showDialog(context: context, child: MedicalCheckDialog());
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
 }

@@ -190,7 +190,16 @@ class KidInfoPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                       side: BorderSide(color: Colors.black),
                     ),
-                    child: Text('Ke ${i + 1}'),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      spacing: 2,
+                      children: <Widget>[
+                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
+                        Text('30 Feb 2020',
+                            style:
+                                AppTextStyle.titleName.copyWith(fontSize: 10)),
+                      ],
+                    ),
                     onPressed: () {},
                   ),
                 ),
@@ -258,25 +267,13 @@ class KidInfoPage extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              createChip('Panjang Badan Ideal'),
-              createChip('Berat Ideal - sesuai umur'),
-              createChip('Berat Ideal - sesuai tinggi'),
-              createChip('Gizi Baik'),
+              FormUtils.createChip('Panjang Badan Ideal'),
+              FormUtils.createChip('Berat Ideal - sesuai umur'),
+              FormUtils.createChip('Berat Ideal - sesuai tinggi'),
+              FormUtils.createChip('Gizi Baik'),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Container createChip(String title) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
-      child: Text(
-        title,
-        style: AppTextStyle.caption.copyWith(fontSize: 14),
       ),
     );
   }
