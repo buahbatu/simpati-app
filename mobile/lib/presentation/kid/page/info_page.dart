@@ -30,6 +30,8 @@ class KidInfoPage extends StatelessWidget {
         children: [
           createNameSection(),
           Container(height: 8),
+          createPhotoSection(),
+          Container(height: 8),
           createPersonalInfo(),
           Container(height: 8),
           createHealthCheckInfo(),
@@ -63,6 +65,54 @@ class KidInfoPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget createPhotoSection() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            radius: 36,
+            backgroundColor: AppColor.profileBgColor,
+            child: Icon(LineIcons.child, color: Colors.white, size: 36),
+          ),
+          Container(width: 16),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Foto Profil', style: AppTextStyle.sectionTitle),
+              Row(
+                children: <Widget>[
+                  createProfileButton('Galeri', LineIcons.image),
+                  Container(width: 8),
+                  createProfileButton('Kamera', LineIcons.camera_retro),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  FlatButton createProfileButton(String source, IconData iconData) {
+    return FlatButton(
+      child: Row(
+        children: <Widget>[
+          Icon(iconData, color: Colors.black38, size: 18),
+          Container(width: 4),
+          Text(source, style: AppTextStyle.titleName),
+        ],
+      ),
+      padding: const EdgeInsets.all(0),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+          side: BorderSide(color: Colors.black38)),
+      onPressed: () {},
     );
   }
 
