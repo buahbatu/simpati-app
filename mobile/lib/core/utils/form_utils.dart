@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/resources/app_text_style.dart';
 
 class FormUtils {
   static TextFormField buildField(
@@ -20,6 +22,18 @@ class FormUtils {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
         ),
+      ),
+    );
+  }
+
+  static Widget createChip(String title) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
+      child: Text(
+        title,
+        style: AppTextStyle.caption.copyWith(fontSize: 14),
       ),
     );
   }

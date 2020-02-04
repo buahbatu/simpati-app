@@ -95,10 +95,7 @@ class MotherCard extends StatelessWidget {
   }
 
   Text createName() {
-    return Text(
-      data.fullName,
-      style: AppTextStyle.sectionData.copyWith(fontSize: 14),
-    );
+    return Text(data.fullName, style: AppTextStyle.itemTitle);
   }
 
   Container createChip(String title) {

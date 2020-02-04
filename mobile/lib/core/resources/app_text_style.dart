@@ -17,17 +17,19 @@ class AppTextStyle {
   static TextStyle sectionTitle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
+    color: Colors.black,
   );
 
   static TextStyle registerTitle = TextStyle(
     fontSize: 21,
     fontWeight: FontWeight.bold,
-    color: AppColor.primaryColor
+    color: AppColor.primaryColor,
   );
 
   static TextStyle sectionData = TextStyle(
     fontSize: 36,
     fontWeight: FontWeight.w500,
+    color: Colors.white,
   );
 
   static const TextStyle caption = TextStyle(
@@ -43,8 +45,8 @@ class AppTextStyle {
   );
 
   static TextStyle itemTitle = TextStyle(
-    fontSize: 12,
-    color: Colors.black87,
+    fontSize: 14,
+    color: Colors.black,
   );
 
   static TextStyle chip = TextStyle(

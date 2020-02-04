@@ -64,9 +64,13 @@ class Step2AddMother extends StatelessWidget {
                 Container(height: 8),
                 FormUtils.buildField('Alamat'),
                 Container(height: 8),
-                FormUtils.buildField('Provinsi'),
-                Container(height: 8),
-                FormUtils.buildField('Kota'),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: FormUtils.buildField('Provinsi')),
+                    Container(width: 8),
+                    Expanded(child: FormUtils.buildField('Kota')),
+                  ],
+                ),
                 Container(height: 8),
                 FormUtils.buildField('Titik Koordinat', isEnabled: false),
               ],
@@ -104,13 +108,13 @@ class Step3AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                FormUtils.buildField('Golongan Darah', isEnabled: false),
+                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
                 Container(height: 8),
                 FormUtils.buildField('Berat Badan', suffix: 'Kg'),
                 Container(height: 8),
                 FormUtils.buildField('Tekanan Darah'),
                 Container(height: 8),
-                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
+                FormUtils.buildField('Golongan Darah', isEnabled: false),
               ],
             ),
           ),

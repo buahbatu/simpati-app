@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
@@ -25,6 +26,32 @@ class Step1AddKid extends StatelessWidget {
                 FormUtils.buildField('Tanggal Lahir', isEnabled: false),
                 Container(height: 8),
                 FormUtils.buildField('Jenis Kelamin', isEnabled: false),
+                Container(height: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            side: BorderSide(width: 1, color: Colors.black26)),
+                        onPressed: () {},
+                        child: SvgPicture.asset('assets/undraw_girl.svg',
+                            height: 120),
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                            side: BorderSide(width: 1, color: Colors.black26)),
+                        onPressed: () {},
+                        child: SvgPicture.asset('assets/undraw_boy.svg',
+                            height: 120),
+                      ),
+                    ),
+                  ],
+                ),
                 Container(height: 21),
                 FormUtils.buildField('Nama Ibu'),
               ],
@@ -62,11 +89,23 @@ class Step2AddKid extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
-                Container(height: 8),
-                FormUtils.buildField('Berat Badan', suffix: 'Kg'),
-                Container(height: 8),
                 FormUtils.buildField('Golongan Darah', isEnabled: false),
+                Container(height: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField('Tinggi Badan', suffix: 'cm'),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField('Berat Badan', suffix: 'Kg'),
+                    ),
+                  ],
+                ),
+                Container(height: 8),
+                FormUtils.buildField('Suhu Badan', suffix: '°C'),
+                Container(height: 8),
+                FormUtils.buildField('Lingkar Kepala', suffix: 'cm'),
               ],
             ),
           ),

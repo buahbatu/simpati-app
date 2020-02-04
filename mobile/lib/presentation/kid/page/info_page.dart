@@ -5,6 +5,8 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/kid.dart';
+import 'package:simpati/presentation/kid/item/growth_chart.dart';
+import 'package:simpati/presentation/kid/page/med_check.dart';
 
 class KidInfoPage extends StatelessWidget {
   final Kid initialData;
@@ -30,7 +32,13 @@ class KidInfoPage extends StatelessWidget {
         children: [
           createNameSection(),
           Container(height: 8),
+          createPhotoSection(),
+          Container(height: 8),
           createPersonalInfo(),
+          Container(height: 8),
+          createHealthCheckInfo(),
+          Container(height: 8),
+          createWeightHistory(),
           Container(height: 8),
           createCheckupHistory(),
           Container(height: 8),
@@ -61,6 +69,54 @@ class KidInfoPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget createPhotoSection() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            radius: 36,
+            backgroundColor: AppColor.profileBgColor,
+            child: Icon(LineIcons.child, color: Colors.white, size: 36),
+          ),
+          Container(width: 16),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Foto Profil', style: AppTextStyle.sectionTitle),
+              Row(
+                children: <Widget>[
+                  createProfileButton('Galeri', LineIcons.image),
+                  Container(width: 8),
+                  createProfileButton('Kamera', LineIcons.camera_retro),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  FlatButton createProfileButton(String source, IconData iconData) {
+    return FlatButton(
+      child: Row(
+        children: <Widget>[
+          Icon(iconData, color: Colors.black38, size: 18),
+          Container(width: 4),
+          Text(source, style: AppTextStyle.titleName),
+        ],
+      ),
+      padding: const EdgeInsets.all(0),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+          side: BorderSide(color: Colors.black38)),
+      onPressed: () {},
     );
   }
 
@@ -95,37 +151,126 @@ class KidInfoPage extends StatelessWidget {
     );
   }
 
-  Widget createCheckupHistory() {
+  Widget createWeightHistory() {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+          Text('Perkembangan Berat', style: AppTextStyle.sectionTitle),
           Container(height: 12),
-          Wrap(
-            spacing: 8,
-            children: <Widget>[
-              ...List.generate(
-                3,
-                (i) => FlatButton(
+          Text(
+            '(Kg)',
+            style: TextStyle(color: Colors.black38, fontSize: 10),
+          ),
+          GrowthChart(),
+        ],
+      ),
+    );
+  }
+
+  Widget createCheckupHistory() {
+    return Builder(builder: (context) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+            Container(height: 12),
+            Wrap(
+              spacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  36,
+                  (i) => FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      spacing: 2,
+                      children: <Widget>[
+                        Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
+                        Text('30 Feb 2020',
+                            style:
+                                AppTextStyle.titleName.copyWith(fontSize: 10)),
+                      ],
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                FlatButton(
+                  padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
-                    side: BorderSide(color: Colors.black),
                   ),
-                  child: Text('Periksa ke ${i + 1}'),
-                  onPressed: () {},
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {
+                    showDialog(context: context, child: KidMedicalCheckDialog());
+                  },
                 ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget createHealthCheckInfo() {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Informasi Kesehatan', style: AppTextStyle.sectionTitle),
+          Container(height: 21),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField('Panjang Badan',
+                    value: initialData.height.toString(),
+                    isEnabled: false,
+                    suffix: 'cm'),
               ),
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                color: AppColor.primaryColor,
-                child: Text('Tambah', style: TextStyle(color: Colors.white)),
-                onPressed: () {},
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField('Berat Badan',
+                    value: initialData.weight.toString(),
+                    isEnabled: false,
+                    suffix: 'Kg'),
               ),
+            ],
+          ),
+          Container(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField('Suhu Badan',
+                    value: '40', isEnabled: false, suffix: '°C'),
+              ),
+              Container(width: 8),
+              Expanded(
+                child: FormUtils.buildField('Lingkar Kepala',
+                    value: '100', isEnabled: false, suffix: 'cm'),
+              ),
+            ],
+          ),
+          Container(height: 21),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: <Widget>[
+              FormUtils.createChip('Panjang Badan Ideal'),
+              FormUtils.createChip('Berat Ideal - sesuai umur'),
+              FormUtils.createChip('Berat Ideal - sesuai tinggi'),
+              FormUtils.createChip('Gizi Baik'),
             ],
           ),
         ],

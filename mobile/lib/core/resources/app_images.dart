@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class AppImages {
   static final Widget noDataImage = SvgPicture.asset(
-    'assets/no_data.svg',
+    'assets/undraw_no_data.svg',
     height: 120,
     semanticsLabel: 'Data Kosong',
   );
