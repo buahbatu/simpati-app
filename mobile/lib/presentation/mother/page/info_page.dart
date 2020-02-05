@@ -295,8 +295,6 @@ class MotherInfoPage extends StatelessWidget {
     );
   }
 
-  
-
   Widget createPregnancyInfo() {
     return Builder(builder: (context) {
       return Container(
