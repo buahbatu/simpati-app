@@ -1,64 +1,27 @@
+import 'package:equatable/equatable.dart';
+import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/result_parser_factory.dart';
+import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
 
-class AuthInfo {
-  final String posyandu_user_id;
-  final String fullname;
-  final String handphone;
-  final String handphone_alt;
-  final String email;
-  final String address;
-  final String status;
-  final String created_at;
-  final String posyandu_id;
-  final String picture;
-  final String admin_id;
+class AuthInfo extends Equatable implements Data {
   final String token;
+  final Nurse nurse;
   final Posyandu posyandu;
 
   AuthInfo({
-    this.posyandu_user_id,
-    this.fullname,
-    this.handphone,
-    this.handphone_alt,
-    this.email,
-    this.address,
-    this.status,
-    this.created_at,
-    this.posyandu_id,
-    this.picture,
-    this.admin_id,
+    this.nurse,
     this.token,
     this.posyandu,
   });
 
   AuthInfo copyWith({
-    String posyandu_user_id,
-    String fullname,
-    String handphone,
-    String handphone_alt,
-    String email,
-    String address,
-    String status,
-    String created_at,
-    String posyandu_id,
-    String picture,
-    String admin_id,
+    String nurse,
     String token,
     Posyandu posyandu,
   }) {
     return AuthInfo(
-      posyandu_user_id: posyandu_user_id ?? this.posyandu_user_id,
-      fullname: fullname ?? this.fullname,
-      handphone: handphone ?? this.handphone,
-      handphone_alt: handphone_alt ?? this.handphone_alt,
-      email: email ?? this.email,
-      address: address ?? this.address,
-      status: status ?? this.status,
-      created_at: created_at ?? this.created_at,
-      posyandu_id: posyandu_id ?? this.posyandu_id,
-      picture: picture ?? this.picture,
-      admin_id: admin_id ?? this.admin_id,
+      nurse: nurse ?? this.nurse,
       token: token ?? this.token,
       posyandu: posyandu ?? this.posyandu,
     );
@@ -66,19 +29,9 @@ class AuthInfo {
 
   Map<String, dynamic> toMap() {
     return {
-      'posyandu_user_id': posyandu_user_id,
-      'fullname': fullname,
-      'handphone': handphone,
-      'handphone_alt': handphone_alt,
-      'email': email,
-      'address': address,
-      'status': status,
-      'created_at': created_at,
-      'posyandu_id': posyandu_id,
-      'picture': picture,
-      'admin_id': admin_id,
+      'nurse': nurse.toMap(),
       'token': token,
-      'posyandu_detail': ResultParserFactory.get().encode(posyandu),
+      'posyandu_detail': posyandu.toMap(),
     };
   }
 
@@ -86,17 +39,7 @@ class AuthInfo {
     if (map == null) return null;
 
     return AuthInfo(
-      posyandu_user_id: map['posyandu_user_id'],
-      fullname: map['fullname'],
-      handphone: map['handphone'],
-      handphone_alt: map['handphone_alt'],
-      email: map['email'],
-      address: map['address'],
-      status: map['status'],
-      created_at: map['created_at'],
-      posyandu_id: map['posyandu_id'],
-      picture: map['picture'],
-      admin_id: map['admin_id'],
+      nurse: ResultParserFactory.get().decode(map),
       token: map['token'],
       posyandu: ResultParserFactory.get().decode(map['posyandu_detail']),
     );
@@ -104,10 +47,9 @@ class AuthInfo {
 
   @override
   String toString() {
-    return 'User posyandu_user_id: $posyandu_user_id, fullname: ' +
-        '$fullname, handphone: $handphone, handphone_alt: $handphone_alt, ' +
-        'email: $email, address: $address, status: $status, created_at: ' +
-        '$created_at, posyandu_id: $posyandu_id, picture: $picture, admin_id: ' +
-        '$admin_id, token: $token, posyandu_detail: $posyandu';
+    return 'AuthInfo nurse: $nurse, token: $token, posyandu_detail: $posyandu';
   }
+
+  @override
+  List<Object> get props => [this.nurse, this.token, this.posyandu];
 }

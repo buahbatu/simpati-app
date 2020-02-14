@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:simpati/core/result/base_data.dart';
 
-class Posyandu extends Equatable {
+class Posyandu extends Equatable implements Data {
   final String posyandu_id;
   final String posyandu_name;
   final String wilayah;
@@ -67,22 +68,22 @@ class Posyandu extends Equatable {
     );
   }
 
-  static Map<String, dynamic> toMap(Posyandu data) {
+  Map<String, dynamic> toMap() {
     return {
-      'posyandu_id': data.posyandu_id,
-      'posyandu_name': data.posyandu_name,
-      'wilayah': data.wilayah,
-      'kecamatan_id': data.kecamatan_id,
-      'kab_kota_id': data.kab_kota_id,
-      'provinsi_id': data.provinsi_id,
-      'kelurahan_desa_id': data.kelurahan_desa_id,
-      'rw': data.rw,
-      'alamat_lengkap': data.alamat_lengkap,
-      'contact_name': data.contact_name,
-      'contact_handphone': data.contact_handphone,
-      'contact_email': data.contact_email,
-      'picture': data.picture,
-      'admin_id': data.admin_id,
+      'posyandu_id': posyandu_id,
+      'posyandu_name': posyandu_name,
+      'wilayah': wilayah,
+      'kecamatan_id': kecamatan_id,
+      'kab_kota_id': kab_kota_id,
+      'provinsi_id': provinsi_id,
+      'kelurahan_desa_id': kelurahan_desa_id,
+      'rw': rw,
+      'alamat_lengkap': alamat_lengkap,
+      'contact_name': contact_name,
+      'contact_handphone': contact_handphone,
+      'contact_email': contact_email,
+      'picture': picture,
+      'admin_id': admin_id,
     };
   }
 

@@ -3,7 +3,6 @@ typedef DataEncoder<T> = Map<String, dynamic> Function(T data);
 
 class ResultParserFactory {
   final Map<Type, DataParser> decodersMap = Map();
-  final Map<Type, DataEncoder> encoderMap = Map();
 
   T decode<T>(Map<String, dynamic> json) {
     try {
@@ -15,22 +14,8 @@ class ResultParserFactory {
     }
   }
 
-  Map<String, dynamic> encode<T>(T data) {
-    try {
-      final encode = encoderMap[T];
-      return encode(data);
-    } on Exception catch (_) {
-      print('encode data error');
-      return null;
-    }
-  }
-
   void registerDecoder<T>(DataParser<T> decoder) {
     decodersMap[T] = decoder;
-  }
-
-  void registerEncoder<T>(DataEncoder<T> encoder) {
-    encoderMap[T] = encoder;
   }
 
   // instance

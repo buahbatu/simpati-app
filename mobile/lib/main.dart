@@ -1,9 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:simpati/core/tools/app_loader.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/presentation/home/screen.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() {
-  runApp(MyApp());
+  // run on splash screen
+  AppLoader.get().onAppStart();
+
+  runZoned<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(MyApp());
+  }, onError: Crashlytics.instance.recordError);
 }
 
 class MyApp extends StatelessWidget {

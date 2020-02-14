@@ -1,7 +1,7 @@
-import 'package:simpati/core/result/result_parser_factory.dart';
-import 'package:simpati/domain/entity/posyandu.dart';
+import 'package:equatable/equatable.dart';
+import 'package:simpati/core/result/base_data.dart';
 
-class Nurse {
+class Nurse extends Equatable implements Data {
   final String posyandu_user_id;
   final String fullname;
   final String handphone;
@@ -13,7 +13,6 @@ class Nurse {
   final String posyandu_id;
   final String picture;
   final String admin_id;
-  final Posyandu posyandu;
 
   Nurse({
     this.posyandu_user_id,
@@ -27,7 +26,6 @@ class Nurse {
     this.posyandu_id,
     this.picture,
     this.admin_id,
-    this.posyandu,
   });
 
   Nurse copyWith({
@@ -43,7 +41,6 @@ class Nurse {
     String picture,
     String admin_id,
     String token,
-    Posyandu posyandu,
   }) {
     return Nurse(
       posyandu_user_id: posyandu_user_id ?? this.posyandu_user_id,
@@ -57,7 +54,6 @@ class Nurse {
       posyandu_id: posyandu_id ?? this.posyandu_id,
       picture: picture ?? this.picture,
       admin_id: admin_id ?? this.admin_id,
-      posyandu: posyandu ?? this.posyandu,
     );
   }
 
@@ -74,7 +70,6 @@ class Nurse {
       'posyandu_id': posyandu_id,
       'picture': picture,
       'admin_id': admin_id,
-      'posyandu_detail': ResultParserFactory.get().encode(posyandu),
     };
   }
 
@@ -93,7 +88,6 @@ class Nurse {
       posyandu_id: map['posyandu_id'],
       picture: map['picture'],
       admin_id: map['admin_id'],
-      posyandu: ResultParserFactory.get().decode(map['posyandu_detail']),
     );
   }
 
@@ -103,6 +97,22 @@ class Nurse {
         '$fullname, handphone: $handphone, handphone_alt: $handphone_alt, ' +
         'email: $email, address: $address, status: $status, created_at: ' +
         '$created_at, posyandu_id: $posyandu_id, picture: $picture, admin_id: ' +
-        '$admin_id, posyandu_detail: $posyandu';
+        '$admin_id';
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [
+        this.posyandu_user_id,
+        this.fullname,
+        this.handphone,
+        this.handphone_alt,
+        this.email,
+        this.address,
+        this.status,
+        this.created_at,
+        this.posyandu_id,
+        this.picture,
+        this.admin_id,
+      ];
 }
