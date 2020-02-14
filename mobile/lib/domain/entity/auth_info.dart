@@ -1,7 +1,7 @@
 import 'package:simpati/core/result/result_parser_factory.dart';
-import 'package:simpati/data/model/posyandu.dart';
+import 'package:simpati/domain/entity/posyandu.dart';
 
-class User{
+class AuthInfo {
   final String posyandu_user_id;
   final String fullname;
   final String handphone;
@@ -16,7 +16,7 @@ class User{
   final String token;
   final Posyandu posyandu;
 
-  User({
+  AuthInfo({
     this.posyandu_user_id,
     this.fullname,
     this.handphone,
@@ -32,7 +32,7 @@ class User{
     this.posyandu,
   });
 
-  User copyWith({
+  AuthInfo copyWith({
     String posyandu_user_id,
     String fullname,
     String handphone,
@@ -47,7 +47,7 @@ class User{
     String token,
     Posyandu posyandu,
   }) {
-    return User(
+    return AuthInfo(
       posyandu_user_id: posyandu_user_id ?? this.posyandu_user_id,
       fullname: fullname ?? this.fullname,
       handphone: handphone ?? this.handphone,
@@ -82,10 +82,10 @@ class User{
     };
   }
 
-  static User fromMap(Map<String, dynamic> map) {
+  static AuthInfo fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return User(
+    return AuthInfo(
       posyandu_user_id: map['posyandu_user_id'],
       fullname: map['fullname'],
       handphone: map['handphone'],
