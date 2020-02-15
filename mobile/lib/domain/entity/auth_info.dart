@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
-import 'package:simpati/core/result/result_parser_factory.dart';
+import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
 
@@ -39,9 +39,9 @@ class AuthInfo extends Equatable implements Data {
     if (map == null) return null;
 
     return AuthInfo(
-      nurse: ResultParserFactory.get().decode(map),
+      nurse: DataParserFactory.get().decode(map),
       token: map['token'],
-      posyandu: ResultParserFactory.get().decode(map['posyandu_detail']),
+      posyandu: DataParserFactory.get().decode(map['posyandu_detail']),
     );
   }
 

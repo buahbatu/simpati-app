@@ -7,10 +7,10 @@ import 'package:simpati/presentation/home/screen.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() {
-  // run on splash screen
-  AppLoader.get().onAppStart();
-
   runZoned<Future<void>>(() async {
+    // run on splash screen
+    await AppLoader.get().onAppStart();
+
     WidgetsFlutterBinding.ensureInitialized();
     runApp(MyApp());
   }, onError: Crashlytics.instance.recordError);

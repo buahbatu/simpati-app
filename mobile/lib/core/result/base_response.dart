@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
-import 'package:simpati/core/result/result_parser_factory.dart';
+import 'package:simpati/core/tools/data_parser_factory.dart';
 
 class BaseResponse<T extends Data> extends Equatable implements Data {
   final Map<String, dynamic> rawResponse;
@@ -9,6 +9,10 @@ class BaseResponse<T extends Data> extends Equatable implements Data {
   final T data;
 
   BaseResponse(this.rawResponse, this.status, this.message, this.data);
+
+  factory BaseResponse.fromPref(T data) {
+    return BaseResponse({}, 'success', 'loaded', data);
+  }
 
   bool isSuccess() => data != null;
 
@@ -27,7 +31,7 @@ class BaseResponse<T extends Data> extends Equatable implements Data {
       map,
       map['status'],
       map['message'],
-      ResultParserFactory.get().decode(map['data']),
+      DataParserFactory.get().decode(map['data']),
     );
   }
 

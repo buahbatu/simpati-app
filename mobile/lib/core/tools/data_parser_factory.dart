@@ -1,6 +1,6 @@
 typedef DataParser<T> = T Function(Map<String, dynamic> json);
 
-class ResultParserFactory {
+class DataParserFactory {
   final Map<Type, DataParser> decodersMap = Map();
 
   T decode<T>(Map<String, dynamic> json) {
@@ -18,6 +18,6 @@ class ResultParserFactory {
   }
 
   // instance
-  static ResultParserFactory _instance = ResultParserFactory();
-  static ResultParserFactory get() => _instance;
+  static DataParserFactory _instance = DataParserFactory();
+  static DataParserFactory get() => _instance;
 }

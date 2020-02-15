@@ -2,74 +2,63 @@ import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 
 class Nurse extends Equatable implements Data {
-  final String posyandu_user_id;
+  final String id;
   final String fullname;
   final String handphone;
-  final String handphone_alt;
   final String email;
   final String address;
   final String status;
-  final String created_at;
-  final String posyandu_id;
+  final String createdAt;
+  final String posyanduId;
   final String picture;
-  final String admin_id;
 
   Nurse({
-    this.posyandu_user_id,
+    this.id,
     this.fullname,
     this.handphone,
-    this.handphone_alt,
     this.email,
     this.address,
     this.status,
-    this.created_at,
-    this.posyandu_id,
+    this.createdAt,
+    this.posyanduId,
     this.picture,
-    this.admin_id,
   });
 
   Nurse copyWith({
-    String posyandu_user_id,
+    String id,
     String fullname,
     String handphone,
-    String handphone_alt,
     String email,
     String address,
     String status,
-    String created_at,
-    String posyandu_id,
+    String createdAt,
+    String posyanduId,
     String picture,
-    String admin_id,
-    String token,
   }) {
     return Nurse(
-      posyandu_user_id: posyandu_user_id ?? this.posyandu_user_id,
+      id: id ?? this.id,
       fullname: fullname ?? this.fullname,
       handphone: handphone ?? this.handphone,
-      handphone_alt: handphone_alt ?? this.handphone_alt,
       email: email ?? this.email,
       address: address ?? this.address,
       status: status ?? this.status,
-      created_at: created_at ?? this.created_at,
-      posyandu_id: posyandu_id ?? this.posyandu_id,
+      createdAt: createdAt ?? this.createdAt,
+      posyanduId: posyanduId ?? this.posyanduId,
       picture: picture ?? this.picture,
-      admin_id: admin_id ?? this.admin_id,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'posyandu_user_id': posyandu_user_id,
+      'id': id,
       'fullname': fullname,
       'handphone': handphone,
-      'handphone_alt': handphone_alt,
       'email': email,
       'address': address,
       'status': status,
-      'created_at': created_at,
-      'posyandu_id': posyandu_id,
+      'createdAt': createdAt,
+      'posyanduId': posyanduId,
       'picture': picture,
-      'admin_id': admin_id,
     };
   }
 
@@ -77,42 +66,36 @@ class Nurse extends Equatable implements Data {
     if (map == null) return null;
 
     return Nurse(
-      posyandu_user_id: map['posyandu_user_id'],
+      id: map['id'],
       fullname: map['fullname'],
       handphone: map['handphone'],
-      handphone_alt: map['handphone_alt'],
       email: map['email'],
       address: map['address'],
       status: map['status'],
-      created_at: map['created_at'],
-      posyandu_id: map['posyandu_id'],
+      createdAt: map['createdAt'],
+      posyanduId: map['posyanduId'],
       picture: map['picture'],
-      admin_id: map['admin_id'],
     );
   }
 
   @override
   String toString() {
-    return 'User posyandu_user_id: $posyandu_user_id, fullname: ' +
-        '$fullname, handphone: $handphone, handphone_alt: $handphone_alt, ' +
-        'email: $email, address: $address, status: $status, created_at: ' +
-        '$created_at, posyandu_id: $posyandu_id, picture: $picture, admin_id: ' +
-        '$admin_id';
+    return 'User id: $id, fullname: ' +
+        '$fullname, handphone: $handphone, email: $email, address: $address, ' +
+        'status: $status, createdAt: ' +
+        '$createdAt, posyanduId: $posyanduId, picture: $picture';
   }
 
   @override
-  // TODO: implement props
   List<Object> get props => [
-        this.posyandu_user_id,
+        this.id,
         this.fullname,
         this.handphone,
-        this.handphone_alt,
         this.email,
         this.address,
         this.status,
-        this.created_at,
-        this.posyandu_id,
+        this.createdAt,
+        this.posyanduId,
         this.picture,
-        this.admin_id,
       ];
 }
