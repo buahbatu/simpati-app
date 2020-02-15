@@ -2,19 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 
+typedef StringCallback = void Function(String data);
+
+class NextForm {
+  final FocusScopeNode scopeNode;
+  final FocusNode nextNode;
+
+  NextForm(this.scopeNode, this.nextNode);
+}
+
 class FormUtils {
   static TextFormField buildField(
     String label, {
     String value,
     bool isEnabled = true,
     String suffix,
+    TextInputType inputType,
+    bool obscureText = false,
+    NextForm nextForm,
+    FocusNode focusNode,
+    StringCallback onChanged,
+    String errorText,
   }) {
+    final inputAction =
+        nextForm == null ? TextInputAction.done : TextInputAction.next;
     return TextFormField(
       maxLines: 1,
-      textInputAction: TextInputAction.next,
+      textInputAction: inputAction,
       enabled: isEnabled,
       initialValue: value,
+      keyboardType: inputType,
+      focusNode: focusNode,
+      onFieldSubmitted: (text) {
+        if (nextForm != null) {
+          nextForm.scopeNode.requestFocus(nextForm.nextNode);
+        }
+      },
+      onChanged: onChanged,
+      obscureText: obscureText,
       decoration: InputDecoration(
+        errorText: errorText,
         labelText: label,
         alignLabelWithHint: true,
         isDense: true,
@@ -38,3 +65,5 @@ class FormUtils {
     );
   }
 }
+
+extension on TextFormField {}

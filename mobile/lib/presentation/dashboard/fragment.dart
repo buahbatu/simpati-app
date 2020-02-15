@@ -9,6 +9,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/article/fragment/item/article_card.dart';
+import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
 import 'package:simpati/presentation/dashboard/item/card_data.dart';
@@ -43,11 +44,7 @@ class _HomeScreen extends StatelessWidget {
   Widget createAppBar() {
     return BlocBuilder<AppBloc, AppState>(
       builder: (ctx, state) {
-        final userName = 'Khusnaini Aghniya';
         final greeting = 'Selamat Datang!';
-        final posyanduName = 'Posyandu Kasih Ibu';
-
-        print(state);
 
         return AppBar(
           elevation: 0,
@@ -76,14 +73,22 @@ class _HomeScreen extends StatelessWidget {
               onPressed: () => ctx.showAppInfo(
                 nurse: state?.nurse,
                 posyandu: state?.posyandu,
-                onLoginClick: () {},
-                onLogoutClick: () {},
+                onLoginClick: () => onLoginClick(ctx),
+                onLogoutClick: () {
+                  BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+                },
               ),
             )
           ],
         );
       },
     );
+  }
+
+  void onLoginClick(BuildContext context) async {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => AuthScreen(),
+    ));
   }
 
   @override
