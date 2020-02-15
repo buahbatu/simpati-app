@@ -12,7 +12,7 @@ class NurseRepositoryPref implements INurseRepository {
   @override
   Future<BaseResponse<Nurse>> getProfile() async {
     final Nurse nurse = await appPreferance.loadData(_key);
-    final BaseResponse response = BaseResponse.fromPref(nurse);
+    final response = BaseResponse.fromPref(nurse);
     return response;
   }
 

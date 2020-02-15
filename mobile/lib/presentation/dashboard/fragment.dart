@@ -53,14 +53,14 @@ class _HomeScreen extends StatelessWidget {
             direction: Axis.vertical,
             spacing: 2,
             children: <Widget>[
-              if (state != null)
+              if (state.nurse != null)
                 Text('Hi ${state.nurse.fullname},',
                     style: AppTextStyle.titleName),
               Text(
                 greeting,
                 style: AppTextStyle.title.copyWith(
                   color: AppColor.primaryColor,
-                  fontSize: state != null ? 14 : 18,
+                  fontSize: state.nurse != null ? 14 : 18,
                 ),
               ),
             ],
@@ -86,9 +86,19 @@ class _HomeScreen extends StatelessWidget {
   }
 
   void onLoginClick(BuildContext context) async {
-    Navigator.of(context).push(MaterialPageRoute(
+    final result = await Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => AuthScreen(),
     ));
+    if (result == true) {
+      Navigator.of(context).pop();
+      BlocProvider.of<AppBloc>(context).add(AppEvent.AppLogin);
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login Berhasil'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
   }
 
   @override

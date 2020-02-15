@@ -22,10 +22,11 @@ class AppState extends Equatable {
   List<Object> get props => [nurse, posyandu];
 }
 
-enum AppEvent { AppLoaded, AppLogout }
+enum AppEvent { AppLoaded, AppLogin, AppLogout }
 
 class AppBloc extends Bloc<AppEvent, AppState> {
-  AppState state;
+  AppState state = AppState();
+
   final NurseRepositoryPref nurseRepositoryPref;
 
   AppBloc({NurseRepositoryPref nurseRepositoryPref})
@@ -37,6 +38,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event == AppEvent.AppLoaded) await onAppLoaded();
+    if (event == AppEvent.AppLogin) await onAppLogin();
     if (event == AppEvent.AppLogout) await onAppLogout();
 
     yield state;
@@ -45,6 +47,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   void onAppLoaded() async {
     final response = await nurseRepositoryPref.getProfile();
     state = state.copyWith(nurse: response.data);
+  }
+
+  Future<void> onAppLogin() async {
+    await AppPreferance.get().clearPref();
+    state = AppState();
   }
 
   Future<void> onAppLogout() async {

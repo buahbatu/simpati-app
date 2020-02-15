@@ -51,7 +51,7 @@ class AuthScreen extends StatelessWidget {
               return BlocListener<AuthBloc, AuthState>(
                 listener: (prev, next) {
                   if (next == AuthState.AuthSuccess) {
-                    Navigator.of(ctx).pop();
+                    Navigator.of(ctx).pop(true);
                   } else if (next == AuthState.AuthError) {
                     final message = BlocProvider.of<AuthBloc>(ctx).errorMessage;
                     Scaffold.of(ctx)
@@ -76,7 +76,6 @@ class AuthScreen extends StatelessWidget {
           ? null
           : () {
               FocusScope.of(ctx).unfocus();
-              print('there');
               BlocProvider.of<AuthBloc>(ctx).add(AuthEvent());
             },
       child: state == AuthState.Loading

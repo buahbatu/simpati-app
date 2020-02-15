@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 
@@ -73,9 +72,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<bool> doLogin() async {
-    // await _authRepository.login(email, password);
-    await Future.delayed(Duration(seconds: 3));
-    return false;
+    final result = await _authRepository.login(email, password);
+    return result.isSuccess();
   }
 
   bool validateEmail(String value) {
