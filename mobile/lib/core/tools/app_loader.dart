@@ -1,10 +1,10 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:simpati/domain/entity/entity_register.dart';
 
 class AppLoader {
   Future<void> onAppStart({bool isDebug = false}) async {
-    // register DI for json encoder decoder
+    // register DI for json decoder
     EntityRegister.get().register();
 
     // Set `enableInDevMode` to true to see reports while in debug mode
@@ -16,8 +16,6 @@ class AppLoader {
     // Pass all uncaught errors from the framework to Crashlytics.
     FlutterError.onError = Crashlytics.instance.recordFlutterError;
   }
-
-  void onAppLoaded() {}
 
   // instance
   static AppLoader _instance = AppLoader();
