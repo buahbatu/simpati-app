@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:native_color/native_color.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/article/fragment/item/article_card.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
@@ -40,54 +40,65 @@ class DashboardFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createAppBar(BuildContext context) {
-    final userName = 'Khusnaini Aghniya';
-    final greeting = 'Selamat Datang!';
-    final posyanduName = 'Posyandu Kasih Ibu';
+  Widget createAppBar() {
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (ctx, state) {
+        final userName = 'Khusnaini Aghniya';
+        final greeting = 'Selamat Datang!';
+        final posyanduName = 'Posyandu Kasih Ibu';
 
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      title: Wrap(
-        direction: Axis.vertical,
-        spacing: 2,
-        children: <Widget>[
-          Text('Hi $userName,', style: AppTextStyle.titleName),
-          Text(
-            greeting,
-            style: AppTextStyle.title.copyWith(
+        print(state);
+
+        return AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Wrap(
+            direction: Axis.vertical,
+            spacing: 2,
+            children: <Widget>[
+              if (state != null)
+                Text('Hi ${state.nurse.fullname},',
+                    style: AppTextStyle.titleName),
+              Text(
+                greeting,
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: state != null ? 14 : 18,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: AppColor.appBackground,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(LineIcons.info),
               color: AppColor.primaryColor,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-      backgroundColor: AppColor.appBackground,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(LineIcons.info),
-          color: AppColor.primaryColor,
-          onPressed: () => context.showAppInfo(
-            userName: userName,
-            posyanduName: posyanduName,
-            onLoginClick: () {},
-            onLogoutClick: () {},
-          ),
-        )
-      ],
+              onPressed: () => ctx.showAppInfo(
+                nurse: state?.nurse,
+                posyandu: state?.posyandu,
+                onLoginClick: () {},
+                onLogoutClick: () {},
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
-    return BlocProvider(
-      create: (ctx) => DashboardBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (ctx) => AppBloc()),
+        BlocProvider(create: (ctx) => DashboardBloc()),
+      ],
       child: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
-              createAppBar(context),
+              createAppBar(),
               Expanded(child: createContent(context)),
             ],
           ),

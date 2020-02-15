@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/domain/entity/nurse.dart';
+import 'package:simpati/domain/entity/posyandu.dart';
 
 extension MessageUtils on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
@@ -15,12 +17,13 @@ extension MessageUtils on BuildContext {
   }
 
   void showAppInfo({
-    String userName,
-    String posyanduName,
+    Nurse nurse,
+    Posyandu posyandu,
     VoidCallback onLoginClick,
     VoidCallback onLogoutClick,
-    bool isLogin = true,
   }) async {
+    bool isLogin = nurse != null && posyandu != null;
+
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String name = packageInfo.version;
 
@@ -33,8 +36,9 @@ extension MessageUtils on BuildContext {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(posyanduName ?? '', style: AppTextStyle.title.copyWith()),
-            Text(userName ?? '',
+            Text(posyandu?.posyandu_name ?? '',
+                style: AppTextStyle.title.copyWith()),
+            Text(nurse?.fullname ?? '',
                 style: AppTextStyle.caption.copyWith(color: Colors.white)),
           ],
         ),

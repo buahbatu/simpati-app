@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (ctx) => AppBloc(),
+      create: (ctx) => AppBloc()..add(AppEvent.AppLoaded),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(primaryColor: AppColor.primaryColor),
