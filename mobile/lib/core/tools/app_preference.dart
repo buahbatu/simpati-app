@@ -78,6 +78,6 @@ class AppPreferance {
   }
 
   // instance
-  static const AppPreferance instance = const AppPreferance();
-  static AppPreferance get() => instance;
+  static const AppPreferance _instance = const AppPreferance();
+  static AppPreferance get() => _instance;
 }

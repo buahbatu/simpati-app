@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 
@@ -8,7 +9,7 @@ class Nurse extends Equatable implements Data {
   final String email;
   final String address;
   final String status;
-  final String createdAt;
+  final DateTime createdAt;
   final String posyanduId;
   final String picture;
 
@@ -72,7 +73,9 @@ class Nurse extends Equatable implements Data {
       email: map['email'],
       address: map['address'],
       status: map['status'],
-      createdAt: map['createdAt'],
+      createdAt: DateTime.fromMillisecondsSinceEpoch(
+        (map['createdAt'] as Timestamp).millisecondsSinceEpoch,
+      ),
       posyanduId: map['posyanduId'],
       picture: map['picture'],
     );

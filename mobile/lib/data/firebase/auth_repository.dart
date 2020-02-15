@@ -19,7 +19,7 @@ class AuthRepository implements IAuthRepository {
       );
       return BaseResponse(
         null,
-        Status.failed,
+        Status.success,
         'Login Berhasil',
         Nurse(id: result.user.uid, email: result.user.email),
       );
@@ -61,7 +61,8 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<BaseResponse<Data>> logout() {
-    throw UnimplementedError();
+  Future<BaseResponse<Data>> logout() async {
+    await _auth.signOut();
+    return BaseResponse(null, Status.success, 'logout Berhasil', null);
   }
 }

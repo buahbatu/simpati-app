@@ -5,20 +5,21 @@ import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
 
 class NurseRepositoryPref implements INurseRepository {
-  final AppPreferance appPreferance;
+  final AppPreferance _appPreferance;
 
-  NurseRepositoryPref({this.appPreferance = AppPreferance.instance});
+  NurseRepositoryPref({AppPreferance appPreferance})
+      : this._appPreferance = appPreferance ?? AppPreferance.get();
 
   @override
   Future<BaseResponse<Nurse>> getProfile({String uid}) async {
-    final Nurse nurse = await appPreferance.loadData(_key);
+    final Nurse nurse = await _appPreferance.loadData(_key);
     final response = BaseResponse.fromPref(nurse);
     return response;
   }
 
   @override
   Future<BaseResponse<Data>> saveProfile(Nurse nurse) async {
-    await appPreferance.saveData(_key, nurse);
+    await _appPreferance.saveData(_key, nurse);
     final BaseResponse response = BaseResponse.fromPref(nurse);
     return response;
   }

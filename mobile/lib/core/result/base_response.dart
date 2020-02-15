@@ -26,7 +26,7 @@ class BaseResponse<T extends Data> extends Equatable implements Data {
     return BaseResponse(rawResponse, Status.failed, message, null);
   }
 
-  bool isSuccess() => data != null;
+  bool isSuccess() => status == Status.success;
 
   Map<String, dynamic> toMap() {
     return {

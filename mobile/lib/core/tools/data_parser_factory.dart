@@ -8,7 +8,6 @@ class DataParserFactory {
       final decoder = decodersMap[T];
       return decoder(json);
     } on Exception catch (_) {
-      print('parsing data error');
       return null;
     }
   }
