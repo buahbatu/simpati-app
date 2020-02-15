@@ -1,5 +1,4 @@
 typedef DataParser<T> = T Function(Map<String, dynamic> json);
-typedef DataEncoder<T> = Map<String, dynamic> Function(T data);
 
 class ResultParserFactory {
   final Map<Type, DataParser> decodersMap = Map();
