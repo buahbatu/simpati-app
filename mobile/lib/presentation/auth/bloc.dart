@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 
@@ -14,18 +15,29 @@ class AuthEmailPasswordEvent extends AuthEvent {
   AuthEmailPasswordEvent(this.data);
 }
 
-enum AuthState { NoError, EmailEmpty, EmailError, PasswordEmpty, PasswordError }
+enum AuthState {
+  Init,
+  EmailEmpty,
+  EmailError,
+  PasswordEmpty,
+  PasswordError,
+  Loading,
+  AuthSuccess,
+  AuthError,
+}
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthRepository _authRepository;
   String email;
   String password;
 
+  String errorMessage;
+
   AuthBloc({IAuthRepository authRepository})
       : this._authRepository = authRepository ?? AuthRepository();
 
   @override
-  AuthState get initialState => AuthState.NoError;
+  AuthState get initialState => AuthState.Init;
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
@@ -34,10 +46,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is AuthEmailPasswordEvent) {
       password = event.data;
     } else {
-      if (email.isEmpty) {
+      if (email == null || email.isEmpty) {
         yield AuthState.EmailEmpty;
         return;
-      } else if (password.isEmpty) {
+      } else if (password == null || password.isEmpty) {
         yield AuthState.PasswordEmpty;
         return;
       } else if (!validateEmail(email)) {
@@ -48,22 +60,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      yield AuthState.NoError;
-      await doLogin();
-    }
+      yield AuthState.Loading;
+      final isSuccess = await doLogin();
 
-    print('data: $email, $password');
+      if (isSuccess) {
+        yield AuthState.AuthSuccess;
+      } else {
+        errorMessage = 'Email atau password tidak cocok silahkan coba lagi';
+        yield AuthState.AuthError;
+      }
+    }
   }
 
-  void doLogin() async {
-    await _authRepository.login(email, password);
+  Future<bool> doLogin() async {
+    // await _authRepository.login(email, password);
+    await Future.delayed(Duration(seconds: 3));
+    return false;
   }
 
   bool validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = new RegExp(pattern);
-    print('match: ${regex.hasMatch(value)}');
     return regex.hasMatch(value);
   }
 

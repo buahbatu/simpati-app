@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/presentation/auth/bloc.dart';
 
 class AuthScreen extends StatelessWidget {
-  final FocusNode nextNode = FocusNode();
-
   Widget createAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
@@ -21,15 +20,12 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (ctx) => AuthBloc(),
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (prev, next) {},
-        child: Scaffold(
-          appBar: createAppBar(context),
-          backgroundColor: AppColor.appBackground,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: getContents(),
-          ),
+      child: Scaffold(
+        appBar: createAppBar(context),
+        backgroundColor: AppColor.appBackground,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: getContents(),
         ),
       ),
     );
@@ -50,19 +46,43 @@ class AuthScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
         child: Container(
           width: double.infinity,
-          child: Builder(
-            builder: (ctx) => FlatButton(
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
-              onPressed: () {
-                BlocProvider.of<AuthBloc>(ctx).add(AuthEvent());
-              },
-              child: Text('Login'),
-            ),
+          child: BlocBuilder<AuthBloc, AuthState>(
+            builder: (ctx, state) {
+              return BlocListener<AuthBloc, AuthState>(
+                listener: (prev, next) {
+                  if (next == AuthState.AuthSuccess) {
+                    Navigator.of(ctx).pop();
+                  } else if (next == AuthState.AuthError) {
+                    final message = BlocProvider.of<AuthBloc>(ctx).errorMessage;
+                    Scaffold.of(ctx)
+                        .showSnackBar(SnackBar(content: Text(message)));
+                  }
+                },
+                child: getButton(state, ctx),
+              );
+            },
           ),
         ),
       )
     ];
+  }
+
+  FlatButton getButton(AuthState state, BuildContext ctx) {
+    return FlatButton(
+      color: AppColor.primaryColor,
+      disabledColor: AppColor.profileBgColor,
+      textColor: Colors.white,
+      onPressed: state == AuthState.Loading
+          ? null
+          : () {
+              FocusScope.of(ctx).unfocus();
+              print('there');
+              BlocProvider.of<AuthBloc>(ctx).add(AuthEvent());
+            },
+      child: state == AuthState.Loading
+          ? SpinKitWave(color: Colors.white, size: 18.0)
+          : Text('Login'),
+    );
   }
 
   String getEmailErrorText(AuthState state) {
@@ -84,6 +104,8 @@ class AuthScreen extends StatelessWidget {
   }
 
   List<Widget> getForms() {
+    final FocusNode nextNode = FocusNode();
+
     return [
       Text('Login', style: AppTextStyle.registerTitle),
       Text(
@@ -96,6 +118,7 @@ class AuthScreen extends StatelessWidget {
         return FormUtils.buildField(
           'Email',
           inputType: TextInputType.emailAddress,
+          isEnabled: state != AuthState.Loading,
           nextForm: NextForm(FocusScope.of(context), nextNode),
           onChanged: (data) => bloc.add(AuthEmailFillEvent(data)),
           errorText: getEmailErrorText(state),
@@ -107,6 +130,7 @@ class AuthScreen extends StatelessWidget {
         return FormUtils.buildField(
           'Password',
           obscureText: true,
+          isEnabled: state != AuthState.Loading,
           focusNode: nextNode,
           onChanged: (data) => bloc.add(AuthEmailPasswordEvent(data)),
           errorText: getPasswordErrorText(state),

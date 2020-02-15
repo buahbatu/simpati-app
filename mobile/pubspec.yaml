@@ -40,6 +40,7 @@ dependencies:
   line_icons: ^0.2.0
   flutter_svg: ^0.17.1
   google_fonts: ^0.2.0
+  flutter_spinkit: "^4.1.1"
   bottom_navy_bar: ^5.2.2
 
 dev_dependencies:
