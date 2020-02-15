@@ -36,9 +36,9 @@ extension MessageUtils on BuildContext {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(posyandu?.posyandu_name ?? '',
+            Text(posyandu?.fullName ?? '',
                 style: AppTextStyle.title.copyWith()),
-            Text(nurse?.fullname ?? '',
+            Text(nurse?.fullName ?? '',
                 style: AppTextStyle.caption.copyWith(color: Colors.white)),
           ],
         ),

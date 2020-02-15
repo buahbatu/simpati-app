@@ -10,7 +10,7 @@ class NurseRepositoryPref implements INurseRepository {
   NurseRepositoryPref({this.appPreferance = AppPreferance.instance});
 
   @override
-  Future<BaseResponse<Nurse>> getProfile() async {
+  Future<BaseResponse<Nurse>> getProfile({String uid}) async {
     final Nurse nurse = await appPreferance.loadData(_key);
     final response = BaseResponse.fromPref(nurse);
     return response;

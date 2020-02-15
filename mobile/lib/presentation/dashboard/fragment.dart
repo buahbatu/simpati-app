@@ -54,7 +54,7 @@ class _HomeScreen extends StatelessWidget {
             spacing: 2,
             children: <Widget>[
               if (state.nurse != null)
-                Text('Hi ${state.nurse.fullname},',
+                Text('Hi ${state.nurse.fullName},',
                     style: AppTextStyle.titleName),
               Text(
                 greeting,

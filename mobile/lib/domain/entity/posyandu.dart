@@ -2,14 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 
 class Posyandu extends Equatable implements Data {
-  final String posyandu_id;
-  final String posyandu_name;
-  final String wilayah;
-  final String kecamatan_id;
-  final String kab_kota_id;
-  final String provinsi_id;
-  final String kelurahan_desa_id;
-  final String rw;
+  final String id;
+  final String fullName;
   final String alamat_lengkap;
   final String contact_name;
   final String contact_handphone;
@@ -18,14 +12,8 @@ class Posyandu extends Equatable implements Data {
   final String admin_id;
 
   Posyandu({
-    this.posyandu_id,
-    this.posyandu_name,
-    this.wilayah,
-    this.kecamatan_id,
-    this.kab_kota_id,
-    this.provinsi_id,
-    this.kelurahan_desa_id,
-    this.rw,
+    this.id,
+    this.fullName,
     this.alamat_lengkap,
     this.contact_name,
     this.contact_handphone,
@@ -35,8 +23,8 @@ class Posyandu extends Equatable implements Data {
   });
 
   Posyandu copyWith({
-    String posyandu_id,
-    String posyandu_name,
+    String id,
+    String fullName,
     String wilayah,
     String kecamatan_id,
     String kab_kota_id,
@@ -51,14 +39,8 @@ class Posyandu extends Equatable implements Data {
     String admin_id,
   }) {
     return Posyandu(
-      posyandu_id: posyandu_id ?? this.posyandu_id,
-      posyandu_name: posyandu_name ?? this.posyandu_name,
-      wilayah: wilayah ?? this.wilayah,
-      kecamatan_id: kecamatan_id ?? this.kecamatan_id,
-      kab_kota_id: kab_kota_id ?? this.kab_kota_id,
-      provinsi_id: provinsi_id ?? this.provinsi_id,
-      kelurahan_desa_id: kelurahan_desa_id ?? this.kelurahan_desa_id,
-      rw: rw ?? this.rw,
+      id: id ?? this.id,
+      fullName: fullName ?? this.fullName,
       alamat_lengkap: alamat_lengkap ?? this.alamat_lengkap,
       contact_name: contact_name ?? this.contact_name,
       contact_handphone: contact_handphone ?? this.contact_handphone,
@@ -70,14 +52,8 @@ class Posyandu extends Equatable implements Data {
 
   Map<String, dynamic> toMap() {
     return {
-      'posyandu_id': posyandu_id,
-      'posyandu_name': posyandu_name,
-      'wilayah': wilayah,
-      'kecamatan_id': kecamatan_id,
-      'kab_kota_id': kab_kota_id,
-      'provinsi_id': provinsi_id,
-      'kelurahan_desa_id': kelurahan_desa_id,
-      'rw': rw,
+      'id': id,
+      'fullName': fullName,
       'alamat_lengkap': alamat_lengkap,
       'contact_name': contact_name,
       'contact_handphone': contact_handphone,
@@ -91,14 +67,8 @@ class Posyandu extends Equatable implements Data {
     if (map == null) return null;
 
     return Posyandu(
-      posyandu_id: map['posyandu_id'],
-      posyandu_name: map['posyandu_name'],
-      wilayah: map['wilayah'],
-      kecamatan_id: map['kecamatan_id'],
-      kab_kota_id: map['kab_kota_id'],
-      provinsi_id: map['provinsi_id'],
-      kelurahan_desa_id: map['kelurahan_desa_id'],
-      rw: map['rw'],
+      id: map['id'],
+      fullName: map['fullName'],
       alamat_lengkap: map['alamat_lengkap'],
       contact_name: map['contact_name'],
       contact_handphone: map['contact_handphone'],
@@ -110,14 +80,8 @@ class Posyandu extends Equatable implements Data {
 
   @override
   List<Object> get props => [
-        this.posyandu_id,
-        this.posyandu_name,
-        this.wilayah,
-        this.kecamatan_id,
-        this.kab_kota_id,
-        this.provinsi_id,
-        this.kelurahan_desa_id,
-        this.rw,
+        this.id,
+        this.fullName,
         this.alamat_lengkap,
         this.contact_name,
         this.contact_handphone,

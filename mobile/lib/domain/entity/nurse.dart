@@ -3,8 +3,8 @@ import 'package:simpati/core/result/base_data.dart';
 
 class Nurse extends Equatable implements Data {
   final String id;
-  final String fullname;
-  final String handphone;
+  final String fullName;
+  final String phone;
   final String email;
   final String address;
   final String status;
@@ -14,8 +14,8 @@ class Nurse extends Equatable implements Data {
 
   Nurse({
     this.id,
-    this.fullname,
-    this.handphone,
+    this.fullName,
+    this.phone,
     this.email,
     this.address,
     this.status,
@@ -26,7 +26,7 @@ class Nurse extends Equatable implements Data {
 
   Nurse copyWith({
     String id,
-    String fullname,
+    String fullName,
     String handphone,
     String email,
     String address,
@@ -37,8 +37,8 @@ class Nurse extends Equatable implements Data {
   }) {
     return Nurse(
       id: id ?? this.id,
-      fullname: fullname ?? this.fullname,
-      handphone: handphone ?? this.handphone,
+      fullName: fullName ?? this.fullName,
+      phone: handphone ?? this.phone,
       email: email ?? this.email,
       address: address ?? this.address,
       status: status ?? this.status,
@@ -51,8 +51,8 @@ class Nurse extends Equatable implements Data {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'fullname': fullname,
-      'handphone': handphone,
+      'fullname': fullName,
+      'handphone': phone,
       'email': email,
       'address': address,
       'status': status,
@@ -67,8 +67,8 @@ class Nurse extends Equatable implements Data {
 
     return Nurse(
       id: map['id'],
-      fullname: map['fullname'],
-      handphone: map['handphone'],
+      fullName: map['fullName'],
+      phone: map['handphone'],
       email: map['email'],
       address: map['address'],
       status: map['status'],
@@ -80,8 +80,8 @@ class Nurse extends Equatable implements Data {
 
   @override
   String toString() {
-    return 'User id: $id, fullname: ' +
-        '$fullname, handphone: $handphone, email: $email, address: $address, ' +
+    return 'User id: $id, fullName: ' +
+        '$fullName, handphone: $phone, email: $email, address: $address, ' +
         'status: $status, createdAt: ' +
         '$createdAt, posyanduId: $posyanduId, picture: $picture';
   }
@@ -89,8 +89,8 @@ class Nurse extends Equatable implements Data {
   @override
   List<Object> get props => [
         this.id,
-        this.fullname,
-        this.handphone,
+        this.fullName,
+        this.phone,
         this.email,
         this.address,
         this.status,
