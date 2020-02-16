@@ -15,8 +15,9 @@ class PosyanduRepositoryFirebase implements IPosyanduRepository {
         this._parserFactory = parserFactory ?? DataParserFactory.get();
 
   @override
-  Future<BaseResponse<Posyandu>> getPosyandu({String uid}) async {
-    final document = await _firestore.collection(_key).document(uid).get();
+  Future<BaseResponse<Posyandu>> getPosyandu({String posyanduId}) async {
+    final document =
+        await _firestore.collection(_key).document(posyanduId).get();
     final Posyandu posyandu = _parserFactory.decode(document.data);
     return BaseResponse<Posyandu>(
       document.data,

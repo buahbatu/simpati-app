@@ -50,12 +50,13 @@ class AuthScreen extends StatelessWidget {
             builder: (ctx, state) {
               return BlocListener<AuthBloc, AuthState>(
                 listener: (prev, next) {
+                  final message = BlocProvider.of<AuthBloc>(ctx).message;
                   if (next == AuthState.AuthSuccess) {
-                    Navigator.of(ctx).pop(true);
+                    Navigator.of(ctx).pop(message);
                   } else if (next == AuthState.AuthError) {
-                    final message = BlocProvider.of<AuthBloc>(ctx).errorMessage;
-                    Scaffold.of(ctx)
-                        .showSnackBar(SnackBar(content: Text(message)));
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(content: Text(message)),
+                    );
                   }
                 },
                 child: getButton(state, ctx),

@@ -96,12 +96,12 @@ class _HomeScreen extends StatelessWidget {
     final result = await Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => AuthScreen(),
     ));
-    if (result == true) {
+    if (result != null) {
       Navigator.of(context).pop();
       BlocProvider.of<AppBloc>(context).add(AppEvent.AppLogin);
       Scaffold.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login Berhasil'),
+          content: Text(result),
           backgroundColor: Colors.green,
         ),
       );

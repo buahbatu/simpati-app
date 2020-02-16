@@ -11,7 +11,7 @@ class PosyanduRepositoryPref implements IPosyanduRepository {
       : this._appPreferance = appPreferance ?? AppPreferance.get();
 
   @override
-  Future<BaseResponse<Posyandu>> getPosyandu({String uid}) async {
+  Future<BaseResponse<Posyandu>> getPosyandu({String posyanduId}) async {
     final Posyandu posyandu = await _appPreferance.loadData(_key);
     final response = BaseResponse.fromPref(posyandu);
     return response;
