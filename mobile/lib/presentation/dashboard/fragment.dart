@@ -83,6 +83,47 @@ class _HomeScreen extends StatelessWidget {
         );
       },
     );
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (ctx, state) {
+        final greeting = 'Selamat Datang!';
+
+        return AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Wrap(
+            direction: Axis.vertical,
+            spacing: 2,
+            children: <Widget>[
+              if (state.nurse != null)
+                Text('Hi ${state.nurse.fullName},',
+                    style: AppTextStyle.titleName),
+              Text(
+                greeting,
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: state.nurse != null ? 14 : 18,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: AppColor.appBackground,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(LineIcons.info),
+              color: AppColor.primaryColor,
+              onPressed: () => ctx.showAppInfo(
+                nurse: state?.nurse,
+                posyandu: state?.posyandu,
+                onLoginClick: () => onLoginClick(ctx),
+                onLogoutClick: () {
+                  BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+                },
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 
   void onLoginClick(BuildContext context) async {
@@ -106,7 +147,7 @@ class _HomeScreen extends StatelessWidget {
     final safeHeight = MediaQuery.of(context).padding.top;
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AppBloc>(create: (ctx) => AppBloc()),
+        // BlocProvider<AppBloc>(create: (ctx) => AppBloc()),
         BlocProvider<DashboardBloc>(create: (ctx) => DashboardBloc()),
       ],
       child: Stack(

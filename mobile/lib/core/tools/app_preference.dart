@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
@@ -12,35 +11,28 @@ class AppPreferance {
     await prefs.clear();
   }
 
-  Future saveData<T>(String key, T value) async {
+  Future saveData(String key, dynamic value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    switch (T) {
-      case bool:
-        await prefs.setBool(key, value as bool);
-        break;
-      case double:
-        await prefs.setDouble(key, value as double);
-        break;
-      case int:
-        await prefs.setInt(key, value as int);
-        break;
-      case String:
-        await prefs.setString(key, value as String);
-        break;
-      case Data:
-        try {
-          await prefs.setString(key, jsonEncode((value as Data).toMap()));
-        } catch (e) {
-          throw UnimplementedError('Data to Map failing in preference save');
-        }
-        break;
-      default:
-        try {
-          await prefs.setString(key, jsonEncode(value));
-        } catch (e) {
-          throw ArgumentError('value is instance without proper mapper');
-        }
-        break;
+    if (value is bool) {
+      await prefs.setBool(key, value);
+    } else if (value is double) {
+      await prefs.setDouble(key, value);
+    } else if (value is int) {
+      await prefs.setInt(key, value);
+    } else if (value is String) {
+      await prefs.setString(key, value);
+    } else if (value is Data) {
+      try {
+        await prefs.setString(key, jsonEncode(value.toMap()));
+      } catch (e) {
+        throw UnimplementedError('Data to Map failing in preference save');
+      }
+    } else {
+      try {
+        await prefs.setString(key, jsonEncode(value));
+      } catch (e) {
+        throw ArgumentError('value is instance without proper mapper');
+      }
     }
   }
 
@@ -48,32 +40,25 @@ class AppPreferance {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey(key)) return defaultValue;
 
-    switch (T) {
-      case bool:
-        return prefs.getBool(key) as T;
-      case double:
-        return prefs.getDouble(key) as T;
-      case int:
-        return prefs.getInt(key) as T;
-      case String:
-        return prefs.getString(key) as T;
-      case Data:
-        try {
-          final jsonMap = jsonDecode(prefs.getString(key));
-          final data = DataParserFactory.get().decode<T>(jsonMap);
-          return data;
-        } catch (e) {
-          throw UnimplementedError('ParserFactory didn\'t have parser of $T');
-        }
-        break;
-      default:
-        try {
-          final jsonMap = jsonDecode(prefs.getString(key));
-          return jsonMap as T;
-        } catch (e) {
-          throw ArgumentError('value is instance without proper decoder');
-        }
-        break;
+    if (T is bool) {
+      return prefs.getBool(key) as T;
+    } else if (T is double) {
+      return prefs.getDouble(key) as T;
+    } else if (T is int) {
+      return prefs.getInt(key) as T;
+    } else if (T is String) {
+      return prefs.getString(key) as T;
+    } else {
+      try {
+        final jsonMap = jsonDecode(prefs.getString(key));
+        final hasDecoder = DataParserFactory.get().decodersMap.containsKey(T);
+        final data = hasDecoder
+            ? DataParserFactory.get().decode<T>(jsonMap)
+            : jsonDecode(prefs.getString(key)) as T;
+        return data;
+      } catch (e) {
+        throw UnimplementedError('ParserFactory didn\'t have parser of $T');
+      }
     }
   }
 

@@ -37,25 +37,31 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
-    if (event == AppEvent.AppLoaded) await onAppLoaded();
-    if (event == AppEvent.AppLogin) await onAppLogin();
-    if (event == AppEvent.AppLogout) await onAppLogout();
+    AppState newState;
+    if (event == AppEvent.AppLoaded) {
+      newState = await onAppLoaded();
+    } else if (event == AppEvent.AppLogin) {
+      newState = await onAppLogin();
+    } else if (event == AppEvent.AppLogout) {
+      newState = await onAppLogout();
+    }
 
-    yield state;
+    yield newState ?? state;
+    state = newState;
   }
 
-  void onAppLoaded() async {
+  Future<AppState> onAppLoaded() async {
     final response = await nurseRepositoryPref.getProfile();
-    state = state.copyWith(nurse: response.data);
+    return state.copyWith(nurse: response.data);
   }
 
-  Future<void> onAppLogin() async {
-    await AppPreferance.get().clearPref();
-    state = AppState();
+  Future<AppState> onAppLogin() async {
+    final response = await nurseRepositoryPref.getProfile();
+    return state.copyWith(nurse: response.data);
   }
 
-  Future<void> onAppLogout() async {
+  Future<AppState> onAppLogout() async {
     await AppPreferance.get().clearPref();
-    state = AppState();
+    return AppState();
   }
 }

@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
+import 'package:simpati/core/utils/date_utils.dart';
 
 class Nurse extends Equatable implements Data {
   final String id;
@@ -28,7 +28,7 @@ class Nurse extends Equatable implements Data {
   Nurse copyWith({
     String id,
     String fullName,
-    String handphone,
+    String phone,
     String email,
     String address,
     String status,
@@ -39,7 +39,7 @@ class Nurse extends Equatable implements Data {
     return Nurse(
       id: id ?? this.id,
       fullName: fullName ?? this.fullName,
-      phone: handphone ?? this.phone,
+      phone: phone ?? this.phone,
       email: email ?? this.email,
       address: address ?? this.address,
       status: status ?? this.status,
@@ -52,12 +52,12 @@ class Nurse extends Equatable implements Data {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'fullname': fullName,
-      'handphone': phone,
+      'fullName': fullName,
+      'phone': phone,
       'email': email,
       'address': address,
       'status': status,
-      'createdAt': createdAt,
+      'createdAt': createdAt.millisecondsSinceEpoch,
       'posyanduId': posyanduId,
       'picture': picture,
     };
@@ -69,13 +69,11 @@ class Nurse extends Equatable implements Data {
     return Nurse(
       id: map['id'],
       fullName: map['fullName'],
-      phone: map['handphone'],
+      phone: map['phone'],
       email: map['email'],
       address: map['address'],
       status: map['status'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(
-        (map['createdAt'] as Timestamp).millisecondsSinceEpoch,
-      ),
+      createdAt: DateUtils.parseTimeData(map['createdAt']),
       posyanduId: map['posyanduId'],
       picture: map['picture'],
     );
@@ -84,7 +82,7 @@ class Nurse extends Equatable implements Data {
   @override
   String toString() {
     return 'User id: $id, fullName: ' +
-        '$fullName, handphone: $phone, email: $email, address: $address, ' +
+        '$fullName, phone: $phone, email: $email, address: $address, ' +
         'status: $status, createdAt: ' +
         '$createdAt, posyanduId: $posyanduId, picture: $picture';
   }

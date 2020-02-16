@@ -28,9 +28,8 @@ class NurseRepositoryFirebase implements INurseRepository {
 
   @override
   Future<BaseResponse<Data>> saveProfile(Nurse nurse) async {
-    // await appPreferance.saveData(_key, nurse);
-    // final BaseResponse response = BaseResponse.fromPref(nurse);
-    // return response;
+    await _firestore.collection(_key).document(nurse.id).setData(nurse.toMap());
+    return BaseResponse(null, Status.success, 'Data berhasil disimpan', nurse);
   }
 
   static String _key = 'users';

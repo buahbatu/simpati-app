@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
 import 'package:simpati/data/firebase/nurse_repository_firebase.dart';
+import 'package:simpati/data/local/nurse_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
@@ -31,7 +32,8 @@ enum AuthState {
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthRepository _authRepository;
-  final INurseRepository _nurseRepository;
+  final INurseRepository _nurseRepositoryFirebase;
+  final INurseRepository _nurseRepositoryPref;
 
   // credential
   String email;
@@ -43,9 +45,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // uid
   Nurse nurse;
 
-  AuthBloc({IAuthRepository authRepository, INurseRepository nurseRepository})
-      : this._authRepository = authRepository ?? AuthRepository(),
-        this._nurseRepository = nurseRepository ?? NurseRepositoryFirebase();
+  AuthBloc({
+    IAuthRepository authRepository,
+    INurseRepository nurseRepositoryFirebase,
+    INurseRepository nurseRepositoryPref,
+  })  : this._authRepository = authRepository ?? AuthRepository(),
+        this._nurseRepositoryFirebase =
+            nurseRepositoryFirebase ?? NurseRepositoryFirebase(),
+        this._nurseRepositoryPref =
+            nurseRepositoryPref ?? NurseRepositoryPref();
 
   @override
   AuthState get initialState => AuthState.Init;
@@ -90,6 +98,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
+      nurse = resultProfile.data;
+      await saveToPref();
       yield AuthState.AuthSuccess;
     }
   }
@@ -99,11 +109,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<BaseResponse<Nurse>> doLogout() async {
+    await _nurseRepositoryPref.saveProfile(null);
     return await _authRepository.logout();
   }
 
   Future<BaseResponse<Nurse>> getProfile() async {
-    return await _nurseRepository.getProfile(uid: nurse.id);
+    return await _nurseRepositoryFirebase.getProfile(uid: nurse.id);
+  }
+
+  Future<BaseResponse> saveToPref() async {
+    return await _nurseRepositoryPref.saveProfile(nurse);
   }
 
   bool validateEmail(String value) {
