@@ -75,7 +75,14 @@ class _HomeScreen extends StatelessWidget {
                 posyandu: state?.posyandu,
                 onLoginClick: () => onLoginClick(ctx),
                 onLogoutClick: () {
+                  Navigator.of(ctx).pop();
                   BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+                  Scaffold.of(ctx).showSnackBar(
+                    SnackBar(
+                      content: Text('Logout Berhasil'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 },
               ),
             )

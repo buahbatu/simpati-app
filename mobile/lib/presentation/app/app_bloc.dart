@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/tools/app_preference.dart';
+import 'package:simpati/data/firebase/auth_repository.dart';
 import 'package:simpati/data/local/nurse_repository_pref.dart';
 import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
+import 'package:simpati/domain/repository/auth_repository.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
 import 'package:simpati/domain/repository/posyandu_repository.dart';
 
@@ -30,15 +32,18 @@ enum AppEvent { AppLoaded, AppLogin, AppLogout }
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppState state = AppState();
 
+  final IAuthRepository _authRepository;
   final INurseRepository _nurseRepositoryPref;
   final IPosyanduRepository _posyanduRepositoryPref;
   final AppPreferance _appPreferance;
 
   AppBloc({
+    IAuthRepository authRepository,
     INurseRepository nurseRepositoryPref,
     IPosyanduRepository posyanduRepositoryPref,
     AppPreferance appPreferance,
-  })  : this._nurseRepositoryPref =
+  })  : this._authRepository = authRepository ?? AuthRepository(),
+        this._nurseRepositoryPref =
             nurseRepositoryPref ?? NurseRepositoryPref(),
         this._posyanduRepositoryPref =
             posyanduRepositoryPref ?? PosyanduRepositoryPref(),
@@ -82,6 +87,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Future<AppState> onAppLogout() async {
     await _appPreferance.clearPref();
+    await _authRepository.logout();
     return AppState();
   }
 }

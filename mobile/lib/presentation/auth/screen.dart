@@ -4,7 +4,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/auth/bloc.dart';
 
 class AuthScreen extends StatelessWidget {
