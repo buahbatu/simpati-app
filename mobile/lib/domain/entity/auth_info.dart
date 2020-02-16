@@ -36,8 +36,6 @@ class AuthInfo extends Equatable implements Data {
   }
 
   static AuthInfo fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return AuthInfo(
       nurse: DataParserFactory.get().decode(map),
       token: map['token'],

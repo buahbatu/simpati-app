@@ -4,6 +4,7 @@ class DataParserFactory {
   final Map<Type, DataParser> decodersMap = Map();
 
   T decode<T>(Map<String, dynamic> json) {
+    if (json == null) return null;
     try {
       final decoder = decodersMap[T];
       return decoder(json);

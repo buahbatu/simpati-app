@@ -1,6 +1,14 @@
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/domain/entity/transaction.dart';
 
+enum DashboardEvent {
+  Init
+}
+
+class DashboardState {
+  
+}
+
 class DashboardBloc extends ScrollFragmentBloc<Transaction> {
   @override
   ScrollFragmentState<Transaction> get initialState =>

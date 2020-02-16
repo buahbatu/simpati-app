@@ -37,8 +37,6 @@ class BaseResponse<T extends Data> extends Equatable implements Data {
   }
 
   static BaseResponse<T> fromMap<T extends Data>(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return BaseResponse(
       map,
       map['status'],

@@ -64,8 +64,6 @@ class Nurse extends Equatable implements Data {
   }
 
   static Nurse fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return Nurse(
       id: map['id'],
       fullName: map['fullName'],

@@ -53,8 +53,6 @@ class Posyandu extends Equatable implements Data {
   }
 
   static Posyandu fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return Posyandu(
       id: map['id'],
       fullName: map['fullName'],

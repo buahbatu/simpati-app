@@ -1,8 +1,10 @@
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/domain/entity/auth_info.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
+import 'package:simpati/domain/entity/recap.dart';
 
 class EntityRegister {
   void register() {
@@ -10,6 +12,8 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(AuthInfo.fromMap);
     DataParserFactory.get().registerDecoder(Nurse.fromMap);
     DataParserFactory.get().registerDecoder(Posyandu.fromMap);
+    DataParserFactory.get().registerDecoder(Recap.fromMap);
+    DataParserFactory.get().registerDecoder(MotherMeta.fromMap);
   }
 
   // instance
