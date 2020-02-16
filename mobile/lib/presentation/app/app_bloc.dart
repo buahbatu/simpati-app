@@ -2,8 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/tools/app_preference.dart';
 import 'package:simpati/data/local/nurse_repository_pref.dart';
+import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
+import 'package:simpati/domain/repository/nurse_repository.dart';
+import 'package:simpati/domain/repository/posyandu_repository.dart';
 
 class AppState extends Equatable {
   final Nurse nurse;
@@ -27,10 +30,19 @@ enum AppEvent { AppLoaded, AppLogin, AppLogout }
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppState state = AppState();
 
-  final NurseRepositoryPref nurseRepositoryPref;
+  final INurseRepository _nurseRepositoryPref;
+  final IPosyanduRepository _posyanduRepositoryPref;
+  final AppPreferance _appPreferance;
 
-  AppBloc({NurseRepositoryPref nurseRepositoryPref})
-      : this.nurseRepositoryPref = nurseRepositoryPref ?? NurseRepositoryPref();
+  AppBloc({
+    INurseRepository nurseRepositoryPref,
+    IPosyanduRepository posyanduRepositoryPref,
+    AppPreferance appPreferance,
+  })  : this._nurseRepositoryPref =
+            nurseRepositoryPref ?? NurseRepositoryPref(),
+        this._posyanduRepositoryPref =
+            posyanduRepositoryPref ?? PosyanduRepositoryPref(),
+        this._appPreferance = appPreferance ?? AppPreferance.get();
 
   @override
   AppState get initialState => state;
@@ -51,17 +63,25 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   Future<AppState> onAppLoaded() async {
-    final response = await nurseRepositoryPref.getProfile();
-    return state.copyWith(nurse: response.data);
+    final nurseResult = await _nurseRepositoryPref.getProfile();
+    final posyanduResult = await _posyanduRepositoryPref.getPosyandu();
+    return state.copyWith(
+      nurse: nurseResult.data,
+      posyandu: posyanduResult.data,
+    );
   }
 
   Future<AppState> onAppLogin() async {
-    final response = await nurseRepositoryPref.getProfile();
-    return state.copyWith(nurse: response.data);
+    final nurseResult = await _nurseRepositoryPref.getProfile();
+    final posyanduResult = await _posyanduRepositoryPref.getPosyandu();
+    return state.copyWith(
+      nurse: nurseResult.data,
+      posyandu: posyanduResult.data,
+    );
   }
 
   Future<AppState> onAppLogout() async {
-    await AppPreferance.get().clearPref();
+    await _appPreferance.clearPref();
     return AppState();
   }
 }

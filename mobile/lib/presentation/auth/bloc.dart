@@ -1,11 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:simpati/core/result/base_response.dart';
+import 'package:simpati/core/tools/app_preference.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
 import 'package:simpati/data/firebase/nurse_repository_firebase.dart';
+import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
 import 'package:simpati/data/local/nurse_repository_pref.dart';
+import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
+import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
+import 'package:simpati/domain/repository/posyandu_repository.dart';
 
 class AuthEvent {}
 
@@ -34,6 +39,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final IAuthRepository _authRepository;
   final INurseRepository _nurseRepositoryFirebase;
   final INurseRepository _nurseRepositoryPref;
+  final IPosyanduRepository _posyanduRepositoryFirebase;
+  final IPosyanduRepository _posyanduRepositoryPref;
+  final AppPreferance _appPreferance;
 
   // credential
   String email;
@@ -42,18 +50,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   // error massage
   String errorMessage;
 
-  // uid
+  // data
   Nurse nurse;
+  Posyandu posyandu;
 
   AuthBloc({
     IAuthRepository authRepository,
     INurseRepository nurseRepositoryFirebase,
     INurseRepository nurseRepositoryPref,
+    IPosyanduRepository posyanduRepositoryFirebase,
+    IPosyanduRepository posyanduRepositoryPref,
+    AppPreferance appPreferance,
   })  : this._authRepository = authRepository ?? AuthRepository(),
         this._nurseRepositoryFirebase =
             nurseRepositoryFirebase ?? NurseRepositoryFirebase(),
         this._nurseRepositoryPref =
-            nurseRepositoryPref ?? NurseRepositoryPref();
+            nurseRepositoryPref ?? NurseRepositoryPref(),
+        this._posyanduRepositoryFirebase =
+            posyanduRepositoryFirebase ?? PosyanduRepositoryFirebase(),
+        this._posyanduRepositoryPref =
+            posyanduRepositoryPref ?? PosyanduRepositoryPref(),
+        this._appPreferance = appPreferance ?? AppPreferance.get();
 
   @override
   AuthState get initialState => AuthState.Init;
@@ -86,8 +103,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthState.AuthError;
         return;
       }
-
       nurse = resultAuth.data;
+
       final resultProfile = await getProfile();
       if (!resultProfile.isSuccess()) {
         // if no profile, kick the user to logout
@@ -97,8 +114,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AuthState.AuthError;
         return;
       }
-
       nurse = resultProfile.data;
+
+      final resultPosyandu = await getPosyandu();
+      if (!resultPosyandu.isSuccess()) {
+        // if no profile, kick the user to logout
+        await doLogout();
+        errorMessage = resultPosyandu.message;
+
+        yield AuthState.AuthError;
+        return;
+      }
+      posyandu = resultPosyandu.data;
+
       await saveToPref();
       yield AuthState.AuthSuccess;
     }
@@ -108,17 +136,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return await _authRepository.login(email, password);
   }
 
-  Future<BaseResponse<Nurse>> doLogout() async {
-    await _nurseRepositoryPref.saveProfile(null);
-    return await _authRepository.logout();
-  }
-
   Future<BaseResponse<Nurse>> getProfile() async {
     return await _nurseRepositoryFirebase.getProfile(uid: nurse.id);
   }
 
-  Future<BaseResponse> saveToPref() async {
-    return await _nurseRepositoryPref.saveProfile(nurse);
+  Future<BaseResponse<Posyandu>> getPosyandu() async {
+    return await _posyanduRepositoryFirebase.getPosyandu(uid: nurse.posyanduId);
+  }
+
+  Future saveToPref() async {
+    await _nurseRepositoryPref.saveProfile(nurse);
+    await _posyanduRepositoryPref.savePosyandu(posyandu);
+  }
+
+  Future doLogout() async {
+    await _appPreferance.clearPref();
+    await _authRepository.logout();
   }
 
   bool validateEmail(String value) {
