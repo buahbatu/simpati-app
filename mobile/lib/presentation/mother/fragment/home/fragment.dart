@@ -74,8 +74,15 @@ class _HomeScreen extends StatelessWidget {
       ),
     );
 
-    // if data != null
-    bloc.add(Add(Mother.mock));
+    if (data != null && data is Mother) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ibu berhasil ditambahkan'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      bloc.add(Add(data));
+    }
   }
 
   Widget createAppBar(BuildContext context) {

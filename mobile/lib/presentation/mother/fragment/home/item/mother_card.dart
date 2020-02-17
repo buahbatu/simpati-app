@@ -59,7 +59,8 @@ class MotherCard extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     children: <Widget>[
-                      createChip('${data.childCount} Anak'),
+                      if (data.childCount != null)
+                        createChip('${data.childCount} Anak'),
                       createChip('Berat Ideal'),
                       createChip('Gizi Baik'),
                     ],
