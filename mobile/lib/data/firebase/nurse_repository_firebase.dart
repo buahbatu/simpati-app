@@ -9,9 +9,10 @@ class NurseRepositoryFirebase implements INurseRepository {
   final Firestore _firestore;
   final DataParserFactory _parserFactory;
 
-  NurseRepositoryFirebase(
-      {Firestore firestore, DataParserFactory parserFactory})
-      : this._firestore = firestore ?? Firestore.instance,
+  NurseRepositoryFirebase({
+    Firestore firestore,
+    DataParserFactory parserFactory,
+  })  : this._firestore = firestore ?? Firestore.instance,
         this._parserFactory = parserFactory ?? DataParserFactory.get();
 
   @override

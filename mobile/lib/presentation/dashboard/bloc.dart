@@ -1,7 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:simpati/data/firebase/config_repository.dart';
+import 'package:simpati/data/firebase/person_meta_repository.dart';
 import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/domain/entity/recap.dart';
+import 'package:simpati/domain/repository/config_repository.dart';
+import 'package:simpati/domain/repository/person_meta_repository.dart';
+import 'package:simpati/domain/usecase/load_meta_usecase.dart';
 
 enum DashboardEvent { Init }
 
@@ -31,12 +36,23 @@ class DashboardState extends Equatable {
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardState state = DashboardState();
 
+  final LoadMetaUsecase _loadMetaUsecase;
+
+  DashboardBloc({
+    IConfigRepository configRepository,
+    IPersonMetaRepository metaRepository,
+  }) : this._loadMetaUsecase = LoadMetaUsecase(
+          configRepository ?? ConfigRepository(),
+          metaRepository ?? PersonMetaRepository(),
+        );
+
   @override
   DashboardState get initialState => state;
 
   @override
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
     if (event == DashboardEvent.Init) {
+      _loadMetaUsecase.start();
       // items.add(event.item);
       // yield ScrollFragmentState(items);
     }

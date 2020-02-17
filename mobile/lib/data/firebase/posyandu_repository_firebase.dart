@@ -9,9 +9,10 @@ class PosyanduRepositoryFirebase implements IPosyanduRepository {
   final Firestore _firestore;
   final DataParserFactory _parserFactory;
 
-  PosyanduRepositoryFirebase(
-      {Firestore firestore, DataParserFactory parserFactory})
-      : this._firestore = firestore ?? Firestore.instance,
+  PosyanduRepositoryFirebase({
+    Firestore firestore,
+    DataParserFactory parserFactory,
+  })  : this._firestore = firestore ?? Firestore.instance,
         this._parserFactory = parserFactory ?? DataParserFactory.get();
 
   @override

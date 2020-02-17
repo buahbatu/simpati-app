@@ -1,10 +1,5 @@
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/core/tools/app_preference.dart';
-import 'package:simpati/data/firebase/auth_repository.dart';
-import 'package:simpati/data/firebase/nurse_repository_firebase.dart';
-import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
-import 'package:simpati/data/local/nurse_repository_pref.dart';
-import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
@@ -13,9 +8,13 @@ import 'package:simpati/domain/repository/posyandu_repository.dart';
 
 class LoginUsecase {
   final IAuthRepository _authRepository;
+
+  // firebase
   final INurseRepository _nurseRepositoryFirebase;
-  final INurseRepository _nurseRepositoryPref;
   final IPosyanduRepository _posyanduRepositoryFirebase;
+
+  // local
+  final INurseRepository _nurseRepositoryPref;
   final IPosyanduRepository _posyanduRepositoryPref;
   final AppPreferance _appPreferance;
 

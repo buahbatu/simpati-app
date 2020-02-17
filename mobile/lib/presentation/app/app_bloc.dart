@@ -30,7 +30,10 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final LoadProfileUsecase _loadProfileUsecase;
   final LogoutUsecase _logoutUsecase;
 
+  final bool isDebug;
+
   AppBloc({
+    this.isDebug = false,
     INurseRepository nurseRepositoryPref,
     IPosyanduRepository posyanduRepositoryPref,
     IAuthRepository authRepository,

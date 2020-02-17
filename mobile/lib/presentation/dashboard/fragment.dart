@@ -99,6 +99,7 @@ class _HomeScreen extends StatelessWidget {
     if (result != null) {
       Navigator.of(context).pop();
       BlocProvider.of<AppBloc>(context).add(AppEvent.AppLogin);
+      DashboardBloc()..add(DashboardEvent.Init);
       Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text(result),
