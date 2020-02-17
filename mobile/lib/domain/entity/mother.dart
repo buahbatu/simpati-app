@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:simpati/core/result/base_data.dart';
+import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 
 class Mother extends Equatable implements Data {
@@ -19,6 +20,7 @@ class Mother extends Equatable implements Data {
   final String bloodPressure;
   final DateTime birthDate;
   final String picture;
+  final String posyanduId;
 
   Mother({
     this.id,
@@ -36,6 +38,7 @@ class Mother extends Equatable implements Data {
     this.bloodPressure,
     this.birthDate,
     this.picture,
+    this.posyanduId,
   });
 
   Mother copyWith({
@@ -54,6 +57,7 @@ class Mother extends Equatable implements Data {
     String bloodPressure,
     DateTime birthDate,
     String picture,
+    String posyanduId,
   }) {
     return Mother(
       id: id ?? this.id,
@@ -71,6 +75,7 @@ class Mother extends Equatable implements Data {
       bloodPressure: bloodPressure ?? this.bloodPressure,
       birthDate: birthDate ?? this.birthDate,
       picture: picture ?? this.picture,
+      posyanduId: posyanduId ?? this.posyanduId,
     );
   }
 
@@ -90,6 +95,7 @@ class Mother extends Equatable implements Data {
     bloodPressure: 'A',
     birthDate: DateFormat.yMd('en_US').parse('1/10/1995'),
     picture: null,
+    posyanduId: '2asd2esd2',
   );
 
   @override
@@ -109,6 +115,7 @@ class Mother extends Equatable implements Data {
         this.bloodPressure,
         this.birthDate,
         this.picture,
+        this.posyanduId,
       ];
 
   @override
@@ -128,7 +135,8 @@ class Mother extends Equatable implements Data {
       'bloodType': this.bloodType,
       'bloodPressure': this.bloodPressure,
       'birthDate': this.birthDate.millisecondsSinceEpoch,
-      'picture': this.picture
+      'picture': this.picture,
+      'posyanduId': this.posyanduId
     };
   }
 
@@ -149,6 +157,31 @@ class Mother extends Equatable implements Data {
       bloodPressure: map['bloodPressure'],
       birthDate: DateUtils.parseTimeData(map['birthDate']),
       picture: map['picture'],
+      posyanduId: map['posyanduId'],
     );
   }
+}
+
+class MotherList extends Equatable implements Data {
+  final List<Mother> mothers;
+
+  MotherList(this.mothers);
+
+  @override
+  List<Object> get props => mothers;
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {motherKey: mothers.map((e) => e.toMap()).toList()};
+  }
+
+  static MotherList fromMap(Map<dynamic, dynamic> map) {
+    final articleRawList = map[motherKey] as List;
+    final list = articleRawList
+        .map((e) => DataParserFactory.get().decode<Mother>(e))
+        .toList();
+    return MotherList(list);
+  }
+
+  static const String motherKey = 'mothers';
 }

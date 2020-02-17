@@ -23,6 +23,7 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(Article.fromMap);
     DataParserFactory.get().registerDecoder(ArticleList.fromMap);
     DataParserFactory.get().registerDecoder(Mother.fromMap);
+    DataParserFactory.get().registerDecoder(MotherList.fromMap);
   }
 
   // instance

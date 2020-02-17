@@ -51,68 +51,78 @@ class _MotherAddPageState extends State<MotherAddPage>
         appBar: createAppBar(context),
         body: Builder(builder: (ctx) {
           final bloc = BlocProvider.of<AddMotherBloc>(ctx);
-          return TabBarView(
-            controller: _tabController,
-            children: [
-              Step1AddMother(
-                onButtonClick: () {
-                  final mother = bloc.mother;
-                  if (!isFilled(mother.nik) ||
-                      !isFilled(mother.fullName) ||
-                      !isFilled(mother.birthDate) ||
-                      !isFilled(mother.husbandName)) {
-                    Scaffold.of(ctx).showSnackBar(
-                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
-                    );
-                  } else {
-                    _tabController.animateTo(1);
-                  }
-                },
-              ),
-              Step2AddMother(
-                onButtonClick: () {
-                  final mother = bloc.mother;
-                  if (!isFilled(mother.phone) ||
-                      !isFilled(mother.address) ||
-                      !isFilled(mother.province) ||
-                      !isFilled(mother.city)) {
-                    Scaffold.of(ctx).showSnackBar(
-                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
-                    );
-                  } else {
-                    _tabController.animateTo(2);
-                  }
-                },
-              ),
-              Step3AddMother(
-                onButtonClick: () {
-                  final mother = bloc.mother;
+          return BlocListener<AddMotherBloc, AddMotherState>(
+            listener: (prev, next) {
+              if (next == AddMotherState.Success) {
+                Navigator.of(context).pop(bloc.mother);
+              }
+            },
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                Step1AddMother(
+                  onButtonClick: () {
+                    final mother = bloc.mother;
+                    if (!isFilled(mother.nik) ||
+                        !isFilled(mother.fullName) ||
+                        !isFilled(mother.birthDate) ||
+                        !isFilled(mother.husbandName)) {
+                      Scaffold.of(ctx).showSnackBar(
+                        SnackBar(
+                          content: Text('Isi semua kolom terlebih dulu'),
+                        ),
+                      );
+                    } else {
+                      _tabController.animateTo(1);
+                    }
+                  },
+                ),
+                Step2AddMother(
+                  onButtonClick: () {
+                    final mother = bloc.mother;
+                    if (!isFilled(mother.phone) ||
+                        !isFilled(mother.address) ||
+                        !isFilled(mother.province) ||
+                        !isFilled(mother.city)) {
+                      Scaffold.of(ctx).showSnackBar(
+                        SnackBar(
+                            content: Text('Isi semua kolom terlebih dulu')),
+                      );
+                    } else {
+                      _tabController.animateTo(2);
+                    }
+                  },
+                ),
+                Step3AddMother(
+                  onButtonClick: () {
+                    final mother = bloc.mother;
 
-                  bool matchFormat = true;
+                    bool matchFormat = true;
 
-                  if (isFilled(mother.bloodPressure)) {
-                    final pattern = r'^[0-9]+\/[0-9]+';
-                    RegExp regex = RegExp(pattern);
-                    matchFormat = regex.hasMatch(mother.bloodPressure);
-                  }
+                    if (isFilled(mother.bloodPressure)) {
+                      final pattern = r'^[0-9]+\/[0-9]+';
+                      RegExp regex = RegExp(pattern);
+                      matchFormat = regex.hasMatch(mother.bloodPressure);
+                    }
 
-                  if (!isFilled(mother.height) ||
-                      !isFilled(mother.weight) ||
-                      !isFilled(mother.bloodPressure) ||
-                      !matchFormat ||
-                      !isFilled(mother.bloodType)) {
-                    Scaffold.of(ctx).showSnackBar(
-                      SnackBar(
-                        content: Text('Isi semua kolom terlebih dulu, ' +
-                            'tekanan darah dipisahkan menggunakan /'),
-                      ),
-                    );
-                  } else {
-                    bloc.add(AddMotherEvent());
-                  }
-                },
-              ),
-            ],
+                    if (!isFilled(mother.height) ||
+                        !isFilled(mother.weight) ||
+                        !isFilled(mother.bloodPressure) ||
+                        !matchFormat ||
+                        !isFilled(mother.bloodType)) {
+                      Scaffold.of(ctx).showSnackBar(
+                        SnackBar(
+                          content: Text('Isi semua kolom terlebih dulu, ' +
+                              'tekanan darah dipisahkan menggunakan /'),
+                        ),
+                      );
+                    } else {
+                      bloc.add(AddMotherEvent());
+                    }
+                  },
+                ),
+              ],
+            ),
           );
         }),
       ),
