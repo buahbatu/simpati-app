@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
@@ -54,11 +56,11 @@ class Posyandu extends Equatable implements Data {
       'phone': phone,
       'email': email,
       'picture': picture,
-      'metadata': metadata,
+      'metadata': metadata.toMap(),
     };
   }
 
-  static Posyandu fromMap(Map<String, dynamic> map) {
+  static Posyandu fromMap(Map<dynamic, dynamic> map) {
     return Posyandu(
       id: map['id'],
       fullName: map['fullName'],
@@ -95,14 +97,14 @@ class PosyanduMeta extends Equatable implements Data {
 
   @override
   Map<String, dynamic> toMap() {
-    throw {
+    return {
       'childCount': childCount,
       'momCount': momCount,
       'userCount': userCount
     };
   }
 
-  static PosyanduMeta fromMap(Map<String, dynamic> map) {
+  static PosyanduMeta fromMap(Map<dynamic, dynamic> map) {
     return PosyanduMeta(map['childCount'], map['momCount'], map['userCount']);
   }
 }

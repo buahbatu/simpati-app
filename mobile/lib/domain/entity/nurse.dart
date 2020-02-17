@@ -63,7 +63,7 @@ class Nurse extends Equatable implements Data {
     };
   }
 
-  static Nurse fromMap(Map<String, dynamic> map) {
+  static Nurse fromMap(Map<dynamic, dynamic> map) {
     return Nurse(
       id: map['id'],
       fullName: map['fullName'],

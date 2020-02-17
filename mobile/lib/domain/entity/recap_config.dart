@@ -16,7 +16,7 @@ class MetaConfig extends Equatable implements Data {
     return {'key': key, 'active': active};
   }
 
-  static MetaConfig fromMap(Map<String, dynamic> map) {
+  static MetaConfig fromMap(Map<dynamic, dynamic> map) {
     return MetaConfig(key: map['key'], active: map['active']);
   }
 }
@@ -34,7 +34,7 @@ class MetaConfigList extends Equatable implements Data {
     return {'data': data.map((e) => e.toMap()).toList()};
   }
 
-  static MetaConfigList fromMap(Map<String, dynamic> map) {
+  static MetaConfigList fromMap(Map<dynamic, dynamic> map) {
     final data = (map['data'] as List)
         .map((e) => DataParserFactory.get().decode<MetaConfig>(e))
         .toList();

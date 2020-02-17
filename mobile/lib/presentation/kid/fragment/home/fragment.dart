@@ -84,7 +84,7 @@ class _HomeScreen extends StatelessWidget {
             ),
             if (state.posyandu != null)
               Text(
-                '300 Orang',
+                '${state.posyandu.metadata.childCount}  Orang',
                 style: AppTextStyle.titleName.copyWith(fontSize: 12),
               ),
           ],

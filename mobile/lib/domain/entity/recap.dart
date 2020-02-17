@@ -19,7 +19,7 @@ class PersonMeta extends Equatable implements Data {
     return {sizeKey: size, listKey: list.toMap()};
   }
 
-  static PersonMeta fromMap(Map<String, dynamic> map) {
+  static PersonMeta fromMap(Map<dynamic, dynamic> map) {
     return PersonMeta(
       size: map[sizeKey],
       list: DataParserFactory.get().decode<RecapList>(map[listKey]),
@@ -43,7 +43,7 @@ class RecapList extends Equatable implements Data {
     return {recapsKey: recaps.map((e) => e.toMap()).toList()};
   }
 
-  static RecapList fromMap(Map<String, dynamic> map) {
+  static RecapList fromMap(Map<dynamic, dynamic> map) {
     final recapRawList = map[recapsKey] as List;
     final list = recapRawList
         .map(
@@ -71,7 +71,7 @@ class Recap extends Equatable implements Data {
     return {'value': value, 'title': title, 'type': type};
   }
 
-  static Recap fromMap(Map<String, dynamic> map) {
+  static Recap fromMap(Map<dynamic, dynamic> map) {
     return Recap(value: map['value'], title: map['title'], type: map['type']);
   }
 }

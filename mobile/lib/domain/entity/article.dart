@@ -39,7 +39,7 @@ class Article extends Equatable implements Data {
     };
   }
 
-  static Article fromMap(Map<String, dynamic> map) {
+  static Article fromMap(Map<dynamic, dynamic> map) {
     return Article(
       picture: map['picture'],
       title: map['title'],
@@ -63,7 +63,7 @@ class ArticleList extends Equatable implements Data {
     return {articleKey: articles.map((e) => e.toMap()).toList()};
   }
 
-  static ArticleList fromMap(Map<String, dynamic> map) {
+  static ArticleList fromMap(Map<dynamic, dynamic> map) {
     final articleRawList = map[articleKey] as List;
     final list = articleRawList
         .map((e) => DataParserFactory.get().decode<Article>(e))
