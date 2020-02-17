@@ -127,7 +127,7 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
-      create: (ctx) => MotherBloc(),
+      create: (ctx) => MotherBloc()..add(Init()),
       child: Stack(
         children: <Widget>[
           Column(

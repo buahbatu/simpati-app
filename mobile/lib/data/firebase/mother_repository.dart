@@ -9,8 +9,7 @@ class MotherRepository extends BaseFirestoreRepo implements IMotherRepository {
   Future<BaseResponse<Mother>> addMother(
       Posyandu posyandu, Mother mother) async {
     final newMother = mother.copyWith(posyanduId: posyandu.id);
-    final data =
-        await firestore.collection(collectionKey).add(newMother.toMap());
+    final data = await firestore.collection('mothers').add(newMother.toMap());
     final endMother = newMother.copyWith(id: data.documentID);
     data.updateData({'id': data.documentID});
 
@@ -23,10 +22,21 @@ class MotherRepository extends BaseFirestoreRepo implements IMotherRepository {
   }
 
   @override
-  Future<BaseResponse<MotherList>> getAllMothers(Posyandu posyandu) {
-    // TODO: implement getAllMothers
-    throw UnimplementedError();
-  }
+  Future<BaseResponse<MotherList>> getAllMothers(Posyandu posyandu) async {
+    final snapshots = await firestore
+        .collection('mothers')
+        .where('posyanduId', isEqualTo: posyandu.id)
+        .getDocuments();
 
-  static const String collectionKey = 'mothers';
+    final mothers = snapshots.documents
+        .map((e) => parserFactory.decode<Mother>(e.data))
+        .toList();
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'Load mother success',
+      MotherList(mothers),
+    );
+  }
 }

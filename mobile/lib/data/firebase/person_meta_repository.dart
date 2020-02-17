@@ -16,14 +16,14 @@ class PersonMetaRepository extends BaseFirestoreRepo
     String key,
     MetaConfigList metaConfigList,
   ) async {
-    final meta = await firestore.collection(key).document(metaKey).get();
+    final meta = await firestore.collection(metaKey).document(key).get();
 
     final activeConfig = metaConfigList.data.where((e) => e.active).toList();
     final listRecap = List();
     for (MetaConfig config in activeConfig) {
       final recap = (await firestore
-              .collection(key)
-              .document(metaKey)
+              .collection(metaKey)
+              .document(key)
               .collection(recapKey)
               .document(config.key)
               .get())
