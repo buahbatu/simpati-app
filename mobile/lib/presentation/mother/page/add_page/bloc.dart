@@ -15,7 +15,7 @@ import 'package:simpati/domain/usecase/update_meta_usecase.dart';
 
 class AddMotherEvent {}
 
-enum AddMotherState { Init, Failed, Success }
+enum AddMotherState { Init, Loading, Failed, Success }
 
 class AddMotherBloc extends Bloc<AddMotherEvent, AddMotherState> {
   Mother mother = Mother(province: 'Jawa Barat', city: 'Sumedang');
@@ -42,6 +42,7 @@ class AddMotherBloc extends Bloc<AddMotherEvent, AddMotherState> {
 
   @override
   Stream<AddMotherState> mapEventToState(AddMotherEvent event) async* {
+    yield AddMotherState.Loading;
     final result = await _createMotherUsecase.start(mother);
     if (result.isSuccess()) {
       mother = result.data;

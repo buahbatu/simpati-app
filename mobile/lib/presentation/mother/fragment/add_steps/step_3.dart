@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
@@ -125,17 +126,24 @@ class _Step3AddMotherState extends State<Step3AddMother> {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: FlatButton(
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
-              onPressed: widget.onButtonClick,
-              child: Text('Simpan'),
-            ),
-          )
+          Container(width: double.infinity, child: getButton())
         ],
       ),
     );
+  }
+
+  Widget getButton() {
+    return BlocBuilder<AddMotherBloc, AddMotherState>(builder: (ctx, state) {
+      return FlatButton(
+        color: AppColor.primaryColor,
+        disabledColor: AppColor.profileBgColor,
+        textColor: Colors.white,
+        onPressed:
+            state == AddMotherState.Loading ? null : widget.onButtonClick,
+        child: state == AddMotherState.Loading
+            ? SpinKitWave(color: Colors.white, size: 18.0)
+            : Text('Simpan'),
+      );
+    });
   }
 }
