@@ -16,41 +16,42 @@ class PersonMeta extends Equatable implements Data {
 
   @override
   Map<String, dynamic> toMap() {
-    return {'size': size, 'list': list.toMap()};
+    return {sizeKey: size, listKey: list.toMap()};
   }
 
   static PersonMeta fromMap(Map<String, dynamic> map) {
-    // final recapRawList = map['recaps'] as List;
-    // final recaps =
-    //     recapRawList.map((e) => );
-
     return PersonMeta(
-      size: map['size'],
-      list: DataParserFactory.get().decode<RecapList>(map['list']),
+      size: map[sizeKey],
+      list: DataParserFactory.get().decode<RecapList>(map[listKey]),
     );
   }
+
+  static const String sizeKey = 'size';
+  static const String listKey = 'list';
 }
 
 class RecapList extends Equatable implements Data {
-  final List<Recap> list;
+  final List<Recap> recaps;
 
-  RecapList(this.list);
+  RecapList(this.recaps);
 
   @override
-  List<Object> get props => list;
+  List<Object> get props => recaps;
 
   @override
   Map<String, dynamic> toMap() {
-    return {'recaps': list.map((e) => e.toMap()).toList()};
+    return {recapsKey: recaps.map((e) => e.toMap()).toList()};
   }
 
   static RecapList fromMap(Map<String, dynamic> map) {
-    final recapRawList = map['recaps'] as List;
+    final recapRawList = map[recapsKey] as List;
     final list = recapRawList.map(
       (e) => DataParserFactory.get().decode<Recap>(e),
-    );
+    ).toList();
     return RecapList(list);
   }
+
+  static const String recapsKey = 'recaps';
 }
 
 class Recap extends Equatable implements Data {

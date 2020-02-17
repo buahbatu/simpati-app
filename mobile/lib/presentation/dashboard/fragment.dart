@@ -1,12 +1,14 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/domain/entity/recap.dart';
 import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/article/fragment/item/article_card.dart';
 import 'package:simpati/presentation/auth/screen.dart';
@@ -119,7 +121,7 @@ class _HomeScreen extends StatelessWidget {
           Column(
             children: <Widget>[
               createAppBar(),
-              Expanded(child: createContent(context)),
+              Expanded(child: createContent()),
             ],
           ),
           Container(height: safeHeight, color: AppColor.primaryColor),
@@ -128,50 +130,40 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  ListView createContent(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(0),
-      children: <Widget>[
-        getSpace(),
-        getSection(
-          context,
-          SectionData(
-            LineIcons.female,
-            'Rekap Kondisi Ibu',
-            2000,
-            'orang',
-            AppColor.redGradient,
-            'assets/undraw_mom.svg',
-            [
-              CardData('Berat Ideal', '80%'),
-              CardData('Gizi Baik', '90%'),
-              CardData('Sedang Hamil', '300'),
-            ],
-          ),
-        ),
-        getSpace(),
-        getSection(
-          context,
-          SectionData(
-            LineIcons.child,
-            'Rekap Kondisi Anak',
-            2000,
-            'orang',
-            AppColor.yellowGradient,
-            'assets/undraw_children.svg',
-            [
-              CardData('Berat Ideal', '80%'),
-              CardData('Panjang Ideal', '90%'),
-              CardData('Gizi Baik', '90%'),
-              CardData('Sudah Imunisasi', '98%'),
-              CardData('Telat Imunisasi', '30%'),
-            ],
-          ),
-        ),
-        getSpace(isSmall: true),
-        ...getArticleSections(),
-      ],
+  Widget createContent() {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (ctx, state) {
+        return ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          children: <Widget>[
+            getSpace(),
+            getSection(ctx, createSectionData(true, state.motherMeta)),
+            getSpace(),
+            getSection(ctx, createSectionData(false, state.childMeta)),
+            getSpace(isSmall: true),
+            ...getArticleSections(),
+          ],
+        );
+      },
+    );
+  }
+
+  SectionData createSectionData(bool isMother, PersonMeta meta) {
+    return SectionData(
+      LineIcons.child,
+      'Rekap Kondisi ${isMother ? 'Ibu' : 'Anak'}',
+      meta?.size ?? 0,
+      'orang',
+      isMother ? AppColor.redGradient : AppColor.yellowGradient,
+      isMother ? 'assets/undraw_mom.svg' : 'assets/undraw_children.svg',
+      meta?.list?.recaps?.map((e) {
+            final isPercentage = e.type == 'percentage';
+            final value = isPercentage ? (e.value / meta.size * 100) : e.value;
+            final unit = isPercentage ? '%' : '';
+            return CardData(e.title, '${value.toInt()}$unit');
+          })?.toList() ??
+          List(),
     );
   }
 
@@ -230,6 +222,8 @@ class _HomeScreen extends StatelessWidget {
                     .map((d) => DashboardContentCard(contentWidth, d))
                     .toList(),
               ),
+              if (data.items.isEmpty)
+                SpinKitWave(color: Colors.white, size: 18.0),
             ],
           ),
         ],

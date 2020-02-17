@@ -22,6 +22,7 @@ class ConfigRepository implements IConfigRepository {
     _config.setConfigSettings(RemoteConfigSettings(debugMode: isDebug));
 
     await _config.fetch(expiration: const Duration(hours: 5));
+    await _config.fetch(expiration: const Duration(hours: 5));
     await _config.activateFetched();
   }
 

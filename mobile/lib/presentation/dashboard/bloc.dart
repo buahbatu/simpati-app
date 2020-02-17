@@ -52,9 +52,19 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   @override
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
     if (event == DashboardEvent.Init) {
-      _loadMetaUsecase.start();
-      // items.add(event.item);
-      // yield ScrollFragmentState(items);
+      final motherMeta = await _loadMetaUsecase.start(MetaUsecase.Mother);
+      final childMeta = await _loadMetaUsecase.start(MetaUsecase.Child);
+
+      // TODO: handle error
+
+      final newState = DashboardState(
+        motherMeta: motherMeta.data,
+        childMeta: childMeta.data,
+      );
+      yield newState;
+
+      // set new data
+      state = newState;
     }
   }
 }
