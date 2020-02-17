@@ -16,4 +16,9 @@ class LoadProfileUsecase {
       posyandu: posyanduResult.data,
     );
   }
+
+  void store(AuthInfo info) async {
+    await _nurseRepositoryPref.saveProfile(info.nurse);
+    await _posyanduRepositoryPref.savePosyandu(info.posyandu);
+  }
 }

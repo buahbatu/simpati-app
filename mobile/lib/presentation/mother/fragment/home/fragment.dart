@@ -68,6 +68,8 @@ class _HomeScreen extends StatelessWidget {
   void addMotherData(BuildContext context) async {
     // ignore: close_sinks
     final bloc = BlocProvider.of<MotherBloc>(context);
+    final appBloc = BlocProvider.of<AppBloc>(context);
+
     final data = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MotherAddPage(),
@@ -82,6 +84,7 @@ class _HomeScreen extends StatelessWidget {
         ),
       );
       bloc.add(Add(data));
+      appBloc.add(AppEvent.AppReLoaded);
     }
   }
 
@@ -103,7 +106,7 @@ class _HomeScreen extends StatelessWidget {
             ),
             if (state.posyandu != null)
               Text(
-                '${state.posyandu.metadata.momCount} Orang',
+                '${state.posyandu.momCount} Orang',
                 style: AppTextStyle.titleName.copyWith(fontSize: 12),
               ),
           ],

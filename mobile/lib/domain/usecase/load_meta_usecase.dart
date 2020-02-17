@@ -1,5 +1,4 @@
 import 'package:simpati/core/result/base_response.dart';
-import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/entity/recap.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
 import 'package:simpati/domain/repository/config_repository.dart';

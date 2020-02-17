@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/tools/app_preference.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
+import 'package:simpati/data/firebase/nurse_repository_firebase.dart';
 import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
 import 'package:simpati/data/local/nurse_repository_pref.dart';
 import 'package:simpati/data/local/posyandu_repository_pref.dart';
@@ -10,7 +11,6 @@ import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
 import 'package:simpati/domain/repository/posyandu_repository.dart';
-import 'package:simpati/domain/usecase/load_meta_usecase.dart';
 import 'package:simpati/domain/usecase/load_profile_usecase.dart';
 import 'package:simpati/domain/usecase/logout_usecase.dart';
 
@@ -24,13 +24,14 @@ class AppState extends Equatable {
   List<Object> get props => [nurse, posyandu];
 }
 
-enum AppEvent { AppLoaded, AppLogin, AppLogout }
+enum AppEvent { AppLoaded, AppLogin, AppLogout, AppReLoaded }
 
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppState state = AppState();
 
   final LogoutUsecase _logoutUsecase;
   final LoadProfileUsecase _loadProfileUsecase;
+  final LoadProfileUsecase _reloadProfileUsecase;
 
   final bool isDebug;
 
@@ -43,7 +44,11 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppPreferance appPreferance,
   })  : this._loadProfileUsecase = LoadProfileUsecase(
           nurseRepositoryPref ?? NurseRepositoryPref(),
-          posyanduRepositoryPref ?? PosyanduRepositoryPref(),
+          posyanduRepositoryFirebase ?? PosyanduRepositoryPref(),
+        ),
+        this._reloadProfileUsecase = LoadProfileUsecase(
+          nurseRepositoryPref ?? NurseRepositoryFirebase(),
+          posyanduRepositoryFirebase ?? NurseRepositoryFirebase(),
         ),
         this._logoutUsecase = LogoutUsecase(
           authRepository ?? AuthRepository(),
@@ -58,6 +63,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     AppState newState;
     if (event == AppEvent.AppLoaded) {
       newState = await onAppLoaded();
+    } else if (event == AppEvent.AppReLoaded) {
+      newState = await onAppReLoaded();
     } else if (event == AppEvent.AppLogin) {
       newState = await onAppLogin();
     } else if (event == AppEvent.AppLogout) {
@@ -70,6 +77,16 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   Future<AppState> onAppLoaded() async {
     final authInfo = await _loadProfileUsecase.start();
+
+    return AppState(
+      nurse: authInfo.nurse,
+      posyandu: authInfo.posyandu,
+    );
+  }
+
+  Future<AppState> onAppReLoaded() async {
+    final authInfo = await _reloadProfileUsecase.start();
+    _loadProfileUsecase.store(authInfo);
 
     return AppState(
       nurse: authInfo.nurse,

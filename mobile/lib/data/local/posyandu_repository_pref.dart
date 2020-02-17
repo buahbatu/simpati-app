@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/core/tools/app_preference.dart';
@@ -27,7 +28,11 @@ class PosyanduRepositoryPref implements IPosyanduRepository {
   static String _key = 'Posyandu';
 
   @override
-  Future<BaseResponse<PosyanduMeta>> getPosyanduMeta({String posyanduId}) {
+  Future<BaseResponse<Data>> updateMomSize(
+    FieldValue increaser, {
+    Posyandu posyandu,
+  }) async {
+    // TODO: implement updateMomSize
     throw UnimplementedError();
   }
 }

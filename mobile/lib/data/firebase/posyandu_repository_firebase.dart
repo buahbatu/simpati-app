@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/data/firebase/base_firestore_repo.dart';
@@ -36,7 +37,20 @@ class PosyanduRepositoryFirebase extends BaseFirestoreRepo
   static String _key = 'posyandu';
 
   @override
-  Future<BaseResponse<PosyanduMeta>> getPosyanduMeta({String posyanduId}) {
-    throw UnimplementedError();
+  Future<BaseResponse<Data>> updateMomSize(
+    FieldValue increaser, {
+    Posyandu posyandu,
+  }) async {
+    await firestore
+        .collection(_key)
+        .document(posyandu.id)
+        .updateData({'childCount': increaser});
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'Meta posyandu berhasil disimpan',
+      null,
+    );
   }
 }
