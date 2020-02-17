@@ -13,6 +13,7 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(AuthInfo.fromMap);
     DataParserFactory.get().registerDecoder(Nurse.fromMap);
     DataParserFactory.get().registerDecoder(Posyandu.fromMap);
+    DataParserFactory.get().registerDecoder(PosyanduMeta.fromMap);
     DataParserFactory.get().registerDecoder(PersonMeta.fromMap);
     DataParserFactory.get().registerDecoder(RecapList.fromMap);
     DataParserFactory.get().registerDecoder(Recap.fromMap);

@@ -39,14 +39,14 @@ class DashboardState extends Equatable {
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   DashboardState state = DashboardState();
 
-  final LoadMetaUsecase _loadMetaUsecase;
+  final LoadPersonMetaUsecase _loadMetaUsecase;
   final LoadArticleUsecase _loadArticleUsecase;
 
   DashboardBloc({
     IConfigRepository configRepository,
     IPersonMetaRepository metaRepository,
     IArticleRepository articleRepository,
-  })  : this._loadMetaUsecase = LoadMetaUsecase(
+  })  : this._loadMetaUsecase = LoadPersonMetaUsecase(
           configRepository ?? ConfigRepository(),
           metaRepository ?? PersonMetaRepository(),
         ),
@@ -60,7 +60,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   @override
   Stream<DashboardState> mapEventToState(DashboardEvent event) async* {
     if (event == DashboardEvent.Init) {
-      final motherMeta = await _loadMetaUsecase.start(MetaUsecase.Mother);
+      final motherMeta = await _loadMetaUsecase.start(PersonMetaUsecase.Mother);
       // TODO: handle error
 
       final momState = DashboardState(
@@ -69,7 +69,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       yield momState;
       state = momState;
 
-      final childMeta = await _loadMetaUsecase.start(MetaUsecase.Child);
+      final childMeta = await _loadMetaUsecase.start(PersonMetaUsecase.Child);
       // TODO: handle error
 
       final momChildState = DashboardState(

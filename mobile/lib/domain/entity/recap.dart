@@ -45,9 +45,11 @@ class RecapList extends Equatable implements Data {
 
   static RecapList fromMap(Map<String, dynamic> map) {
     final recapRawList = map[recapsKey] as List;
-    final list = recapRawList.map(
-      (e) => DataParserFactory.get().decode<Recap>(e),
-    ).toList();
+    final list = recapRawList
+        .map(
+          (e) => DataParserFactory.get().decode<Recap>(e),
+        )
+        .toList();
     return RecapList(list);
   }
 

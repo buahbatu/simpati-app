@@ -25,4 +25,9 @@ class PosyanduRepositoryPref implements IPosyanduRepository {
   }
 
   static String _key = 'Posyandu';
+
+  @override
+  Future<BaseResponse<PosyanduMeta>> getPosyanduMeta({String posyanduId}) {
+    throw UnimplementedError();
+  }
 }

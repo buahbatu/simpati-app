@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/tools/app_preference.dart';
 import 'package:simpati/data/firebase/auth_repository.dart';
+import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
 import 'package:simpati/data/local/nurse_repository_pref.dart';
 import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
@@ -9,6 +10,7 @@ import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/auth_repository.dart';
 import 'package:simpati/domain/repository/nurse_repository.dart';
 import 'package:simpati/domain/repository/posyandu_repository.dart';
+import 'package:simpati/domain/usecase/load_meta_usecase.dart';
 import 'package:simpati/domain/usecase/load_profile_usecase.dart';
 import 'package:simpati/domain/usecase/logout_usecase.dart';
 
@@ -27,8 +29,8 @@ enum AppEvent { AppLoaded, AppLogin, AppLogout }
 class AppBloc extends Bloc<AppEvent, AppState> {
   AppState state = AppState();
 
-  final LoadProfileUsecase _loadProfileUsecase;
   final LogoutUsecase _logoutUsecase;
+  final LoadProfileUsecase _loadProfileUsecase;
 
   final bool isDebug;
 
@@ -36,6 +38,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     this.isDebug = false,
     INurseRepository nurseRepositoryPref,
     IPosyanduRepository posyanduRepositoryPref,
+    IPosyanduRepository posyanduRepositoryFirebase,
     IAuthRepository authRepository,
     AppPreferance appPreferance,
   })  : this._loadProfileUsecase = LoadProfileUsecase(

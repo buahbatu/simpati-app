@@ -8,7 +8,12 @@ class MotherBloc extends ScrollFragmentBloc<Mother> {
   @override
   Stream<ScrollFragmentState<Mother>> mapEventToState(
       ScrollFragmentEvent event) async* {
-    if (event is Add<Mother>) {
+    if (event is Init) {
+      // final posyanduMetaResult = await _loadPosyanduMetaUsecase.start();
+      // final size = posyanduMetaResult.data.size;
+      // items.addAll(articleResult.data.articles);
+      yield ScrollFragmentState(items);
+    } else if (event is Add<Mother>) {
       items.add(event.item);
       yield ScrollFragmentState(items);
     }

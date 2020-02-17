@@ -26,8 +26,17 @@ class PosyanduRepositoryFirebase extends BaseFirestoreRepo
         .document(posyandu.id)
         .setData(posyandu.toMap());
     return BaseResponse(
-        null, Status.success, 'Data berhasil disimpan', posyandu);
+      null,
+      Status.success,
+      'Data berhasil disimpan',
+      posyandu,
+    );
   }
 
   static String _key = 'posyandu';
+
+  @override
+  Future<BaseResponse<PosyanduMeta>> getPosyanduMeta({String posyanduId}) {
+    throw UnimplementedError();
+  }
 }

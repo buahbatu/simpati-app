@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
+import 'package:simpati/core/tools/data_parser_factory.dart';
 
 class Posyandu extends Equatable implements Data {
   final String id;
@@ -9,6 +10,7 @@ class Posyandu extends Equatable implements Data {
   final String phone;
   final String email;
   final String picture;
+  final PosyanduMeta metadata;
 
   Posyandu({
     this.id,
@@ -18,6 +20,7 @@ class Posyandu extends Equatable implements Data {
     this.phone,
     this.email,
     this.picture,
+    this.metadata,
   });
 
   Posyandu copyWith({
@@ -28,6 +31,7 @@ class Posyandu extends Equatable implements Data {
     String phone,
     String email,
     String picture,
+    PosyanduMeta metadata,
   }) {
     return Posyandu(
       id: id ?? this.id,
@@ -37,6 +41,7 @@ class Posyandu extends Equatable implements Data {
       phone: phone ?? this.phone,
       email: email ?? this.email,
       picture: picture ?? this.picture,
+      metadata: metadata ?? this.metadata,
     );
   }
 
@@ -49,6 +54,7 @@ class Posyandu extends Equatable implements Data {
       'phone': phone,
       'email': email,
       'picture': picture,
+      'metadata': metadata,
     };
   }
 
@@ -61,6 +67,7 @@ class Posyandu extends Equatable implements Data {
       phone: map['phone'],
       email: map['email'],
       picture: map['picture'],
+      metadata: DataParserFactory.get().decode<PosyanduMeta>(map['metadata']),
     );
   }
 
@@ -74,4 +81,28 @@ class Posyandu extends Equatable implements Data {
         this.email,
         this.picture,
       ];
+}
+
+class PosyanduMeta extends Equatable implements Data {
+  final int childCount;
+  final int momCount;
+  final int userCount;
+
+  PosyanduMeta(this.childCount, this.momCount, this.userCount);
+
+  @override
+  List<Object> get props => [this.childCount, this.momCount, this.userCount];
+
+  @override
+  Map<String, dynamic> toMap() {
+    throw {
+      'childCount': childCount,
+      'momCount': momCount,
+      'userCount': userCount
+    };
+  }
+
+  static PosyanduMeta fromMap(Map<String, dynamic> map) {
+    return PosyanduMeta(map['childCount'], map['momCount'], map['userCount']);
+  }
 }

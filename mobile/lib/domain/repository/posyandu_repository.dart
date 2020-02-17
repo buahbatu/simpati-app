@@ -3,5 +3,6 @@ import 'package:simpati/domain/entity/posyandu.dart';
 
 abstract class IPosyanduRepository {
   Future<BaseResponse<Posyandu>> getPosyandu({String posyanduId});
+  Future<BaseResponse<PosyanduMeta>> getPosyanduMeta({String posyanduId});
   Future<BaseResponse> savePosyandu(Posyandu nurse);
 }
