@@ -62,7 +62,7 @@ class _HomeScreen extends StatelessWidget {
                 greeting,
                 style: AppTextStyle.title.copyWith(
                   color: AppColor.primaryColor,
-                  fontSize: state.nurse != null ? 14 : 18,
+                  fontSize: state.nurse != null ? 16 : 20,
                 ),
               ),
             ],

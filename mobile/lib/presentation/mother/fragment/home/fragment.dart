@@ -7,6 +7,8 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/presentation/app/app_bloc.dart';
+import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/mother/fragment/home/bloc.dart';
 import 'package:simpati/presentation/mother/fragment/home/item/mother_card.dart';
 import 'package:simpati/presentation/mother/page/add_page.dart';
@@ -39,12 +41,20 @@ class MotherFragment implements BaseHomeFragment {
 
 class _HomeScreen extends StatelessWidget {
   Widget createActionButton() {
-    return Builder(
-      builder: (ctx) {
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (ctx, state) {
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () async => addMotherData(ctx),
+            onPressed: () async {
+              if (state.posyandu != null) {
+                addMotherData(ctx);
+              } else {
+                await Navigator.of(ctx).push(
+                  MaterialPageRoute(builder: (ctx) => AuthScreen()),
+                );
+              }
+            },
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -69,35 +79,38 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget createAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      title: Wrap(
-        direction: Axis.vertical,
-        spacing: 2,
-        children: <Widget>[
-          Text(
-            'Daftar Ibu',
-            style: AppTextStyle.title.copyWith(
-              color: AppColor.primaryColor,
-              fontSize: 16,
+    return BlocBuilder<AppBloc, AppState>(builder: (ctx, state) {
+      return AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Wrap(
+          direction: Axis.vertical,
+          spacing: 2,
+          children: <Widget>[
+            Text(
+              'Daftar Ibu',
+              style: AppTextStyle.title.copyWith(
+                color: AppColor.primaryColor,
+                fontSize: state.posyandu != null ? 16 : 18,
+              ),
             ),
-          ),
-          Text(
-            '300 Orang',
-            style: AppTextStyle.titleName.copyWith(fontSize: 12),
-          ),
+            if (state.posyandu != null)
+              Text(
+                '300 Orang',
+                style: AppTextStyle.titleName.copyWith(fontSize: 12),
+              ),
+          ],
+        ),
+        backgroundColor: AppColor.appBackground,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            color: AppColor.primaryColor,
+            onPressed: () => context.showComingSoonNotice(),
+          )
         ],
-      ),
-      backgroundColor: AppColor.appBackground,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          color: AppColor.primaryColor,
-          onPressed: () => context.showComingSoonNotice(),
-        )
-      ],
-    );
+      );
+    });
   }
 
   @override
@@ -131,13 +144,21 @@ class _HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(0),
                 children: state.items.map((d) => MotherCard(d)).toList(),
               )
-            : Column(
-                children: <Widget>[
-                  Container(height: 64),
-                  AppImages.noDataImage,
-                  Container(height: 12),
-                  Text('Data Kosong', style: AppTextStyle.titleName),
-                ],
+            : BlocBuilder<AppBloc, AppState>(
+                builder: (ctx, appState) {
+                  return Column(
+                    children: <Widget>[
+                      Container(height: 64),
+                      AppImages.noDataImage,
+                      Container(height: 12),
+                      Text(
+                          appState.posyandu != null
+                              ? 'Data Kosong'
+                              : 'Kamu Belum Login',
+                          style: AppTextStyle.titleName),
+                    ],
+                  );
+                },
               );
       },
     );

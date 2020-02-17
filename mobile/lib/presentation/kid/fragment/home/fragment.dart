@@ -7,6 +7,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/kid.dart';
+import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -66,35 +67,38 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget createAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      title: Wrap(
-        direction: Axis.vertical,
-        spacing: 2,
-        children: <Widget>[
-          Text(
-            'Daftar Anak',
-            style: AppTextStyle.title.copyWith(
-              color: AppColor.primaryColor,
-              fontSize: 16,
+    return BlocBuilder<AppBloc, AppState>(builder: (ctx, state) {
+      return AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Wrap(
+          direction: Axis.vertical,
+          spacing: 2,
+          children: <Widget>[
+            Text(
+              'Daftar Anak',
+              style: AppTextStyle.title.copyWith(
+                color: AppColor.primaryColor,
+                fontSize: state.posyandu != null ? 16 : 18,
+              ),
             ),
-          ),
-          Text(
-            '300 Orang',
-            style: AppTextStyle.titleName.copyWith(fontSize: 12),
-          ),
+            if (state.posyandu != null)
+              Text(
+                '300 Orang',
+                style: AppTextStyle.titleName.copyWith(fontSize: 12),
+              ),
+          ],
+        ),
+        backgroundColor: AppColor.appBackground,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            color: AppColor.primaryColor,
+            onPressed: () => context.showComingSoonNotice(),
+          )
         ],
-      ),
-      backgroundColor: AppColor.appBackground,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          color: AppColor.primaryColor,
-          onPressed: () => context.showComingSoonNotice(),
-        )
-      ],
-    );
+      );
+    });
   }
 
   @override
@@ -128,13 +132,21 @@ class _HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(0),
                 children: state.items.map((d) => KidCard(d)).toList(),
               )
-            : Column(
-                children: <Widget>[
-                  Container(height: 64),
-                  AppImages.noDataImage,
-                  Container(height: 12),
-                  Text('Data Kosong', style: AppTextStyle.titleName),
-                ],
+            : BlocBuilder<AppBloc, AppState>(
+                builder: (ctx, appState) {
+                  return Column(
+                    children: <Widget>[
+                      Container(height: 64),
+                      AppImages.noDataImage,
+                      Container(height: 12),
+                      Text(
+                          appState.posyandu != null
+                              ? 'Data Kosong'
+                              : 'Kamu Belum Login',
+                          style: AppTextStyle.titleName),
+                    ],
+                  );
+                },
               );
       },
     );
