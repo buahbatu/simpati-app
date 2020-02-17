@@ -34,14 +34,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
           ),
         )
         .toList();
-    FlatButton(
-      child: Text('A'),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: AppColor.profileBgColor),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      onPressed: () {},
-    );
+
     final pick = await showDialog(
         context: context,
         child: Dialog(
@@ -86,8 +79,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
                   inputType: TextInputType.number,
                   onChanged: (s) {
                     final value = double.tryParse(s);
-                    if (value != null)
-                      bloc.mother = bloc.mother.copyWith(height: value);
+                    bloc.mother = bloc.mother.copyWith(height: value);
                   },
                   nextForm: NextForm(focusScope, weightFocus),
                 ),
@@ -100,8 +92,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
                   nextForm: NextForm(focusScope, bloodPresFocus),
                   onChanged: (s) {
                     final value = double.tryParse(s);
-                    if (value != null)
-                      bloc.mother = bloc.mother.copyWith(weight: value);
+                    bloc.mother = bloc.mother.copyWith(weight: value);
                   },
                 ),
                 Container(height: 8),
@@ -120,6 +111,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
                     final pick = await showBloodPick(context);
                     if (pick != null)
                       setState(() {
+                        bloc.mother = bloc.mother.copyWith(bloodType: pick);
                         bloodController.text = pick;
                       });
                     focusScope.requestFocus(FocusNode());
@@ -138,7 +130,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
             child: FlatButton(
               color: AppColor.primaryColor,
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: widget.onButtonClick,
               child: Text('Simpan'),
             ),
           )

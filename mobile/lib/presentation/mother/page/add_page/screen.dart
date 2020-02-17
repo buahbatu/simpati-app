@@ -87,12 +87,25 @@ class _MotherAddPageState extends State<MotherAddPage>
               Step3AddMother(
                 onButtonClick: () {
                   final mother = bloc.mother;
+
+                  bool matchFormat = true;
+
+                  if (isFilled(mother.bloodPressure)) {
+                    final pattern = r'^[0-9]+\/[0-9]+';
+                    RegExp regex = RegExp(pattern);
+                    matchFormat = regex.hasMatch(mother.bloodPressure);
+                  }
+
                   if (!isFilled(mother.height) ||
                       !isFilled(mother.weight) ||
                       !isFilled(mother.bloodPressure) ||
+                      !matchFormat ||
                       !isFilled(mother.bloodType)) {
                     Scaffold.of(ctx).showSnackBar(
-                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
+                      SnackBar(
+                        content: Text('Isi semua kolom terlebih dulu, ' +
+                            'tekanan darah dipisahkan menggunakan /'),
+                      ),
                     );
                   } else {
                     bloc.add(AddMotherEvent());
