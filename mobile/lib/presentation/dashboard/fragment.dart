@@ -112,7 +112,7 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider<DashboardBloc>(
-      create: (ctx) => DashboardBloc(),
+      create: (ctx) => DashboardBloc()..add(DashboardEvent.Init),
       child: Stack(
         children: <Widget>[
           Column(

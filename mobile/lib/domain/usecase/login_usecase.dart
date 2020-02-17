@@ -19,23 +19,14 @@ class LoginUsecase {
   final IPosyanduRepository _posyanduRepositoryPref;
   final AppPreferance _appPreferance;
 
-  LoginUsecase({
-    IAuthRepository authRepository,
-    INurseRepository nurseRepositoryFirebase,
-    INurseRepository nurseRepositoryPref,
-    IPosyanduRepository posyanduRepositoryFirebase,
-    IPosyanduRepository posyanduRepositoryPref,
-    AppPreferance appPreferance,
-  })  : this._authRepository = authRepository ?? AuthRepository(),
-        this._nurseRepositoryFirebase =
-            nurseRepositoryFirebase ?? NurseRepositoryFirebase(),
-        this._nurseRepositoryPref =
-            nurseRepositoryPref ?? NurseRepositoryPref(),
-        this._posyanduRepositoryFirebase =
-            posyanduRepositoryFirebase ?? PosyanduRepositoryFirebase(),
-        this._posyanduRepositoryPref =
-            posyanduRepositoryPref ?? PosyanduRepositoryPref(),
-        this._appPreferance = appPreferance ?? AppPreferance.get();
+  LoginUsecase(
+    this._authRepository,
+    this._nurseRepositoryFirebase,
+    this._nurseRepositoryPref,
+    this._posyanduRepositoryFirebase,
+    this._posyanduRepositoryPref,
+    this._appPreferance,
+  );
 
   Future<String> start(String email, String password) async {
     final resultAuth = await doLogin(email, password);

@@ -1,5 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:simpati/core/result/base_response.dart';
+import 'package:simpati/core/tools/app_preference.dart';
+import 'package:simpati/data/firebase/auth_repository.dart';
+import 'package:simpati/data/firebase/nurse_repository_firebase.dart';
+import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
+import 'package:simpati/data/local/nurse_repository_pref.dart';
+import 'package:simpati/data/local/posyandu_repository_pref.dart';
+import 'package:simpati/domain/repository/auth_repository.dart';
+import 'package:simpati/domain/repository/nurse_repository.dart';
+import 'package:simpati/domain/repository/posyandu_repository.dart';
 import 'package:simpati/domain/usecase/login_usecase.dart';
 
 class AuthEvent {}
@@ -36,8 +45,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String message;
 
   AuthBloc({
-    LoginUsecase loginUsecase,
-  }) : this._loginUsecase = loginUsecase ?? LoginUsecase();
+    IAuthRepository authRepository,
+    INurseRepository nurseRepositoryFirebase,
+    INurseRepository nurseRepositoryPref,
+    IPosyanduRepository posyanduRepositoryFirebase,
+    IPosyanduRepository posyanduRepositoryPref,
+    AppPreferance appPreferance,
+  }) : this._loginUsecase = LoginUsecase(
+          authRepository ?? AuthRepository(),
+          nurseRepositoryFirebase ?? NurseRepositoryFirebase(),
+          nurseRepositoryPref ?? NurseRepositoryPref(),
+          posyanduRepositoryFirebase ?? PosyanduRepositoryFirebase(),
+          posyanduRepositoryPref ?? PosyanduRepositoryPref(),
+          appPreferance ?? AppPreferance.get(),
+        );
 
   @override
   AuthState get initialState => AuthState.Init;

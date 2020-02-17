@@ -1,7 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:simpati/core/tools/app_preference.dart';
+import 'package:simpati/data/firebase/auth_repository.dart';
+import 'package:simpati/data/local/nurse_repository_pref.dart';
+import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
+import 'package:simpati/domain/repository/auth_repository.dart';
+import 'package:simpati/domain/repository/nurse_repository.dart';
+import 'package:simpati/domain/repository/posyandu_repository.dart';
 import 'package:simpati/domain/usecase/load_profile_usecase.dart';
 import 'package:simpati/domain/usecase/logout_usecase.dart';
 
@@ -24,10 +31,18 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final LogoutUsecase _logoutUsecase;
 
   AppBloc({
-    LoadProfileUsecase loadProfileUsecase,
-    LogoutUsecase logoutUsecase,
-  })  : this._loadProfileUsecase = loadProfileUsecase ?? LoadProfileUsecase(),
-        this._logoutUsecase = logoutUsecase ?? LogoutUsecase();
+    INurseRepository nurseRepositoryPref,
+    IPosyanduRepository posyanduRepositoryPref,
+    IAuthRepository authRepository,
+    AppPreferance appPreferance,
+  })  : this._loadProfileUsecase = LoadProfileUsecase(
+          nurseRepositoryPref ?? NurseRepositoryPref(),
+          posyanduRepositoryPref ?? PosyanduRepositoryPref(),
+        ),
+        this._logoutUsecase = LogoutUsecase(
+          authRepository ?? AuthRepository(),
+          appPreferance ?? AppPreferance.get(),
+        );
 
   @override
   AppState get initialState => state;
