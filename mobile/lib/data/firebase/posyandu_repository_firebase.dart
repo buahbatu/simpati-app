@@ -1,25 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/base_response.dart';
-import 'package:simpati/core/tools/data_parser_factory.dart';
+import 'package:simpati/data/firebase/base_firestore_repo.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/posyandu_repository.dart';
 
-class PosyanduRepositoryFirebase implements IPosyanduRepository {
-  final Firestore _firestore;
-  final DataParserFactory _parserFactory;
-
-  PosyanduRepositoryFirebase({
-    Firestore firestore,
-    DataParserFactory parserFactory,
-  })  : this._firestore = firestore ?? Firestore.instance,
-        this._parserFactory = parserFactory ?? DataParserFactory.get();
-
+class PosyanduRepositoryFirebase extends BaseFirestoreRepo
+    implements IPosyanduRepository {
   @override
   Future<BaseResponse<Posyandu>> getPosyandu({String posyanduId}) async {
     final document =
-        await _firestore.collection(_key).document(posyanduId).get();
-    final Posyandu posyandu = _parserFactory.decode(document.data);
+        await firestore.collection(_key).document(posyanduId).get();
+    final Posyandu posyandu = parserFactory.decode(document.data);
     return BaseResponse<Posyandu>(
       document.data,
       Status.success,
@@ -30,7 +21,7 @@ class PosyanduRepositoryFirebase implements IPosyanduRepository {
 
   @override
   Future<BaseResponse<Data>> savePosyandu(Posyandu posyandu) async {
-    await _firestore
+    await firestore
         .collection(_key)
         .document(posyandu.id)
         .setData(posyandu.toMap());

@@ -142,7 +142,7 @@ class _HomeScreen extends StatelessWidget {
             getSpace(),
             getSection(ctx, createSectionData(false, state.childMeta)),
             getSpace(isSmall: true),
-            ...getArticleSections(),
+            ...getArticleSections(state.articles),
           ],
         );
       },
@@ -231,22 +231,34 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> getArticleSections() {
-    return <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-        child: Text(
-          'Artikel Terbaru',
-          style: AppTextStyle.title.copyWith(
-            color: AppColor.primaryColor,
-            fontSize: 16,
-          ),
-        ),
-      ),
-      ArticleCard(Article.mock),
-      ArticleCard(Article.mock),
-      ArticleCard(Article.mock),
-    ];
+  List<Widget> getArticleSections(List<Article> articles) {
+    return (articles != null && articles.isNotEmpty)
+        ? <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Text(
+                'Artikel Terbaru',
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            ...articles.map((e) => ArticleCard(e)).toList(),
+          ]
+        : <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Text(
+                'Artikel Terbaru',
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            ArticleCard(Article.mock)
+          ];
   }
 
   Container getSpace({bool isSmall = true}) {
