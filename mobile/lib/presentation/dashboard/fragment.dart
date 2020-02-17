@@ -1,14 +1,17 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:native_color/native_color.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/domain/entity/recap.dart';
+import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/article/fragment/item/article_card.dart';
+import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/dashboard/bloc.dart';
 import 'package:simpati/presentation/dashboard/item/dashboard_content_card.dart';
 import 'package:simpati/presentation/dashboard/item/card_data.dart';
@@ -40,55 +43,85 @@ class DashboardFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createAppBar(BuildContext context) {
-    final userName = 'Khusnaini Aghniya';
-    final greeting = 'Selamat Datang!';
-    final posyanduName = 'Posyandu Kasih Ibu';
+  Widget createAppBar() {
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (ctx, state) {
+        final greeting = 'Selamat Datang!';
 
-    return AppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      title: Wrap(
-        direction: Axis.vertical,
-        spacing: 2,
-        children: <Widget>[
-          Text('Hi $userName,', style: AppTextStyle.titleName),
-          Text(
-            greeting,
-            style: AppTextStyle.title.copyWith(
+        return AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          title: Wrap(
+            direction: Axis.vertical,
+            spacing: 2,
+            children: <Widget>[
+              if (state.nurse != null)
+                Text('Hi ${state.nurse.fullName},',
+                    style: AppTextStyle.titleName),
+              Text(
+                greeting,
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: state.nurse != null ? 16 : 20,
+                ),
+              ),
+            ],
+          ),
+          backgroundColor: AppColor.appBackground,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(LineIcons.info),
               color: AppColor.primaryColor,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-      backgroundColor: AppColor.appBackground,
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(LineIcons.info),
-          color: AppColor.primaryColor,
-          onPressed: () => context.showAppInfo(
-            userName: userName,
-            posyanduName: posyanduName,
-            onLoginClick: () {},
-            onLogoutClick: () {},
-          ),
-        )
-      ],
+              onPressed: () => ctx.showAppInfo(
+                nurse: state?.nurse,
+                posyandu: state?.posyandu,
+                onLoginClick: () => onLoginClick(ctx),
+                onLogoutClick: () {
+                  Navigator.of(ctx).pop();
+                  BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+                  Scaffold.of(ctx).showSnackBar(
+                    SnackBar(
+                      content: Text('Logout Berhasil'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        );
+      },
     );
+  }
+
+  void onLoginClick(BuildContext context) async {
+    final result = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (ctx) => AuthScreen(),
+    ));
+    if (result != null) {
+      Navigator.of(context).pop();
+      BlocProvider.of<AppBloc>(context).add(AppEvent.AppLogin);
+      DashboardBloc()..add(DashboardEvent.Init);
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
-    return BlocProvider(
-      create: (ctx) => DashboardBloc(),
+    return BlocProvider<DashboardBloc>(
+      create: (ctx) => DashboardBloc()..add(DashboardEvent.Init),
       child: Stack(
         children: <Widget>[
           Column(
             children: <Widget>[
-              createAppBar(context),
-              Expanded(child: createContent(context)),
+              createAppBar(),
+              Expanded(child: createContent()),
             ],
           ),
           Container(height: safeHeight, color: AppColor.primaryColor),
@@ -97,50 +130,40 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  ListView createContent(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      padding: const EdgeInsets.all(0),
-      children: <Widget>[
-        getSpace(),
-        getSection(
-          context,
-          SectionData(
-            LineIcons.female,
-            'Rekap Kondisi Ibu',
-            2000,
-            'orang',
-            AppColor.redGradient,
-            'assets/undraw_mom.svg',
-            [
-              CardData('Berat Ideal', '80%'),
-              CardData('Gizi Baik', '90%'),
-              CardData('Sedang Hamil', '300'),
-            ],
-          ),
-        ),
-        getSpace(),
-        getSection(
-          context,
-          SectionData(
-            LineIcons.child,
-            'Rekap Kondisi Anak',
-            2000,
-            'orang',
-            AppColor.yellowGradient,
-            'assets/undraw_children.svg',
-            [
-              CardData('Berat Ideal', '80%'),
-              CardData('Panjang Ideal', '90%'),
-              CardData('Gizi Baik', '90%'),
-              CardData('Sudah Imunisasi', '98%'),
-              CardData('Telat Imunisasi', '30%'),
-            ],
-          ),
-        ),
-        getSpace(isSmall: true),
-        ...getArticleSections(),
-      ],
+  Widget createContent() {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (ctx, state) {
+        return ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          children: <Widget>[
+            getSpace(),
+            getSection(ctx, createSectionData(true, state.motherMeta)),
+            getSpace(),
+            getSection(ctx, createSectionData(false, state.childMeta)),
+            getSpace(isSmall: true),
+            ...getArticleSections(state.articles),
+          ],
+        );
+      },
+    );
+  }
+
+  SectionData createSectionData(bool isMother, PersonMeta meta) {
+    return SectionData(
+      LineIcons.child,
+      'Rekap Kondisi ${isMother ? 'Ibu' : 'Anak'}',
+      meta?.size ?? 0,
+      'orang',
+      isMother ? AppColor.redGradient : AppColor.yellowGradient,
+      isMother ? 'assets/undraw_mom.svg' : 'assets/undraw_children.svg',
+      meta?.list?.recaps?.map((e) {
+            final isPercentage = e.type == 'percentage';
+            final value = isPercentage ? (e.value / meta.size * 100) : e.value;
+            final unit = isPercentage ? '%' : '';
+            return CardData(e.title, '${value.toInt()}$unit');
+          })?.toList() ??
+          List(),
     );
   }
 
@@ -172,8 +195,9 @@ class _HomeScreen extends StatelessWidget {
                   Container(width: 2),
                   Text(
                     data.name,
-                    style:
-                        AppTextStyle.sectionTitle.copyWith(color: Colors.white),
+                    style: AppTextStyle.sectionTitle.copyWith(
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -198,6 +222,8 @@ class _HomeScreen extends StatelessWidget {
                     .map((d) => DashboardContentCard(contentWidth, d))
                     .toList(),
               ),
+              if (data.items.isEmpty)
+                SpinKitWave(color: Colors.white, size: 18.0),
             ],
           ),
         ],
@@ -205,22 +231,34 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> getArticleSections() {
-    return <Widget>[
-      Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          'Artikel Terbaru',
-          style: AppTextStyle.title.copyWith(
-            color: AppColor.primaryColor,
-            fontSize: 16,
-          ),
-        ),
-      ),
-      ArticleCard(Article.mock),
-      ArticleCard(Article.mock),
-      ArticleCard(Article.mock),
-    ];
+  List<Widget> getArticleSections(List<Article> articles) {
+    return (articles != null && articles.isNotEmpty)
+        ? <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Text(
+                'Artikel Terbaru',
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            ...articles.map((e) => ArticleCard(e)).toList(),
+          ]
+        : <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Text(
+                'Artikel Terbaru',
+                style: AppTextStyle.title.copyWith(
+                  color: AppColor.primaryColor,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            ArticleCard(Article.mock)
+          ];
   }
 
   Container getSpace({bool isSmall = true}) {

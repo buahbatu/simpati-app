@@ -25,8 +25,6 @@ class Step1AddKid extends StatelessWidget {
                 Container(height: 8),
                 FormUtils.buildField('Tanggal Lahir', isEnabled: false),
                 Container(height: 8),
-                FormUtils.buildField('Jenis Kelamin', isEnabled: false),
-                Container(height: 8),
                 Row(
                   children: <Widget>[
                     Expanded(
@@ -35,8 +33,15 @@ class Step1AddKid extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             side: BorderSide(width: 1, color: Colors.black26)),
                         onPressed: () {},
-                        child: SvgPicture.asset('assets/undraw_girl.svg',
-                            height: 120),
+                        child: Column(
+                          children: <Widget>[
+                            SvgPicture.asset('assets/undraw_girl.svg',
+                                height: 120),
+                            Container(height: 4),
+                            Text('Cewek', style: AppTextStyle.titleName),
+                            Container(height: 8),
+                          ],
+                        ),
                       ),
                     ),
                     Container(width: 8),
@@ -46,8 +51,15 @@ class Step1AddKid extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             side: BorderSide(width: 1, color: Colors.black26)),
                         onPressed: () {},
-                        child: SvgPicture.asset('assets/undraw_boy.svg',
-                            height: 120),
+                        child: Column(
+                          children: <Widget>[
+                            SvgPicture.asset('assets/undraw_boy.svg',
+                                height: 120),
+                            Container(height: 4),
+                            Text('Cowok', style: AppTextStyle.titleName),
+                            Container(height: 8),
+                          ],
+                        ),
                       ),
                     ),
                   ],

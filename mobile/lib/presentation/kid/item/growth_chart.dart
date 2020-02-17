@@ -28,8 +28,10 @@ class GrowthChart extends StatelessWidget {
                   return '12';
                 } else if (value == 24) {
                   return '24';
-                } else if (value == 35) {
-                  return '34 (bln)';
+                } else if (value == 34) {
+                  return '34';
+                } else if (value == 36) {
+                  return '(bln)';
                 } else {
                   return '';
                 }

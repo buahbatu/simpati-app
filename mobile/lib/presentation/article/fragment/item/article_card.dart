@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/presentation/article/page/screen.dart';
 
 class ArticleCard extends StatelessWidget {
   final Article data;
 
   const ArticleCard(this.data, {Key key}) : super(key: key);
 
+  ImageProvider getImage(String path) {
+    if (path.contains('assets://')) {
+      final finalPath = path.replaceAll('assets://', '');
+      return AssetImage(finalPath);
+    } else {
+      return NetworkImage(path);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (ctx) => ArticleScreen(url: data.url)),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
@@ -21,9 +35,9 @@ class ArticleCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 image: DecorationImage(
-                  image: AssetImage(data.imagePath),
+                  image: getImage(data.picture),
                   fit: BoxFit.cover,
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.topCenter,
                 ),
               ),
               width: double.infinity,

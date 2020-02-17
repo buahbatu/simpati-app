@@ -32,8 +32,6 @@ class KidInfoPage extends StatelessWidget {
         children: [
           createNameSection(),
           Container(height: 8),
-          createPhotoSection(),
-          Container(height: 8),
           createPersonalInfo(),
           Container(height: 8),
           createHealthCheckInfo(),
@@ -52,48 +50,27 @@ class KidInfoPage extends StatelessWidget {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(initialData.fullName, style: AppTextStyle.registerTitle),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
-              Container(width: 4),
-              Text(
-                initialData.address,
-                style: AppTextStyle.titleName.copyWith(fontSize: 12),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget createPhotoSection() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
       child: Row(
         children: <Widget>[
           CircleAvatar(
-            radius: 36,
+            radius: 24,
             backgroundColor: AppColor.profileBgColor,
-            child: Icon(LineIcons.child, color: Colors.white, size: 36),
+            child: Icon(LineIcons.child, color: Colors.white, size: 28),
           ),
-          Container(width: 16),
+          Container(width: 12),
           Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Foto Profil', style: AppTextStyle.sectionTitle),
+              Text(initialData.fullName, style: AppTextStyle.registerTitle),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  createProfileButton('Galeri', LineIcons.image),
-                  Container(width: 8),
-                  createProfileButton('Kamera', LineIcons.camera_retro),
+                  Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
+                  Container(width: 4),
+                  Text(
+                    initialData.address,
+                    style: AppTextStyle.titleName.copyWith(fontSize: 12),
+                  ),
                 ],
               ),
             ],
@@ -202,7 +179,7 @@ class KidInfoPage extends StatelessWidget {
                     ),
                     onPressed: () {},
                   ),
-                ),
+                ).reversed,
                 FlatButton(
                   padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
@@ -211,7 +188,8 @@ class KidInfoPage extends StatelessWidget {
                   color: AppColor.primaryColor,
                   child: Icon(LineIcons.plus, color: Colors.white),
                   onPressed: () {
-                    showDialog(context: context, child: KidMedicalCheckDialog());
+                    showDialog(
+                        context: context, child: KidMedicalCheckDialog());
                   },
                 ),
               ],

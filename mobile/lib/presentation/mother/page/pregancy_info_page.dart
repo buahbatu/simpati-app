@@ -211,7 +211,7 @@ class PregnancyInfoPage extends StatelessWidget {
                     ),
                     onPressed: () {},
                   ),
-                ),
+                ).reversed,
                 FlatButton(
                   padding: const EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(

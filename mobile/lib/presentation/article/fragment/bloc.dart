@@ -1,7 +1,18 @@
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
+import 'package:simpati/data/firebase/article_repository.dart';
 import 'package:simpati/domain/entity/article.dart';
+import 'package:simpati/domain/repository/article_repository.dart';
+import 'package:simpati/domain/usecase/load_article_usecase.dart';
 
 class ArticleBloc extends ScrollFragmentBloc<Article> {
+  final LoadArticleUsecase _loadArticleUsecase;
+
+  ArticleBloc({
+    IArticleRepository articleRepository,
+  }) : this._loadArticleUsecase = LoadArticleUsecase(
+          articleRepository ?? ArticleRepository(),
+        );
+
   @override
   ScrollFragmentState<Article> get initialState => ScrollFragmentState(items);
 
@@ -9,13 +20,8 @@ class ArticleBloc extends ScrollFragmentBloc<Article> {
   Stream<ScrollFragmentState<Article>> mapEventToState(
       ScrollFragmentEvent event) async* {
     if (event is Init) {
-      await Future.delayed(Duration(seconds: 2));
-      items.addAll([
-        Article.mock,
-        Article.mock,
-        Article.mock,
-        Article.mock,
-      ]);
+      final articleResult = await _loadArticleUsecase.start(5);
+      items.addAll(articleResult.data.articles);
       yield ScrollFragmentState(items);
     } else if (event is Add<Article>) {
       items.add(event.item);

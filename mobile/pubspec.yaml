@@ -24,15 +24,17 @@ dependencies:
   flutter_bloc: ^2.1.1
   native_color: ^1.0.0
   shared_preferences: 0.5.6+1
+  webview_flutter: ^0.3.19+7
   # firebase
-  # firebase_auth: ^0.15.4
-  # cloud_firestore: ^0.13.0+1
+  firebase_auth: ^0.15.4
+  cloud_firestore: ^0.13.2+1
   # firebase_storage: ^3.1.1
-  # firebase_crashlytics: ^0.1.2+5
-  # firebase_remote_config: ^0.3.0+1
+  firebase_crashlytics: ^0.1.2+5
+  firebase_remote_config: ^0.3.0+1
   # utils
   intl: ^0.15.8
   fluro: ^1.5.1
+  recase: ^3.0.0
   equatable: ^1.0.2
   package_info: ^0.4.0+13
   # views
@@ -40,6 +42,7 @@ dependencies:
   line_icons: ^0.2.0
   flutter_svg: ^0.17.1
   google_fonts: ^0.2.0
+  flutter_spinkit: "^4.1.1"
   bottom_navy_bar: ^5.2.2
 
 dev_dependencies:
@@ -49,13 +52,11 @@ dev_dependencies:
   mockito: ^4.1.1
   mock_data: ^1.2.5
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -63,16 +64,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/
+    - assets/
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
