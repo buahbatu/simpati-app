@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/domain/entity/mother.dart';
-import 'package:simpati/presentation/mother/fragment/add_steps/add_steps.dart';
+import 'package:simpati/presentation/mother/fragment/add_steps/step_1.dart';
+import 'package:simpati/presentation/mother/fragment/add_steps/step_2.dart';
+import 'package:simpati/presentation/mother/fragment/add_steps/step_3.dart';
 import 'package:simpati/presentation/mother/page/add_page/bloc.dart';
 
 class MotherAddPage extends StatefulWidget {
@@ -83,7 +85,19 @@ class _MotherAddPageState extends State<MotherAddPage>
                 },
               ),
               Step3AddMother(
-                onButtonClick: () {},
+                onButtonClick: () {
+                  final mother = bloc.mother;
+                  if (!isFilled(mother.height) ||
+                      !isFilled(mother.weight) ||
+                      !isFilled(mother.bloodPressure) ||
+                      !isFilled(mother.bloodType)) {
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
+                    );
+                  } else {
+                    bloc.add(AddMotherEvent());
+                  }
+                },
               ),
             ],
           );

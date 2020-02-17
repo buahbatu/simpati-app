@@ -16,6 +16,7 @@ class FormUtils {
     String label, {
     String value,
     String suffix,
+    String hint,
     bool isEnabled = true,
     bool obscureText = false,
     NextForm nextForm,
@@ -45,6 +46,7 @@ class FormUtils {
       decoration: InputDecoration(
         errorText: errorText,
         labelText: label,
+        hintText: hint,
         alignLabelWithHint: true,
         isDense: true,
         suffixText: suffix,
