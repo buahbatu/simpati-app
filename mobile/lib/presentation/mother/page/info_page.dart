@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
@@ -63,14 +64,16 @@ class MotherInfoPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(initialData.fullName, style: AppTextStyle.registerTitle),
+              Text(ReCase(initialData.fullName).titleCase,
+                  style: AppTextStyle.registerTitle),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
                   Container(width: 4),
                   Text(
-                    initialData.address,
+                    ReCase('${initialData.address}, ${initialData.city}, ${initialData.province}')
+                        .titleCase,
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                 ],
@@ -178,10 +181,11 @@ class MotherInfoPage extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               children: <Widget>[
-                ...List.generate(
-                  initialData.childCount,
-                  (i) => createChildCircle('Alif'),
-                ),
+                if (initialData.childCount != null)
+                  ...List.generate(
+                    initialData.childCount,
+                    (i) => createChildCircle('Alif'),
+                  ),
                 SizedBox(
                   height: 59,
                   width: 59,

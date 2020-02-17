@@ -10,6 +10,7 @@ import 'package:simpati/domain/repository/config_repository.dart';
 import 'package:simpati/domain/repository/person_meta_repository.dart';
 import 'package:simpati/domain/usecase/load_article_usecase.dart';
 import 'package:simpati/domain/usecase/load_meta_usecase.dart';
+import 'package:simpati/domain/usecase/person_meta_usecase.dart';
 
 enum DashboardEvent { Init }
 
