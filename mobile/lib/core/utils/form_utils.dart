@@ -30,7 +30,7 @@ class FormUtils {
     return TextFormField(
       maxLines: 1,
       textInputAction: inputAction,
-      isEnabled: isEnabled,
+      enabled: isEnabled,
       initialValue: value,
       keyboardType: inputType,
       focusNode: focusNode,

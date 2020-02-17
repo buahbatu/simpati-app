@@ -18,13 +18,13 @@ class Step1AddMother extends StatefulWidget {
 class _Step1AddMotherState extends State<Step1AddMother> {
   final TextEditingController dateController = TextEditingController();
 
+  final nameFocus = FocusNode();
+  final husbandFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<AddMotherBloc>(context);
-
     final focusScope = FocusScope.of(context);
-    final nameFocus = FocusNode();
-    final husbandFocus = FocusNode();
 
     return Padding(
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
@@ -106,9 +106,16 @@ class _Step1AddMotherState extends State<Step1AddMother> {
 class Step2AddMother extends StatelessWidget {
   final VoidCallback onButtonClick;
 
-  const Step2AddMother({Key key, this.onButtonClick}) : super(key: key);
+  Step2AddMother({Key key, this.onButtonClick}) : super(key: key);
+
+  final addressFocus = FocusNode();
+  final cityFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AddMotherBloc>(context);
+    final focusScope = FocusScope.of(context);
+
     return Padding(
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
       child: Column(
@@ -123,19 +130,45 @@ class Step2AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                FormUtils.buildField('Nomor Telpon'),
+                FormUtils.buildField(
+                  'Nomor Telpon',
+                  inputType: TextInputType.number,
+                  onChanged: (s) =>
+                      bloc.mother = bloc.mother.copyWith(phone: s),
+                  nextForm: NextForm(focusScope, addressFocus),
+                ),
                 Container(height: 8),
-                FormUtils.buildField('Alamat'),
+                FormUtils.buildField(
+                  'Alamat',
+                  focusNode: addressFocus,
+                  onChanged: (s) =>
+                      bloc.mother = bloc.mother.copyWith(address: s),
+                ),
                 Container(height: 8),
                 Row(
                   children: <Widget>[
-                    Expanded(child: FormUtils.buildField('Provinsi')),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Provinsi',
+                        value: 'Jawa Barat',
+                        nextForm: NextForm(focusScope, cityFocus),
+                        onChanged: (s) =>
+                            bloc.mother = bloc.mother.copyWith(province: s),
+                      ),
+                    ),
                     Container(width: 8),
-                    Expanded(child: FormUtils.buildField('Kota')),
+                    Expanded(
+                        child: FormUtils.buildField(
+                      'Kota',
+                      focusNode: cityFocus,
+                      value: 'Sumedang',
+                      onChanged: (s) =>
+                          bloc.mother = bloc.mother.copyWith(city: s),
+                    )),
                   ],
                 ),
                 Container(height: 8),
-                FormUtils.buildField('Titik Koordinat', isEnabled: false),
+                // FormUtils.buildField('Titik Koordinat', isEnabled: false),
               ],
             ),
           ),

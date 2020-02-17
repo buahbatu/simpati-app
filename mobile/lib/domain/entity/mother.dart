@@ -9,6 +9,8 @@ class Mother extends Equatable implements Data {
   final String fullName;
   final String husbandName;
   final String address;
+  final String province;
+  final String city;
   final String phone;
   final int childCount;
   final double weight;
@@ -24,6 +26,8 @@ class Mother extends Equatable implements Data {
     this.fullName,
     this.husbandName,
     this.address,
+    this.province,
+    this.city,
     this.phone,
     this.childCount,
     this.weight,
@@ -40,6 +44,8 @@ class Mother extends Equatable implements Data {
     String fullName,
     String husbandName,
     String address,
+    String province,
+    String city,
     String phone,
     int childCount,
     double weight,
@@ -55,6 +61,8 @@ class Mother extends Equatable implements Data {
       fullName: fullName ?? this.fullName,
       husbandName: husbandName ?? this.husbandName,
       address: address ?? this.address,
+      province: province ?? this.province,
+      city: city ?? this.city,
       phone: phone ?? this.phone,
       childCount: childCount ?? this.childCount,
       weight: weight ?? this.weight,
@@ -72,6 +80,8 @@ class Mother extends Equatable implements Data {
     fullName: 'Khusnaini Aghniya',
     husbandName: 'Muhammad Alif Akbar',
     address: 'Jl Singosari',
+    province: 'Jawa Barat',
+    city: 'Sumedang',
     phone: '+62 81312239294',
     childCount: 3,
     weight: 50,
@@ -89,6 +99,8 @@ class Mother extends Equatable implements Data {
         this.fullName,
         this.husbandName,
         this.address,
+        this.province,
+        this.city,
         this.phone,
         this.childCount,
         this.weight,
@@ -107,6 +119,8 @@ class Mother extends Equatable implements Data {
       'fullName': this.fullName,
       'husbandName': this.husbandName,
       'address': this.address,
+      'province': this.province,
+      'city': this.city,
       'phone': this.phone,
       'childCount': this.childCount,
       'weight': this.weight,
@@ -125,6 +139,8 @@ class Mother extends Equatable implements Data {
       fullName: map['fullName'],
       husbandName: map['husbandName'],
       address: map['address'],
+      province: map['province'],
+      city: map['city'],
       phone: map['phone'],
       childCount: map['childCount'],
       weight: double.parse(map['weight'].toString()),

@@ -7,7 +7,7 @@ class AddMotherEvent {}
 class AddMotherState {}
 
 class AddMotherBloc extends Bloc<AddMotherEvent, AddMotherState> {
-  Mother mother = Mother();
+  Mother mother = Mother(province: 'Jawa Barat', city: 'Sumedang');
 
   @override
   AddMotherState get initialState => AddMotherState();

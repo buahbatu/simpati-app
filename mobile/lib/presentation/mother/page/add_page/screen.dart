@@ -33,35 +33,61 @@ class _MotherAddPageState extends State<MotherAddPage>
     );
   }
 
+  bool isFilled<T>(T value) {
+    if (value is String) {
+      return value != null && value.isNotEmpty;
+    }
+    return value != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddMotherBloc>(
       create: (ctx) => AddMotherBloc(),
-      child: Builder(
-        builder: (ctx) {
-          return Scaffold(
-            backgroundColor: AppColor.appBackground,
-            appBar: createAppBar(context),
-            body: TabBarView(
-              controller: _tabController,
-              children: [
-                Step1AddMother(
-                  onButtonClick: () {
+      child: Scaffold(
+        backgroundColor: AppColor.appBackground,
+        appBar: createAppBar(context),
+        body: Builder(builder: (ctx) {
+          final bloc = BlocProvider.of<AddMotherBloc>(ctx);
+          return TabBarView(
+            controller: _tabController,
+            children: [
+              Step1AddMother(
+                onButtonClick: () {
+                  final mother = bloc.mother;
+                  if (!isFilled(mother.nik) ||
+                      !isFilled(mother.fullName) ||
+                      !isFilled(mother.birthDate) ||
+                      !isFilled(mother.husbandName)) {
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
+                    );
+                  } else {
                     _tabController.animateTo(1);
-                  },
-                ),
-                Step2AddMother(
-                  onButtonClick: () {
+                  }
+                },
+              ),
+              Step2AddMother(
+                onButtonClick: () {
+                  final mother = bloc.mother;
+                  if (!isFilled(mother.phone) ||
+                      !isFilled(mother.address) ||
+                      !isFilled(mother.province) ||
+                      !isFilled(mother.city)) {
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(content: Text('Isi semua kolom terlebih dulu')),
+                    );
+                  } else {
                     _tabController.animateTo(2);
-                  },
-                ),
-                Step3AddMother(
-                  onButtonClick: () {},
-                ),
-              ],
-            ),
+                  }
+                },
+              ),
+              Step3AddMother(
+                onButtonClick: () {},
+              ),
+            ],
           );
-        },
+        }),
       ),
     );
   }
