@@ -15,24 +15,26 @@ class FormUtils {
   static TextFormField buildField(
     String label, {
     String value,
-    bool isEnabled = true,
     String suffix,
-    TextInputType inputType,
+    bool isEnabled = true,
     bool obscureText = false,
     NextForm nextForm,
     FocusNode focusNode,
     StringCallback onChanged,
     String errorText,
+    TextInputType inputType,
+    TextEditingController controller,
   }) {
     final inputAction =
         nextForm == null ? TextInputAction.done : TextInputAction.next;
     return TextFormField(
       maxLines: 1,
       textInputAction: inputAction,
-      enabled: isEnabled,
+      isEnabled: isEnabled,
       initialValue: value,
       keyboardType: inputType,
       focusNode: focusNode,
+      controller: controller,
       onFieldSubmitted: (text) {
         if (nextForm != null) {
           nextForm.scopeNode.requestFocus(nextForm.nextNode);

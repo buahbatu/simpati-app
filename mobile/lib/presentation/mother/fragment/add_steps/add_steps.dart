@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/presentation/mother/page/add_page/bloc.dart';
 
-class Step1AddMother extends StatelessWidget {
+class Step1AddMother extends StatefulWidget {
+  final VoidCallback onButtonClick;
+
+  const Step1AddMother({Key key, this.onButtonClick}) : super(key: key);
+
+  @override
+  _Step1AddMotherState createState() => _Step1AddMotherState();
+}
+
+class _Step1AddMotherState extends State<Step1AddMother> {
+  final TextEditingController dateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AddMotherBloc>(context);
+
+    final focusScope = FocusScope.of(context);
+    final nameFocus = FocusNode();
+    final husbandFocus = FocusNode();
+
     return Padding(
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
       child: Column(
@@ -20,11 +40,51 @@ class Step1AddMother extends StatelessWidget {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
-                FormUtils.buildField('Nama Lengkap'),
+                FormUtils.buildField(
+                  'NIK',
+                  inputType: TextInputType.number,
+                  nextForm: NextForm(focusScope, nameFocus),
+                  onChanged: (s) => bloc.mother = bloc.mother.copyWith(nik: s),
+                ),
                 Container(height: 8),
-                FormUtils.buildField('Tanggal Lahir', isEnabled: false),
+                FormUtils.buildField(
+                  'Nama Lengkap',
+                  focusNode: nameFocus,
+                  onChanged: (s) => bloc.mother = bloc.mother.copyWith(
+                    fullName: s,
+                  ),
+                ),
+                Container(height: 8),
+                InkWell(
+                  child: FormUtils.buildField(
+                    'Tanggal Lahir',
+                    controller: dateController,
+                    isEnabled: false,
+                  ),
+                  onTap: () async {
+                    final date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1940),
+                      lastDate: DateTime(2080),
+                    );
+                    if (date != null) {
+                      bloc.mother = bloc.mother.copyWith(birthDate: date);
+                      setState(() {
+                        dateController.text = date.standardFormat();
+                      });
+                    }
+                    focusScope.requestFocus(husbandFocus);
+                  },
+                ),
                 Container(height: 21),
-                FormUtils.buildField('Nama Suami'),
+                FormUtils.buildField(
+                  'Nama Suami',
+                  focusNode: husbandFocus,
+                  onChanged: (s) => bloc.mother = bloc.mother.copyWith(
+                    husbandName: s,
+                  ),
+                ),
               ],
             ),
           ),
@@ -33,7 +93,7 @@ class Step1AddMother extends StatelessWidget {
             child: FlatButton(
               color: AppColor.primaryColor,
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: widget.onButtonClick,
               child: Text('Lanjut'),
             ),
           )
@@ -44,6 +104,9 @@ class Step1AddMother extends StatelessWidget {
 }
 
 class Step2AddMother extends StatelessWidget {
+  final VoidCallback onButtonClick;
+
+  const Step2AddMother({Key key, this.onButtonClick}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +144,7 @@ class Step2AddMother extends StatelessWidget {
             child: FlatButton(
               color: AppColor.primaryColor,
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: onButtonClick,
               child: Text('Lanjut'),
             ),
           )
@@ -92,6 +155,10 @@ class Step2AddMother extends StatelessWidget {
 }
 
 class Step3AddMother extends StatelessWidget {
+  final VoidCallback onButtonClick;
+
+  const Step3AddMother({Key key, this.onButtonClick}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

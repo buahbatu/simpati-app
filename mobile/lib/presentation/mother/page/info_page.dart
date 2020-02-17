@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
@@ -110,7 +110,7 @@ class MotherInfoPage extends StatelessWidget {
           Container(height: 21),
           FormUtils.buildField(
             'Tanggal Lahir',
-            value: initialData.dateOfBirth.standardFormat(),
+            value: initialData.birthDate.standardFormat(),
             isEnabled: false,
           ),
           Container(height: 8),
@@ -150,7 +150,7 @@ class MotherInfoPage extends StatelessWidget {
           Container(height: 21),
           FormUtils.buildField(
             'Nomor Telpon',
-            value: initialData.phoneNumber,
+            value: initialData.phone,
             isEnabled: false,
           ),
           Container(height: 8),

@@ -11,7 +11,7 @@ import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/mother/fragment/home/bloc.dart';
 import 'package:simpati/presentation/mother/fragment/home/item/mother_card.dart';
-import 'package:simpati/presentation/mother/page/add_page.dart';
+import 'package:simpati/presentation/mother/page/add_page/screen.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';

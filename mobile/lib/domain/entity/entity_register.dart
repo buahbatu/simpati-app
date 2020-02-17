@@ -2,6 +2,7 @@ import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/domain/entity/auth_info.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
@@ -21,6 +22,7 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(MetaConfigList.fromMap);
     DataParserFactory.get().registerDecoder(Article.fromMap);
     DataParserFactory.get().registerDecoder(ArticleList.fromMap);
+    DataParserFactory.get().registerDecoder(Mother.fromMap);
   }
 
   // instance

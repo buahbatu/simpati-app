@@ -81,9 +81,9 @@ class MotherCard extends StatelessWidget {
   }
 
   Text createAge() {
-    int age = DateTime.now().year - data.dateOfBirth.year;
-    final diffMonth = DateTime.now().month - data.dateOfBirth.month;
-    final diffDay = DateTime.now().day - data.dateOfBirth.day;
+    int age = DateTime.now().year - data.birthDate.year;
+    final diffMonth = DateTime.now().month - data.birthDate.month;
+    final diffDay = DateTime.now().day - data.birthDate.day;
 
     if (diffMonth < 0 && diffDay < 0) {
       age -= 1;
