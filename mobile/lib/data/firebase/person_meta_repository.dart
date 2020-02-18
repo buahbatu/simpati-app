@@ -50,15 +50,15 @@ class PersonMetaRepository extends BaseFirestoreRepo
     MetaConfigList metaConfigList,
     T value,
   ) async {
-    await firestore.collection(key).document(metaKey).updateData(
+    await firestore.collection(metaKey).document(key).updateData(
       {'size': FieldValue.increment(1)},
     );
 
     // TODO: read classification on paper
     metaConfigList.data.forEach((element) async {
       await firestore
-          .collection(key)
-          .document(metaKey)
+          .collection(metaKey)
+          .document(key)
           .collection(recapKey)
           .document(element.key)
           .updateData({'value': FieldValue.increment(1)});
