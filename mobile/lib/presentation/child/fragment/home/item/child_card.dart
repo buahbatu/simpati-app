@@ -59,7 +59,7 @@ class ChildCard extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     children: <Widget>[
-                      createChip('Ibu Sophia'),
+                      createChip('Ibu ${data.momFirstName}'),
                       createChip('Gemuk'),
                       createChip('Gizi Baik'),
                     ],

@@ -127,14 +127,16 @@ class Child extends Equatable implements Data {
       address: map['address'],
       momName: map['momName'],
       bloodType: map['bloodType'],
-      weight: map['weight'],
-      height: map['height'],
-      headSize: map['headSize'],
-      temperature: map['temperature'],
+      weight: double.parse(map['weight'].toString()),
+      height: double.parse(map['height'].toString()),
+      headSize: double.parse(map['headSize'].toString()),
+      temperature: double.parse(map['temperature'].toString()),
       birthDate: DateUtils.parseTimeData(map['birthDate']),
       picture: map['picture'],
     );
   }
+
+  String get momFirstName => momName.split(' ').first;
 }
 
 class ChildList extends Equatable implements Data {

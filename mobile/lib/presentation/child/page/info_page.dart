@@ -108,7 +108,7 @@ class ChildInfoPage extends StatelessWidget {
           Container(height: 21),
           FormUtils.buildField(
             'Nama Ibu',
-            value: 'Khusnaini Aghniya',
+            value: initialData.momName,
             isEnabled: false,
           ),
           Container(height: 8),

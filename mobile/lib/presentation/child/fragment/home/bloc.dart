@@ -25,12 +25,15 @@ class ChildBloc extends ScrollFragmentBloc<Child> {
       ScrollFragmentEvent event) async* {
     if (event is Init) {
       final result = await _loadChildUsecase.start();
+      print('init');
       if (result.isSuccess()) {
         items.addAll(result.data.childs);
       }
       yield ScrollFragmentState(items);
     } else if (event is Add<Child>) {
-      items.add(event.item);
+      items
+        ..add(event.item)
+        ..sort((a, b) => a.fullName.compareTo(b.fullName));
       yield ScrollFragmentState(items);
     }
   }

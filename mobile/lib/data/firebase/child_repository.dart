@@ -35,7 +35,7 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
     return BaseResponse(
       null,
       Status.success,
-      'Load mother success',
+      'Load childs success',
       ChildList(childs),
     );
   }

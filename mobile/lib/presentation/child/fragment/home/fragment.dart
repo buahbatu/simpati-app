@@ -8,6 +8,7 @@ import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/presentation/app/app_bloc.dart';
+import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
@@ -40,12 +41,20 @@ class ChildFragment implements BaseHomeFragment {
 
 class _HomeScreen extends StatelessWidget {
   Widget createActionButton() {
-    return Builder(
-      builder: (ctx) {
+    return BlocBuilder<AppBloc, AppState>(
+      builder: (ctx, state) {
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () async => addChildData(ctx),
+            onPressed: () async {
+              if (state.posyandu != null) {
+                addChildData(ctx);
+              } else {
+                await Navigator.of(ctx).push(
+                  MaterialPageRoute(builder: (ctx) => AuthScreen()),
+                );
+              }
+            },
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -59,11 +68,21 @@ class _HomeScreen extends StatelessWidget {
   void addChildData(BuildContext context) async {
     // ignore: close_sinks
     final bloc = BlocProvider.of<ChildBloc>(context);
+    final appBloc = BlocProvider.of<AppBloc>(context);
+
     final data = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (ctx) => ChildAddPage()));
 
-    // if data != null
-    bloc.add(Add(Child.mock));
+    if (data != null && data is Child) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Anak berhasil ditambahkan'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      bloc.add(Add(data));
+      appBloc.add(AppEvent.AppReLoaded);
+    }
   }
 
   Widget createAppBar(BuildContext context) {
