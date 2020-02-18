@@ -25,6 +25,7 @@ class MotherRepository extends BaseFirestoreRepo implements IMotherRepository {
   Future<BaseResponse<MotherList>> getAllMothers(Posyandu posyandu) async {
     final snapshots = await firestore
         .collection('mothers')
+        .orderBy('fullName')
         .where('posyanduId', isEqualTo: posyandu.id)
         .getDocuments();
 

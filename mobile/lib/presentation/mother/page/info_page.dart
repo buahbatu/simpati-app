@@ -10,6 +10,7 @@ import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/presentation/kid/page/add_page.dart';
 import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/presentation/mother/page/pregancy_info_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MotherInfoPage extends StatelessWidget {
   final Mother initialData;
@@ -151,10 +152,20 @@ class MotherInfoPage extends StatelessWidget {
         children: <Widget>[
           Text('Informasi Kontak', style: AppTextStyle.sectionTitle),
           Container(height: 21),
-          FormUtils.buildField(
-            'Nomor Telpon',
-            value: initialData.phone,
-            isEnabled: false,
+          InkWell(
+            onTap: () async {
+              String phone = 'tel:${initialData.phone}';
+              if (await canLaunch(phone)) {
+                await launch(phone);
+              } else {
+                throw 'Nomor tidak valid ${initialData.phone}';
+              }
+            },
+            child: FormUtils.buildField(
+              'Nomor Telpon',
+              value: initialData.phone,
+              isEnabled: false,
+            ),
           ),
           Container(height: 8),
           FormUtils.buildField(
