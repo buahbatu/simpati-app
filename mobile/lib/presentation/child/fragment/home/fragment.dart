@@ -6,17 +6,17 @@ import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/domain/entity/kid.dart';
+import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/home/bloc.dart';
 import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
-import 'package:simpati/presentation/kid/fragment/home/bloc.dart';
-import 'package:simpati/presentation/kid/fragment/home/item/kid_card.dart';
-import 'package:simpati/presentation/kid/page/add_page.dart';
+import 'package:simpati/presentation/child/fragment/home/bloc.dart';
+import 'package:simpati/presentation/child/fragment/home/item/child_card.dart';
+import 'package:simpati/presentation/child/page/add_page.dart';
 
-class KidFragment implements BaseHomeFragment {
-  KidFragment(this.position);
+class ChildFragment implements BaseHomeFragment {
+  ChildFragment(this.position);
 
   @override
   void onTabSelected(BuildContext mContext) {
@@ -45,7 +45,7 @@ class _HomeScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(16),
           child: MaterialButton(
-            onPressed: () async => addKidData(ctx),
+            onPressed: () async => addChildData(ctx),
             color: AppColor.primaryColor,
             shape: CircleBorder(),
             padding: const EdgeInsets.all(16),
@@ -56,14 +56,14 @@ class _HomeScreen extends StatelessWidget {
     );
   }
 
-  void addKidData(BuildContext context) async {
+  void addChildData(BuildContext context) async {
     // ignore: close_sinks
-    final bloc = BlocProvider.of<KidBloc>(context);
+    final bloc = BlocProvider.of<ChildBloc>(context);
     final data = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => KidAddPage()));
+        .push(MaterialPageRoute(builder: (ctx) => ChildAddPage()));
 
     // if data != null
-    bloc.add(Add(Kid.mock));
+    bloc.add(Add(Child.mock));
   }
 
   Widget createAppBar(BuildContext context) {
@@ -105,7 +105,7 @@ class _HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider(
-      create: (ctx) => KidBloc(),
+      create: (ctx) => ChildBloc()..add(Init()),
       child: Stack(
         children: <Widget>[
           Column(
@@ -125,12 +125,12 @@ class _HomeScreen extends StatelessWidget {
   }
 
   Widget getContents() {
-    return BlocBuilder<KidBloc, ScrollFragmentState<Kid>>(
+    return BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
       builder: (context, state) {
         return state.items.isNotEmpty
             ? ListView(
                 padding: const EdgeInsets.all(0),
-                children: state.items.map((d) => KidCard(d)).toList(),
+                children: state.items.map((d) => ChildCard(d)).toList(),
               )
             : BlocBuilder<AppBloc, AppState>(
                 builder: (ctx, appState) {

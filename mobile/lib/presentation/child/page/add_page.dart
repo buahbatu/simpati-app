@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:simpati/core/resources/app_color.dart';
-import 'package:simpati/domain/entity/Kid.dart';
-import 'package:simpati/presentation/Kid/fragment/add_steps/add_steps.dart';
+import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/presentation/child/fragment/add_steps/add_steps.dart';
 
-class KidAddPage extends StatelessWidget {
-  final Kid initialData;
+class ChildAddPage extends StatelessWidget {
+  final Child initialData;
 
-  const KidAddPage({Key key, this.initialData}) : super(key: key);
+  const ChildAddPage({Key key, this.initialData}) : super(key: key);
 
   Widget createAppBar(BuildContext context) {
     return AppBar(
@@ -26,8 +26,8 @@ class KidAddPage extends StatelessWidget {
         appBar: createAppBar(context),
         body: TabBarView(
           children: [
-            Step1AddKid(),
-            Step2AddKid(),
+            Step1AddChild(),
+            Step2AddChild(),
           ],
         ),
       ),

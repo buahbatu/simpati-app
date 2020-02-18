@@ -4,7 +4,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 
-class Step1AddKid extends StatelessWidget {
+class Step1AddChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -84,7 +84,7 @@ class Step1AddKid extends StatelessWidget {
   }
 }
 
-class Step2AddKid extends StatelessWidget {
+class Step2AddChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(

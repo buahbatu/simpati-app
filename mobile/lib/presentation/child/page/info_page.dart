@@ -4,14 +4,14 @@ import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/domain/entity/kid.dart';
-import 'package:simpati/presentation/kid/item/growth_chart.dart';
-import 'package:simpati/presentation/kid/page/med_check.dart';
+import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/presentation/child/item/growth_chart.dart';
+import 'package:simpati/presentation/child/dialog/med_check.dart';
 
-class KidInfoPage extends StatelessWidget {
-  final Kid initialData;
+class ChildInfoPage extends StatelessWidget {
+  final Child initialData;
 
-  const KidInfoPage(this.initialData, {Key key}) : super(key: key);
+  const ChildInfoPage(this.initialData, {Key key}) : super(key: key);
 
   Widget createAppBar(BuildContext context) {
     return AppBar(
@@ -114,7 +114,7 @@ class KidInfoPage extends StatelessWidget {
           Container(height: 8),
           FormUtils.buildField(
             'Tanggal Lahir',
-            value: initialData.dateOfBirth.standardFormat(),
+            value: initialData.birthDate.standardFormat(),
             isEnabled: false,
           ),
           Container(height: 8),
@@ -189,7 +189,7 @@ class KidInfoPage extends StatelessWidget {
                   child: Icon(LineIcons.plus, color: Colors.white),
                   onPressed: () {
                     showDialog(
-                        context: context, child: KidMedicalCheckDialog());
+                        context: context, child: ChildMedicalCheckDialog());
                   },
                 ),
               ],
