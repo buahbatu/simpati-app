@@ -7,7 +7,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
-import 'package:simpati/presentation/child/page/add_page.dart';
+import 'package:simpati/presentation/child/page/add_page/screen.dart';
 import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/presentation/mother/page/pregancy_info_page.dart';
 import 'package:url_launcher/url_launcher.dart';

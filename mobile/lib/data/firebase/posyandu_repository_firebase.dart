@@ -37,14 +37,15 @@ class PosyanduRepositoryFirebase extends BaseFirestoreRepo
   static String _key = 'posyandu';
 
   @override
-  Future<BaseResponse<Data>> updateMomSize(
+  Future<BaseResponse<Data>> updateCount(
+    String fieldName,
     FieldValue increaser, {
     Posyandu posyandu,
   }) async {
     await firestore
         .collection(_key)
         .document(posyandu.id)
-        .updateData({'childCount': increaser});
+        .updateData({fieldName: increaser});
 
     return BaseResponse(
       null,

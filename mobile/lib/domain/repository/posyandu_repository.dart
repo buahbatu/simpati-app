@@ -6,7 +6,8 @@ abstract class IPosyanduRepository {
   Future<BaseResponse<Posyandu>> getPosyandu({String posyanduId});
   Future<BaseResponse> savePosyandu(Posyandu nurse);
 
-  Future<BaseResponse> updateMomSize(
+  Future<BaseResponse> updateCount(
+    String fieldName,
     FieldValue increaser, {
     Posyandu posyandu,
   });

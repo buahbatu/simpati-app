@@ -14,7 +14,7 @@ import 'package:simpati/presentation/home/fragment.dart';
 import 'package:simpati/core/utils/message_utils.dart';
 import 'package:simpati/presentation/child/fragment/home/bloc.dart';
 import 'package:simpati/presentation/child/fragment/home/item/child_card.dart';
-import 'package:simpati/presentation/child/page/add_page.dart';
+import 'package:simpati/presentation/child/page/add_page/screen.dart';
 
 class ChildFragment implements BaseHomeFragment {
   ChildFragment(this.position);

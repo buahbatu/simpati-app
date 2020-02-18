@@ -16,6 +16,7 @@ class Child extends Equatable implements Data {
   final double height;
   final double headSize;
   final double temperature;
+  final bool isGirl;
   final DateTime birthDate;
   final String picture;
 
@@ -31,6 +32,7 @@ class Child extends Equatable implements Data {
     this.height,
     this.headSize,
     this.temperature,
+    this.isGirl,
     this.birthDate,
     this.picture,
   });
@@ -47,6 +49,7 @@ class Child extends Equatable implements Data {
     double height,
     double headSize,
     double temperature,
+    bool isGirl,
     DateTime birthDate,
     String picture,
   }) {
@@ -62,6 +65,7 @@ class Child extends Equatable implements Data {
       height: height ?? this.height,
       headSize: headSize ?? this.headSize,
       temperature: temperature ?? this.temperature,
+      isGirl: isGirl ?? this.isGirl,
       birthDate: birthDate ?? this.birthDate,
       picture: picture ?? this.picture,
     );
@@ -79,6 +83,7 @@ class Child extends Equatable implements Data {
     height: 150,
     headSize: 25,
     temperature: 25,
+    isGirl: false,
     birthDate: DateFormat('dd/MM/yyyy').parse('1/10/2019'),
   );
 
@@ -95,6 +100,7 @@ class Child extends Equatable implements Data {
         this.height,
         this.headSize,
         this.temperature,
+        this.isGirl,
         this.birthDate,
         this.picture,
       ];
@@ -113,6 +119,7 @@ class Child extends Equatable implements Data {
       'height': this.height,
       'headSize': this.headSize,
       'temperature': this.temperature,
+      'isGirl': this.isGirl,
       'birthDate': this.birthDate.millisecondsSinceEpoch,
       'picture': this.picture,
     };
@@ -131,6 +138,7 @@ class Child extends Equatable implements Data {
       height: double.parse(map['height'].toString()),
       headSize: double.parse(map['headSize'].toString()),
       temperature: double.parse(map['temperature'].toString()),
+      isGirl: map['isGirl'],
       birthDate: DateUtils.parseTimeData(map['birthDate']),
       picture: map['picture'],
     );

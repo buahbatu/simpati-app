@@ -28,11 +28,9 @@ class PosyanduRepositoryPref implements IPosyanduRepository {
   static String _key = 'Posyandu';
 
   @override
-  Future<BaseResponse<Data>> updateMomSize(
-    FieldValue increaser, {
-    Posyandu posyandu,
-  }) async {
-    // TODO: implement updateMomSize
+  Future<BaseResponse<Data>> updateCount(String fieldName, FieldValue increaser,
+      {Posyandu posyandu}) {
+    // TODO: implement updateCount
     throw UnimplementedError();
   }
 }
