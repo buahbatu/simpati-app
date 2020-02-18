@@ -62,27 +62,39 @@ class MotherInfoPage extends StatelessWidget {
             child: Icon(LineIcons.female, color: Colors.white, size: 24),
           ),
           Container(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(ReCase(initialData.fullName).titleCase,
-                  style: AppTextStyle.registerTitle),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
-                  Container(width: 4),
-                  Text(
-                    ReCase('${initialData.address}, ${initialData.city}, ${initialData.province}')
-                        .titleCase,
-                    style: AppTextStyle.titleName.copyWith(fontSize: 12),
-                  ),
-                ],
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(ReCase(initialData.fullName).titleCase,
+                    style: AppTextStyle.registerTitle),
+                Container(height: 3),
+                createAddress(),
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget createAddress() {
+    final address =
+        '${initialData.address}, ${initialData.city}, ${initialData.province}';
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
+        Container(width: 4),
+        Expanded(
+          child: Text(
+            ReCase(address).titleCase,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTextStyle.titleName.copyWith(fontSize: 12),
+          ),
+        ),
+      ],
     );
   }
 
@@ -112,6 +124,12 @@ class MotherInfoPage extends StatelessWidget {
         children: <Widget>[
           Text('Data Pribadi', style: AppTextStyle.sectionTitle),
           Container(height: 21),
+          FormUtils.buildField(
+            'NIK (Nomor Induk Kependudukan)',
+            value: initialData.nik,
+            isEnabled: false,
+          ),
+          Container(height: 8),
           FormUtils.buildField(
             'Tanggal Lahir',
             value: initialData.birthDate.standardFormat(),
@@ -161,11 +179,10 @@ class MotherInfoPage extends StatelessWidget {
                 throw 'Nomor tidak valid ${initialData.phone}';
               }
             },
-            child: FormUtils.buildField(
-              'Nomor Telpon',
-              value: initialData.phone,
-              isEnabled: false,
-            ),
+            child: FormUtils.buildField('Nomor Telpon',
+                value: initialData.phone,
+                isEnabled: false,
+                suffixIcon: Icon(LineIcons.phone)),
           ),
           Container(height: 8),
           FormUtils.buildField(
