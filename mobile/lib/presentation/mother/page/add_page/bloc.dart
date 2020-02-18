@@ -5,7 +5,6 @@ import 'package:simpati/data/firebase/mother_repository.dart';
 import 'package:simpati/data/firebase/person_meta_repository.dart';
 import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
 import 'package:simpati/data/local/posyandu_repository_pref.dart';
-
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/repository/config_repository.dart';
 import 'package:simpati/domain/repository/mother_repository.dart';

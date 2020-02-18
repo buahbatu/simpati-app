@@ -1,6 +1,5 @@
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/base_response.dart';
-import 'package:simpati/domain/entity/recap.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
 import 'package:simpati/domain/repository/config_repository.dart';
 import 'package:simpati/domain/repository/person_meta_repository.dart';
