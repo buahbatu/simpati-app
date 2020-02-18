@@ -4,6 +4,7 @@ import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/domain/entity/auth_info.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/mother.dart';
+import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
 import 'package:simpati/domain/entity/nurse.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
@@ -26,6 +27,7 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(ChildList.fromMap);
     DataParserFactory.get().registerDecoder(Mother.fromMap);
     DataParserFactory.get().registerDecoder(MotherList.fromMap);
+    DataParserFactory.get().registerDecoder(Pregnancy.fromMap);
   }
 
   // instance
