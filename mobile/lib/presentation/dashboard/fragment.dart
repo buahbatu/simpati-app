@@ -159,7 +159,8 @@ class _HomeScreen extends StatelessWidget {
       isMother ? 'assets/undraw_mom.svg' : 'assets/undraw_children.svg',
       meta?.list?.recaps?.map((e) {
             final isPercentage = e.type == 'percentage';
-            final value = isPercentage ? (e.value / meta.size * 100) : e.value;
+            final size = meta.size > 0 ? meta.size : 1; // prevent 0 denominator
+            final value = isPercentage ? (e.value / size * 100) : e.value;
             final unit = isPercentage ? '%' : '';
             return CardData(e.title, '${value.toInt()}$unit');
           })?.toList() ??
