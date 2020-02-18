@@ -76,7 +76,11 @@ class _Step1AddChildState extends State<Step1AddChild> {
                   ],
                 ),
                 Container(height: 21),
-                FormUtils.buildField('Nama Ibu'),
+                FormUtils.buildField(
+                  'Nama Ibu',
+                  onChanged: (s) =>
+                      bloc.child = bloc.child.copyWith(momName: s),
+                ),
               ],
             ),
           ),
@@ -85,7 +89,7 @@ class _Step1AddChildState extends State<Step1AddChild> {
             child: FlatButton(
               color: AppColor.primaryColor,
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: widget.onButtonClick,
               child: Text('Lanjut'),
             ),
           )

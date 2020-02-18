@@ -75,7 +75,7 @@ class ChildCard extends StatelessWidget {
 
   Text createAddress() {
     return Text(
-      data.address,
+      data?.address ?? 'Jl. Abu Bakar No. 14',
       style: AppTextStyle.caption.copyWith(color: Colors.black38),
     );
   }

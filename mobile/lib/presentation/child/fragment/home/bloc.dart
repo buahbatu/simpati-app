@@ -25,7 +25,6 @@ class ChildBloc extends ScrollFragmentBloc<Child> {
       ScrollFragmentEvent event) async* {
     if (event is Init) {
       final result = await _loadChildUsecase.start();
-      print('init');
       if (result.isSuccess()) {
         items.addAll(result.data.childs);
       }

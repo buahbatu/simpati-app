@@ -59,8 +59,38 @@ class _ChildAddPageState extends State<ChildAddPage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                Step1AddChild(),
-                Step2AddChild(),
+                Step1AddChild(onButtonClick: () {
+                  final child = bloc.child;
+                  if (!isFilled(child.fullName) ||
+                      !isFilled(child.birthDate) ||
+                      !isFilled(child.momName)) {
+                    Scaffold.of(ctx).showSnackBar(
+                      SnackBar(
+                        content: Text('Isi semua kolom terlebih dulu'),
+                      ),
+                    );
+                  } else {
+                    _tabController.animateTo(1);
+                  }
+                }),
+                Step2AddChild(
+                  onButtonClick: () {
+                    final child = bloc.child;
+                    if (!isFilled(child.height) ||
+                        !isFilled(child.weight) ||
+                        !isFilled(child.temperature) ||
+                        !isFilled(child.headSize) ||
+                        !isFilled(child.bloodType)) {
+                      Scaffold.of(ctx).showSnackBar(
+                        SnackBar(
+                          content: Text('Isi semua kolom terlebih dulu'),
+                        ),
+                      );
+                    } else {
+                      bloc.add(AddChildEvent());
+                    }
+                  },
+                ),
               ],
             ),
           );

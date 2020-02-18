@@ -9,7 +9,7 @@ import 'package:simpati/presentation/mother/page/add_page/bloc.dart';
 class Step3AddMother extends StatefulWidget {
   final VoidCallback onButtonClick;
 
-  Step3AddMother({Key key, this.onButtonClick}) : super(key: key);
+  const Step3AddMother({Key key, this.onButtonClick}) : super(key: key);
 
   @override
   _Step3AddMotherState createState() => _Step3AddMotherState();
