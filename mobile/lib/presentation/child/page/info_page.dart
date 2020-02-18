@@ -68,7 +68,7 @@ class ChildInfoPage extends StatelessWidget {
                   Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
                   Container(width: 4),
                   Text(
-                    initialData.address,
+                    initialData?.address ?? 'Jl Impian Raya',
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                 ],
@@ -77,23 +77,6 @@ class ChildInfoPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  FlatButton createProfileButton(String source, IconData iconData) {
-    return FlatButton(
-      child: Row(
-        children: <Widget>[
-          Icon(iconData, color: Colors.black38, size: 18),
-          Container(width: 4),
-          Text(source, style: AppTextStyle.titleName),
-        ],
-      ),
-      padding: const EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: Colors.black38)),
-      onPressed: () {},
     );
   }
 
@@ -230,13 +213,21 @@ class ChildInfoPage extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: FormUtils.buildField('Suhu Badan',
-                    value: '40', isEnabled: false, suffix: '°C'),
+                child: FormUtils.buildField(
+                  'Suhu Badan',
+                  value: initialData.temperature.toString(),
+                  isEnabled: false,
+                  suffix: '°C',
+                ),
               ),
               Container(width: 8),
               Expanded(
-                child: FormUtils.buildField('Lingkar Kepala',
-                    value: '100', isEnabled: false, suffix: 'cm'),
+                child: FormUtils.buildField(
+                  'Lingkar Kepala',
+                  value: initialData.headSize.toString(),
+                  isEnabled: false,
+                  suffix: 'cm',
+                ),
               ),
             ],
           ),

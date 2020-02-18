@@ -98,23 +98,6 @@ class MotherInfoPage extends StatelessWidget {
     );
   }
 
-  FlatButton createProfileButton(String source, IconData iconData) {
-    return FlatButton(
-      child: Row(
-        children: <Widget>[
-          Icon(iconData, color: Colors.black38, size: 18),
-          Container(width: 4),
-          Text(source, style: AppTextStyle.titleName),
-        ],
-      ),
-      padding: const EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: Colors.black38)),
-      onPressed: () {},
-    );
-  }
-
   Widget createPersonalInfo() {
     return Container(
       color: Colors.white,
@@ -285,7 +268,9 @@ class MotherInfoPage extends StatelessWidget {
               Container(width: 8),
               Flexible(
                 child: FormUtils.buildField('Tekanan Darah',
-                    value: '120/80', isEnabled: false, suffix: 'mmHg'),
+                    value: initialData.bloodPressure,
+                    isEnabled: false,
+                    suffix: 'mmHg'),
                 flex: 4,
               ),
             ],

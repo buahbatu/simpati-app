@@ -38,13 +38,23 @@ class AddPregnancyDialog extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: <Widget>[
-                FormUtils.buildField('Berat Awal', suffix: 'Kg'),
-                Container(height: 8),
-                FormUtils.buildField('Tinggi Awal', suffix: 'cm'),
-                Container(height: 8),
                 FormUtils.buildField('Terakhir Menstruasi', isEnabled: false),
                 Container(height: 8),
                 FormUtils.buildField('Periode Menstruasi', isEnabled: false),
+                Container(height: 8),
+                FormUtils.buildField('Tekanan Darah', suffix: 'mmHg'),
+                Container(height: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField('Berat', suffix: 'Kg'),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField('Tinggi', suffix: 'cm'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
