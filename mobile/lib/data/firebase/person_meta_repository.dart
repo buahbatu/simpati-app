@@ -8,7 +8,8 @@ import 'package:simpati/domain/repository/person_meta_repository.dart';
 
 class PersonMetaRepository extends BaseFirestoreRepo
     implements IPersonMetaRepository {
-  static const String metaKey = 'metadata';
+  static const String collectionKey = 'metadata';
+  static const String posyanduKey = 'posyandu';
   static const String recapKey = 'recaps';
 
   @override
@@ -16,13 +17,13 @@ class PersonMetaRepository extends BaseFirestoreRepo
     String key,
     MetaConfigList metaConfigList,
   ) async {
-    final meta = await firestore.collection(metaKey).document(key).get();
+    final meta = await firestore.collection(collectionKey).document(key).get();
 
     final activeConfig = metaConfigList.data.where((e) => e.active).toList();
     final listRecap = List();
     for (MetaConfig config in activeConfig) {
       final recap = (await firestore
-              .collection(metaKey)
+              .collection(collectionKey)
               .document(key)
               .collection(recapKey)
               .document(config.key)
@@ -46,19 +47,24 @@ class PersonMetaRepository extends BaseFirestoreRepo
 
   @override
   Future<BaseResponse<Data>> updateMeta<T extends Data>(
-    String key,
+    String metaKey,
+    String countKey,
     MetaConfigList metaConfigList,
-    T value,
+    String posyanduId,
   ) async {
-    await firestore.collection(metaKey).document(key).updateData(
+    await firestore.collection(collectionKey).document(metaKey).updateData(
       {'size': FieldValue.increment(1)},
+    );
+
+    await firestore.collection(posyanduKey).document(posyanduId).updateData(
+      {countKey: FieldValue.increment(1)},
     );
 
     // TODO: read classification on paper
     metaConfigList.data.forEach((element) async {
       await firestore
-          .collection(metaKey)
-          .document(key)
+          .collection(collectionKey)
+          .document(metaKey)
           .collection(recapKey)
           .document(element.key)
           .updateData({'value': FieldValue.increment(1)});

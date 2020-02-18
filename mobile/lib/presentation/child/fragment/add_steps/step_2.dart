@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
@@ -80,6 +81,7 @@ class _Step2AddChildState extends State<Step2AddChild> {
                         'Tinggi Badan',
                         suffix: 'cm',
                         inputType: TextInputType.number,
+                        nextForm: NextForm(focusScope, weightFocus),
                         onChanged: (s) {
                           final value = double.tryParse(s);
                           bloc.child = bloc.child.copyWith(height: value);
@@ -92,6 +94,8 @@ class _Step2AddChildState extends State<Step2AddChild> {
                         'Berat Badan',
                         suffix: 'Kg',
                         inputType: TextInputType.number,
+                        focusNode: weightFocus,
+                        nextForm: NextForm(focusScope, tempFocus),
                         onChanged: (s) {
                           final value = double.tryParse(s);
                           bloc.child = bloc.child.copyWith(weight: value);
@@ -105,6 +109,8 @@ class _Step2AddChildState extends State<Step2AddChild> {
                   'Suhu Badan',
                   suffix: '°C',
                   inputType: TextInputType.number,
+                  focusNode: tempFocus,
+                  nextForm: NextForm(focusScope, headSizeFocus),
                   onChanged: (s) {
                     final value = double.tryParse(s);
                     bloc.child = bloc.child.copyWith(temperature: value);
@@ -115,6 +121,7 @@ class _Step2AddChildState extends State<Step2AddChild> {
                   'Lingkar Kepala',
                   suffix: 'cm',
                   inputType: TextInputType.number,
+                  focusNode: headSizeFocus,
                   onChanged: (s) {
                     final value = double.tryParse(s);
                     bloc.child = bloc.child.copyWith(headSize: value);
@@ -140,17 +147,23 @@ class _Step2AddChildState extends State<Step2AddChild> {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: FlatButton(
-              color: AppColor.primaryColor,
-              textColor: Colors.white,
-              onPressed: widget.onButtonClick,
-              child: Text('Simpan'),
-            ),
-          )
+          Container(width: double.infinity, child: getButton())
         ],
       ),
     );
+  }
+
+  Widget getButton() {
+    return BlocBuilder<AddChildBloc, AddChildState>(builder: (ctx, state) {
+      return FlatButton(
+        color: AppColor.primaryColor,
+        disabledColor: AppColor.profileBgColor,
+        textColor: Colors.white,
+        onPressed: state == AddChildState.Loading ? null : widget.onButtonClick,
+        child: state == AddChildState.Loading
+            ? SpinKitWave(color: Colors.white, size: 18.0)
+            : Text('Simpan'),
+      );
+    });
   }
 }

@@ -54,7 +54,10 @@ class AddChildBloc extends Bloc<AddChildEvent, AddChildState> {
     final result = await _createChildUsecase.start(child);
     if (result.isSuccess()) {
       child = result.data;
-      await _updatePersonMetaUsecase.start(PersonMetaUsecase.Child, child);
+      await _updatePersonMetaUsecase.start(
+        PersonMetaUsecase.Child,
+        child.posyanduId,
+      );
       await _updatePosyanduUsecase.start(
         PersonMetaUsecase.Child,
         FieldValue.increment(1),

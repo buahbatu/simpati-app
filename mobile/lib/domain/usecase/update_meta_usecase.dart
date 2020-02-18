@@ -1,4 +1,3 @@
-import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
 import 'package:simpati/domain/repository/config_repository.dart';
@@ -11,20 +10,23 @@ class UpdatePersonMetaUsecase {
 
   UpdatePersonMetaUsecase(this.configRepository, this.metaRepository);
 
-  Future<BaseResponse> start<T extends Data>(
+  Future<BaseResponse> start(
     PersonMetaUsecase metaUsecase,
-    T value,
+    String posyanduId,
   ) async {
     String configKey;
     String metaKey;
+    String countKey;
     switch (metaUsecase) {
       case PersonMetaUsecase.Mother:
         configKey = motherMetaConfig;
         metaKey = motherMetaKey;
+        countKey = motherMetaCount;
         break;
       default: // child
         configKey = childMetaConfig;
         metaKey = childMetaKey;
+        countKey = childMetaCount;
         break;
     }
 
@@ -33,6 +35,11 @@ class UpdatePersonMetaUsecase {
 
     final config = await configRepository.loadConfig<MetaConfigList>(configKey);
 
-    return await metaRepository.updateMeta(metaKey, config, value);
+    return await metaRepository.updateMeta(
+      metaKey,
+      countKey,
+      config,
+      posyanduId,
+    );
   }
 }
