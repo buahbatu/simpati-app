@@ -3,14 +3,19 @@ import 'package:simpati/data/firebase/pregnancy_repository.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/domain/repository/pregnancy_repository.dart';
+import 'package:simpati/domain/usecase/create_pregnancy_usecase.dart';
 import 'package:simpati/domain/usecase/load_pregnancy_usecase.dart';
 
 class PregnancyListBloc extends ScrollFragmentBloc<Pregnancy> {
   final LoadPregnancyUsecase _loadPregnancyUsecase;
+  final CreatePregnancyUsecase _createPregnancyUsecase;
   final Mother mother;
 
   PregnancyListBloc(this.mother, {IPregnancyRepository pregnancyRepository})
       : this._loadPregnancyUsecase = LoadPregnancyUsecase(
+          pregnancyRepository ?? PregnancyRepository(),
+        ),
+        this._createPregnancyUsecase = CreatePregnancyUsecase(
           pregnancyRepository ?? PregnancyRepository(),
         );
 
@@ -27,9 +32,10 @@ class PregnancyListBloc extends ScrollFragmentBloc<Pregnancy> {
       }
       yield ScrollFragmentState(items);
     } else if (event is Add<Pregnancy>) {
-      items
-        ..add(event.item)
-        ..sort((a, b) => a.lastMenstruation.compareTo(b.lastMenstruation));
+      final result = await _createPregnancyUsecase.start(mother, event.item);
+      if (result.isSuccess()) {
+        items.add(result.data);
+      }
       yield ScrollFragmentState(items);
     }
   }
