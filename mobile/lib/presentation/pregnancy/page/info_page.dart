@@ -4,15 +4,22 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/presentation/mother/dialog/med_check.dart';
 
 class PregnancyInfoPage extends StatelessWidget {
   final int index;
+
+  final Mother initialMom;
   final Pregnancy initialData;
 
-  const PregnancyInfoPage(this.index, this.initialData, {Key key})
-      : super(key: key);
+  const PregnancyInfoPage(
+    this.index,
+    this.initialMom,
+    this.initialData, {
+    Key key,
+  }) : super(key: key);
 
   Widget createAppBar(BuildContext context) {
     return AppBar(
@@ -57,7 +64,7 @@ class PregnancyInfoPage extends StatelessWidget {
               Icon(LineIcons.female, size: 16, color: Colors.black38),
               Container(width: 4),
               Text(
-                'Khusnaini Aghniya',
+                initialMom.fullName,
                 style: AppTextStyle.titleName.copyWith(fontSize: 12),
               ),
             ],
@@ -89,7 +96,7 @@ class PregnancyInfoPage extends StatelessWidget {
           Container(height: 8),
           FormUtils.buildField(
             'Tekanan Darah',
-            value: '120/60',
+            value: initialData.bloodPressure,
             suffix: 'mmHg',
             isEnabled: false,
           ),

@@ -337,7 +337,6 @@ class MotherInfoPage extends StatelessWidget {
                     ),
                     color: AppColor.primaryColor,
                     child: Icon(LineIcons.plus, color: Colors.white),
-                    // onPressed: () => onPregnancyAddClick(ctx, bloc),
                     onPressed: () => showDialog(
                       context: ctx,
                       child: AddPregnancyDialog(1, initialData, bloc),
@@ -351,13 +350,6 @@ class MotherInfoPage extends StatelessWidget {
       },
     );
   }
-
-  // void onPregnancyAddClick(BuildContext ctx, PregnancyListBloc bloc) async {
-  //   await showDialog(
-  //     context: ctx,
-  //     child: AddPregnancyDialog(1, initialData, bloc),
-  //   );
-  // }
 
   FlatButton createPregnancyButton(
     int i,
@@ -386,7 +378,7 @@ class MotherInfoPage extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(ctx).push(MaterialPageRoute(
-          builder: (ctx) => PregnancyInfoPage(i, pregnancy),
+          builder: (ctx) => PregnancyInfoPage(i, initialData, pregnancy),
         ));
       },
     );
