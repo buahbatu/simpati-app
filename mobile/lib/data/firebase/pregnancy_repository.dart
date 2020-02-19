@@ -24,21 +24,22 @@ class PregnancyRepository extends BaseFirestoreRepo
 
   @override
   Future<BaseResponse<PregnancyList>> getAllPregnancy(Mother mother) async {
-    // final snapshots = await firestore
-    //     .collection('pregnancys')
-    //     .orderBy('fullName')
-    //     .where('posyanduId', isEqualTo: posyandu.id)
-    //     .getDocuments();
+    final snapshots = await firestore
+        .collection('mothers')
+        .document(mother.id)
+        .collection('pregnancy')
+        .orderBy('lastMenstruation')
+        .getDocuments();
 
-    // final pregnancys = snapshots.documents
-    //     .map((e) => parserFactory.decode<Pregnancy>(e.data))
-    //     .toList();
+    final pregnancys = snapshots.documents
+        .map((e) => parserFactory.decode<Pregnancy>(e.data))
+        .toList();
 
-    // return BaseResponse(
-    //   null,
-    //   Status.success,
-    //   'Load pregnancys success',
-    //   PregnancyList(pregnancys),
-    // );
+    return BaseResponse(
+      null,
+      Status.success,
+      'Load pregnancys success',
+      PregnancyList(pregnancys),
+    );
   }
 }

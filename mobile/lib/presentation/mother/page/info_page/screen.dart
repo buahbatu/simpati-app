@@ -15,7 +15,8 @@ import 'package:simpati/presentation/child/fragment/home/bloc.dart';
 import 'package:simpati/presentation/child/page/add_page/screen.dart';
 import 'package:simpati/presentation/child/page/info_page.dart';
 import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
-import 'package:simpati/presentation/mother/page/pregancy_info_page.dart';
+import 'package:simpati/presentation/pregnancy/fragment/bloc.dart';
+import 'package:simpati/presentation/pregnancy/page/info_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MotherInfoPage extends StatelessWidget {
@@ -306,68 +307,78 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createPregnancyInfo() {
-    return Builder(builder: (context) {
-      return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
-            Container(height: 21),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
+    return BlocBuilder<PregnancyListBloc, ScrollFragmentState<Pregnancy>>(
+        bloc: PregnancyListBloc(initialData)..add(Init()),
+        builder: (ctx, state) {
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ...List.generate(
-                  // initialData.childCount,
-                  4,
-                  (i) => FlatButton(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
+                Container(height: 21),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: <Widget>[
+                    ...List.generate(
+                      state.items.length,
+                      (i) => createPregnancyButton(i, ctx, state.items[i]),
+                    ).reversed,
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      color: AppColor.primaryColor,
+                      child: Icon(LineIcons.plus, color: Colors.white),
+                      onPressed: () => showDialog(
+                        context: ctx,
+                        child: AddPregnancyDialog(1, initialData),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: BorderSide(color: Colors.black),
-                    ),
-                    child: Wrap(
-                      direction: Axis.vertical,
-                      spacing: 2,
-                      children: <Widget>[
-                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
-                        Text('2019',
-                            style:
-                                AppTextStyle.titleName.copyWith(fontSize: 10)),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => PregnancyInfoPage(i, Pregnancy.mock),
-                      ));
-                    },
-                  ),
-                ).reversed,
-                FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  color: AppColor.primaryColor,
-                  child: Icon(LineIcons.plus, color: Colors.white),
-                  onPressed: () => showDialog(
-                    context: context,
-                    child: AddPregnancyDialog(1, initialData),
-                  ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
+  }
+
+  FlatButton createPregnancyButton(
+    int i,
+    BuildContext ctx,
+    Pregnancy pregnancy,
+  ) {
+    return FlatButton(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 8,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6),
+        side: BorderSide(color: Colors.black),
+      ),
+      child: Wrap(
+        direction: Axis.vertical,
+        spacing: 2,
+        children: <Widget>[
+          Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
+          Text(
+            pregnancy.lastMenstruation.year.toString(),
+            style: AppTextStyle.titleName.copyWith(fontSize: 10),
+          ),
+        ],
+      ),
+      onPressed: () {
+        Navigator.of(ctx).push(MaterialPageRoute(
+          builder: (ctx) => PregnancyInfoPage(i, pregnancy),
+        ));
+      },
+    );
   }
 }

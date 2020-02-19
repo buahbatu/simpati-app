@@ -31,8 +31,8 @@ class Pregnancy extends Equatable implements Data {
     return Pregnancy(
       lastMenstruation: DateUtils.parseTimeData(map['lastMenstruation']),
       period: map['period'],
-      weight: map['weight'],
-      height: map['height'],
+      weight: double.parse(map['weight'].toString()),
+      height: double.parse(map['height'].toString()),
       bloodPressure: map['bloodPressure'],
     );
   }
