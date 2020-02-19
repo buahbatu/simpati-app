@@ -21,11 +21,11 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
   }
 
   @override
-  Future<BaseResponse<ChildList>> getAllChilds(Posyandu posyandu) async {
+  Future<BaseResponse<ChildList>> getAllChilds(ChildFilter filter) async {
     final snapshots = await firestore
         .collection('childs')
         .orderBy('fullName')
-        .where('posyanduId', isEqualTo: posyandu.id)
+        .where(filter.field, isEqualTo: filter.equalToValue)
         .getDocuments();
 
     final childs = snapshots.documents

@@ -7,6 +7,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_images.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/domain/repository/child_repository.dart';
 import 'package:simpati/presentation/app/app_bloc.dart';
 import 'package:simpati/presentation/auth/screen.dart';
 import 'package:simpati/presentation/home/bloc.dart';
@@ -40,28 +41,24 @@ class ChildFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createActionButton() {
-    return BlocBuilder<AppBloc, AppState>(
-      builder: (ctx, state) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: MaterialButton(
-            onPressed: () async {
-              if (state.posyandu != null) {
-                addChildData(ctx);
-              } else {
-                await Navigator.of(ctx).push(
-                  MaterialPageRoute(builder: (ctx) => AuthScreen()),
-                );
-              }
-            },
-            color: AppColor.primaryColor,
-            shape: CircleBorder(),
-            padding: const EdgeInsets.all(16),
-            child: Icon(LineIcons.plus, color: Colors.white),
-          ),
-        );
-      },
+  Widget createActionButton(BuildContext ctx, AppState state) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: MaterialButton(
+        onPressed: () async {
+          if (state.posyandu != null) {
+            addChildData(ctx);
+          } else {
+            await Navigator.of(ctx).push(
+              MaterialPageRoute(builder: (ctx) => AuthScreen()),
+            );
+          }
+        },
+        color: AppColor.primaryColor,
+        shape: CircleBorder(),
+        padding: const EdgeInsets.all(16),
+        child: Icon(LineIcons.plus, color: Colors.white),
+      ),
     );
   }
 
@@ -85,65 +82,66 @@ class _HomeScreen extends StatelessWidget {
     }
   }
 
-  Widget createAppBar(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(builder: (ctx, state) {
-      return AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Wrap(
-          direction: Axis.vertical,
-          spacing: 2,
-          children: <Widget>[
-            Text(
-              'Daftar Anak',
-              style: AppTextStyle.title.copyWith(
-                color: AppColor.primaryColor,
-                fontSize: state.posyandu != null ? 16 : 18,
-              ),
+  Widget createAppBar(BuildContext context, AppState state) {
+    return AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      title: Wrap(
+        direction: Axis.vertical,
+        spacing: 2,
+        children: <Widget>[
+          Text(
+            'Daftar Anak',
+            style: AppTextStyle.title.copyWith(
+              color: AppColor.primaryColor,
+              fontSize: state.posyandu != null ? 16 : 18,
             ),
-            if (state.posyandu != null)
-              Text(
-                '${state.posyandu.childCount}  Orang',
-                style: AppTextStyle.titleName.copyWith(fontSize: 12),
-              ),
-          ],
-        ),
-        backgroundColor: AppColor.appBackground,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            color: AppColor.primaryColor,
-            onPressed: () => context.showComingSoonNotice(),
-          )
+          ),
+          if (state.posyandu != null)
+            Text(
+              '${state.posyandu.childCount}  Orang',
+              style: AppTextStyle.titleName.copyWith(fontSize: 12),
+            ),
         ],
-      );
-    });
+      ),
+      backgroundColor: AppColor.appBackground,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          color: AppColor.primaryColor,
+          onPressed: () => context.showComingSoonNotice(),
+        )
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final safeHeight = MediaQuery.of(context).padding.top;
-    return BlocProvider(
-      create: (ctx) => ChildBloc()..add(Init()),
-      child: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              createAppBar(context),
-              Expanded(child: getContents())
-            ],
-          ),
-          Container(height: safeHeight, color: AppColor.primaryColor),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: createActionButton(),
-          )
-        ],
-      ),
-    );
+    return BlocBuilder<AppBloc, AppState>(builder: (ctx, state) {
+      return BlocProvider(
+        create: (ctx) => ChildBloc(ChildFilter('posyanduId', state.posyandu.id))
+          ..add(Init()),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                createAppBar(context, state),
+                Expanded(child: getContents(state))
+              ],
+            ),
+            Container(height: safeHeight, color: AppColor.primaryColor),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: createActionButton(ctx, state),
+            )
+          ],
+        ),
+      );
+    });
   }
 
-  Widget getContents() {
+  Widget getContents(AppState appState) {
     return BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
       builder: (context, state) {
         return state.items.isNotEmpty
@@ -151,21 +149,17 @@ class _HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(0),
                 children: state.items.map((d) => ChildCard(d)).toList(),
               )
-            : BlocBuilder<AppBloc, AppState>(
-                builder: (ctx, appState) {
-                  return Column(
-                    children: <Widget>[
-                      Container(height: 64),
-                      AppImages.noDataImage,
-                      Container(height: 12),
-                      Text(
-                          appState.posyandu != null
-                              ? 'Data Kosong'
-                              : 'Kamu Belum Login',
-                          style: AppTextStyle.titleName),
-                    ],
-                  );
-                },
+            : Column(
+                children: <Widget>[
+                  Container(height: 64),
+                  AppImages.noDataImage,
+                  Container(height: 12),
+                  Text(
+                      appState.posyandu != null
+                          ? 'Data Kosong'
+                          : 'Kamu Belum Login',
+                      style: AppTextStyle.titleName),
+                ],
               );
       },
     );

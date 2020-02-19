@@ -28,6 +28,7 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(Mother.fromMap);
     DataParserFactory.get().registerDecoder(MotherList.fromMap);
     DataParserFactory.get().registerDecoder(Pregnancy.fromMap);
+    DataParserFactory.get().registerDecoder(PregnancyList.fromMap);
   }
 
   // instance

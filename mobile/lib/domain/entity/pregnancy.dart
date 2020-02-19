@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:simpati/core/result/base_data.dart';
+import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 
 class Pregnancy extends Equatable implements Data {
@@ -90,4 +91,28 @@ class MenstruationCycle {
     'long',
     'Panjang (>30 Hari)',
   );
+}
+
+class PregnancyList extends Equatable implements Data {
+  final List<Pregnancy> pregnancy;
+
+  PregnancyList(this.pregnancy);
+
+  @override
+  List<Object> get props => pregnancy;
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {pregnancyKey: pregnancy.map((e) => e.toMap()).toList()};
+  }
+
+  static PregnancyList fromMap(Map<dynamic, dynamic> map) {
+    final articleRawList = map[pregnancyKey] as List;
+    final list = articleRawList
+        .map((e) => DataParserFactory.get().decode<Pregnancy>(e))
+        .toList();
+    return PregnancyList(list);
+  }
+
+  static const String pregnancyKey = 'pregnancy';
 }
