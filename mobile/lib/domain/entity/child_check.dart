@@ -76,16 +76,16 @@ class ChildCheck extends Equatable implements Data {
 }
 
 class ChildCheckList extends Equatable implements Data {
-  final List<ChildCheck> childMed;
+  final List<ChildCheck> childMeds;
 
-  ChildCheckList(this.childMed);
+  ChildCheckList(this.childMeds);
 
   @override
-  List<Object> get props => childMed;
+  List<Object> get props => childMeds;
 
   @override
   Map<String, dynamic> toMap() {
-    return {childMedKey: childMed.map((e) => e.toMap()).toList()};
+    return {childMedKey: childMeds.map((e) => e.toMap()).toList()};
   }
 
   static ChildCheckList fromMap(Map<dynamic, dynamic> map) {

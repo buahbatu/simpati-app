@@ -339,7 +339,11 @@ class MotherInfoPage extends StatelessWidget {
                     child: Icon(LineIcons.plus, color: Colors.white),
                     onPressed: () => showDialog(
                       context: ctx,
-                      child: AddPregnancyDialog(1, initialData, bloc),
+                      child: AddPregnancyDialog(
+                        state.items.length,
+                        initialData,
+                        bloc,
+                      ),
                     ),
                   ),
                 ],

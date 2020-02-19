@@ -186,7 +186,6 @@ class _AddPregnancyDialogState extends State<AddPregnancyDialog> {
                 if (pregnancy.isComplete()) {
                   widget.bloc.add(Add<Pregnancy>(pregnancy));
                   Navigator.of(context).pop();
-                  // Navigator.of(context).pop(pregnancy);
                 }
               },
             ),
