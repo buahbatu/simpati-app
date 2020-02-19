@@ -11,7 +11,7 @@ class MotherRepository extends BaseFirestoreRepo implements IMotherRepository {
     final newMother = mother.copyWith(posyanduId: posyandu.id, childCount: 0);
     final data = await firestore.collection('mothers').add(newMother.toMap());
     final endMother = newMother.copyWith(id: data.documentID);
-    data.updateData({'id': data.documentID});
+    await data.updateData({'id': data.documentID});
 
     return BaseResponse(
       null,

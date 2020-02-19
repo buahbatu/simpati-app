@@ -11,7 +11,7 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
     final newChild = child.copyWith(posyanduId: posyandu.id);
     final data = await firestore.collection('childs').add(newChild.toMap());
     final endMother = newChild.copyWith(id: data.documentID);
-    data.updateData({'id': data.documentID});
+    await data.updateData({'id': data.documentID});
 
     return BaseResponse(
       null,

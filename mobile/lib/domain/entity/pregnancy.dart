@@ -5,6 +5,7 @@ import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 
 class Pregnancy extends Equatable implements Data {
+  final String id;
   final DateTime lastMenstruation;
   final MenstruationCycle menstruationCycle;
   final double weight;
@@ -12,6 +13,7 @@ class Pregnancy extends Equatable implements Data {
   final String bloodPressure;
 
   Pregnancy({
+    this.id,
     this.lastMenstruation,
     this.menstruationCycle,
     this.weight,
@@ -20,6 +22,7 @@ class Pregnancy extends Equatable implements Data {
   });
 
   Pregnancy copyWith({
+    String id,
     DateTime lastMenstruation,
     MenstruationCycle menstruationCycle,
     double weight,
@@ -27,6 +30,7 @@ class Pregnancy extends Equatable implements Data {
     String bloodPressure,
   }) {
     return Pregnancy(
+      id: id ?? this.id,
       lastMenstruation: lastMenstruation ?? this.lastMenstruation,
       menstruationCycle: menstruationCycle ?? this.menstruationCycle,
       weight: weight ?? this.weight,
@@ -36,6 +40,7 @@ class Pregnancy extends Equatable implements Data {
   }
 
   static Pregnancy mock = Pregnancy(
+    id: '1',
     lastMenstruation: DateFormat('dd/MM/yyyy').parse('1/10/2019'),
     menstruationCycle: MenstruationCycle.short,
     weight: 50,
@@ -45,6 +50,7 @@ class Pregnancy extends Equatable implements Data {
 
   static Pregnancy fromMap(Map<dynamic, dynamic> map) {
     return Pregnancy(
+      id: map['id'],
       lastMenstruation: DateUtils.parseTimeData(map['lastMenstruation']),
       menstruationCycle: MenstruationCycle.parseKey(map['menstruationCycle']),
       weight: double.parse(map['weight'].toString()),
@@ -55,6 +61,7 @@ class Pregnancy extends Equatable implements Data {
 
   @override
   List<Object> get props => [
+        this.id,
         this.lastMenstruation,
         this.menstruationCycle,
         this.weight,
@@ -65,6 +72,7 @@ class Pregnancy extends Equatable implements Data {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': this.id,
       'lastMenstruation': this.lastMenstruation.millisecondsSinceEpoch,
       'menstruationCycle': this.menstruationCycle.key,
       'weight': this.weight,

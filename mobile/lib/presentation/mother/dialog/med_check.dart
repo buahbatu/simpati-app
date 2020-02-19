@@ -3,8 +3,24 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/utils/date_utils.dart';
+import 'package:simpati/domain/entity/pregnancy.dart';
+import 'package:simpati/domain/entity/pregnancy_check.dart';
+import 'package:simpati/presentation/pregnancy/page/bloc.dart';
 
 class PregnancyMedicalCheckDialog extends StatelessWidget {
+  final int index;
+  final PregnancyCheckBloc bloc;
+  final Pregnancy pregnancy;
+  final PregnancyCheck initialData;
+
+  const PregnancyMedicalCheckDialog(
+    this.index,
+    this.bloc,
+    this.pregnancy, {
+    this.initialData,
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -14,7 +30,7 @@ class PregnancyMedicalCheckDialog extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Periksa ke 1',
+              'Periksa ke $index',
               style: AppTextStyle.sectionTitle,
             ),
           ),

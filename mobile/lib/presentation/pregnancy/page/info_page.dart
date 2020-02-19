@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
+import 'package:simpati/domain/entity/pregnancy_check.dart';
 import 'package:simpati/presentation/mother/dialog/med_check.dart';
+import 'package:simpati/presentation/pregnancy/page/bloc.dart';
 
 class PregnancyInfoPage extends StatelessWidget {
   final int index;
@@ -187,57 +191,73 @@ class PregnancyInfoPage extends StatelessWidget {
   }
 
   Widget createCheckupHistory() {
-    return Builder(builder: (context) {
-      return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
-            Container(height: 12),
-            Wrap(
-              spacing: 8,
+    final bloc = PregnancyCheckBloc(initialMom, initialData)..add(Init());
+    return BlocBuilder<PregnancyCheckBloc, ScrollFragmentState<PregnancyCheck>>(
+        bloc: bloc,
+        builder: (ctx, state) {
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ...List.generate(
-                  36,
-                  (i) => FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: BorderSide(color: Colors.black),
+                Text('Riwayat Periksa Kesehatan',
+                    style: AppTextStyle.sectionTitle),
+                Container(height: 12),
+                Wrap(
+                  spacing: 8,
+                  children: <Widget>[
+                    ...List.generate(
+                      state.items.length,
+                      (i) => FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                          side: BorderSide(color: Colors.black),
+                        ),
+                        child: Wrap(
+                          direction: Axis.vertical,
+                          spacing: 2,
+                          children: <Widget>[
+                            Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
+                            Text(state.items[i].createdAt.standardShortFormat(),
+                                style: AppTextStyle.titleName
+                                    .copyWith(fontSize: 10)),
+                          ],
+                        ),
+                        onPressed: () => showDialog(
+                          context: ctx,
+                          child: PregnancyMedicalCheckDialog(
+                            state.items.length + 1,
+                            bloc,
+                            initialData,
+                            initialData: state.items[i],
+                          ),
+                        ),
+                      ),
+                    ).reversed,
+                    FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      color: AppColor.primaryColor,
+                      child: Icon(LineIcons.plus, color: Colors.white),
+                      onPressed: () {
+                        showDialog(
+                          context: ctx,
+                          child: PregnancyMedicalCheckDialog(
+                            state.items.length + 1,
+                            bloc,
+                            initialData,
+                          ),
+                        );
+                      },
                     ),
-                    child: Wrap(
-                      direction: Axis.vertical,
-                      spacing: 2,
-                      children: <Widget>[
-                        Text('Ke ${i + 1}', style: AppTextStyle.itemTitle),
-                        Text('30 Feb 2020',
-                            style:
-                                AppTextStyle.titleName.copyWith(fontSize: 10)),
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ).reversed,
-                FlatButton(
-                  padding: const EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  color: AppColor.primaryColor,
-                  child: Icon(LineIcons.plus, color: Colors.white),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      child: PregnancyMedicalCheckDialog(),
-                    );
-                  },
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }

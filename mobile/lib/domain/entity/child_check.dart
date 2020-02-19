@@ -96,5 +96,5 @@ class ChildCheckList extends Equatable implements Data {
     return ChildCheckList(list);
   }
 
-  static const String childMedKey = 'medCheck';
+  static const String childMedKey = 'checkUp';
 }
