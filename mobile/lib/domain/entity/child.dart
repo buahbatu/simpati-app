@@ -145,6 +145,7 @@ class Child extends Equatable implements Data {
   }
 
   String get momFirstName => momName.split(' ').first;
+  String get firstName => fullName.split(' ').first;
 }
 
 class ChildList extends Equatable implements Data {

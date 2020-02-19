@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:recase/recase.dart';
+import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
+import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
+import 'package:simpati/domain/repository/child_repository.dart';
+import 'package:simpati/presentation/child/fragment/home/bloc.dart';
 import 'package:simpati/presentation/child/page/add_page/screen.dart';
+import 'package:simpati/presentation/child/page/info_page.dart';
 import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/presentation/mother/page/pregancy_info_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -179,70 +185,80 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createChildInfo() {
-    return Builder(builder: (context) {
-      return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('Daftar Anak', style: AppTextStyle.sectionTitle),
-            Container(height: 21),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: <Widget>[
-                if (initialData.childCount != null)
-                  ...List.generate(
-                    initialData.childCount,
-                    (i) => createChildCircle('Alif'),
+    return BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
+      bloc: ChildBloc(ChildFilter('idMother', initialData.id))..add(Init()),
+      builder: (ctx, state) {
+        return Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Daftar Anak', style: AppTextStyle.sectionTitle),
+              Container(height: 21),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: <Widget>[
+                  ...state.items.map((e) => createChildCircle(ctx, e)).toList(),
+                  SizedBox(
+                    height: 59,
+                    width: 59,
+                    child: FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      shape: CircleBorder(),
+                      color: AppColor.primaryColor,
+                      child: Icon(LineIcons.plus, color: Colors.white),
+                      onPressed: () {
+                        Navigator.of(ctx).push(MaterialPageRoute(
+                          builder: (ctx) => ChildAddPage(),
+                        ));
+                      },
+                    ),
                   ),
-                SizedBox(
-                  height: 59,
-                  width: 59,
-                  child: FlatButton(
-                    padding: const EdgeInsets.all(0),
-                    shape: CircleBorder(),
-                    color: AppColor.primaryColor,
-                    child: Icon(LineIcons.plus, color: Colors.white),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => ChildAddPage(),
-                      ));
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    });
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
-  Widget createChildCircle(String name) {
+  Widget createChildCircle(BuildContext ctx, Child child) {
     return Column(
       children: <Widget>[
-        Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 29.5,
-              backgroundColor: AppColor.accentColor,
-            ),
-            CircleAvatar(
-              radius: 27,
-              backgroundColor: Colors.white,
-            ),
-            CircleAvatar(
-              radius: 26,
-              backgroundColor: AppColor.profileBgColor,
-              child: Icon(LineIcons.child, color: Colors.white, size: 36),
-            ),
-          ],
+        Material(
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 29.5,
+                backgroundColor: AppColor.accentColor,
+              ),
+              CircleAvatar(
+                radius: 27,
+                backgroundColor: Colors.white,
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).push(MaterialPageRoute(
+                    builder: (ctx) => ChildInfoPage(child),
+                  ));
+                },
+                shape: CircleBorder(),
+                color: AppColor.profileBgColor,
+                padding: const EdgeInsets.all(7.5),
+                child: Icon(LineIcons.child, color: Colors.white, size: 36),
+              ),
+            ],
+          ),
         ),
         Container(height: 8, width: 1),
-        Text(name, style: AppTextStyle.caption.copyWith(color: Colors.black))
+        Text(
+          child.firstName,
+          style: AppTextStyle.caption.copyWith(color: Colors.black),
+        )
       ],
     );
   }
