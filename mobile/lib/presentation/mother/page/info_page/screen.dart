@@ -340,7 +340,7 @@ class MotherInfoPage extends StatelessWidget {
                     onPressed: () => showDialog(
                       context: ctx,
                       child: AddPregnancyDialog(
-                        state.items.length,
+                        state.items.length + 1,
                         initialData,
                         bloc,
                       ),

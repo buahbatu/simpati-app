@@ -42,14 +42,35 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
   }
 
   @override
-  Future<BaseResponse<ChildCheck>> addMedCheck(Child child, ChildCheck data) {
-    // TODO: implement addMedCheck
-    throw UnimplementedError();
+  Future<BaseResponse<ChildCheck>> addMedCheck(
+      Child child, ChildCheck data) async {
+    await firestore
+        .collection('childs')
+        .document(child.id)
+        .collection('checkUp')
+        .add(data.toMap());
+
+    return BaseResponse(null, Status.success, 'add child success', data);
   }
 
   @override
-  Future<BaseResponse<ChildCheckList>> getAllMedCheck(Child child) {
-    // TODO: implement getAllMedCheck
-    throw UnimplementedError();
+  Future<BaseResponse<ChildCheckList>> getAllMedCheck(Child child) async {
+    final snapshots = await firestore
+        .collection('childs')
+        .document(child.id)
+        .collection('checkUp')
+        .orderBy('createdAt')
+        .getDocuments();
+
+    final checks = snapshots.documents
+        .map((e) => parserFactory.decode<ChildCheck>(e.data))
+        .toList();
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'Load childs success',
+      ChildCheckList(checks),
+    );
   }
 }

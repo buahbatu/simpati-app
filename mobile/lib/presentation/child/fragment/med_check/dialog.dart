@@ -12,25 +12,27 @@ class ChildMedicalCheckDialog extends StatefulWidget {
   final int index;
   final ChildCheckBloc bloc;
   final Child child;
-  final ChildCheck childCheck;
+  final ChildCheck initialData;
 
   const ChildMedicalCheckDialog(
     this.index,
     this.bloc,
     this.child, {
-    this.childCheck,
+    this.initialData,
     Key key,
   }) : super(key: key);
 
   @override
   _ChildMedicalCheckDialogState createState() =>
-      _ChildMedicalCheckDialogState(childCheck?.copyWith());
+      _ChildMedicalCheckDialogState(childCheck: initialData?.copyWith());
 }
 
 class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
-  final ChildCheck childCheck;
+  ChildCheck childCheck;
+  final TextEditingController dateController = TextEditingController();
 
-  _ChildMedicalCheckDialogState(this.childCheck);
+  _ChildMedicalCheckDialogState({ChildCheck childCheck})
+      : this.childCheck = childCheck ?? ChildCheck(createdAt: DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
           Container(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Periksa ke 1',
+              'Periksa ke ${widget.index}',
               style: AppTextStyle.sectionTitle,
             ),
           ),
@@ -50,11 +52,31 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: <Widget>[
-                FormUtils.buildField(
-                  'Tanggal Periksa',
-                  value:
-                      childCheck?.createdAt ?? DateTime.now().standardFormat(),
-                  isEnabled: false,
+                InkWell(
+                  child: FormUtils.buildField(
+                    'Tanggal Periksa',
+                    controller: dateController
+                      ..text = childCheck?.createdAt?.standardFormat() ??
+                          DateTime.now().standardFormat(),
+                    isEnabled: false,
+                    inputType: TextInputType.datetime,
+                  ),
+                  onTap: widget.initialData == null
+                      ? () async {
+                          final date = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1940),
+                            lastDate: DateTime(2080),
+                          );
+                          if (date != null) {
+                            childCheck = childCheck.copyWith(createdAt: date);
+                            setState(() {
+                              dateController.text = date.standardFormat();
+                            });
+                          }
+                        }
+                      : null,
                 ),
                 Container(height: 8),
                 Row(
@@ -63,8 +85,13 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
                       child: FormUtils.buildField(
                         'Berat Badan',
                         value: childCheck?.weight?.toString(),
-                        isEnabled: childCheck == null,
+                        isEnabled: widget.initialData == null,
+                        inputType: TextInputType.number,
                         suffix: 'Kg',
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(weight: value);
+                        },
                       ),
                     ),
                     Container(width: 8),
@@ -73,7 +100,12 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
                         'Panjang Badan',
                         suffix: 'cm',
                         value: childCheck?.height?.toString(),
-                        isEnabled: childCheck == null,
+                        isEnabled: widget.initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(height: value);
+                        },
                       ),
                     ),
                   ],
@@ -86,7 +118,12 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
                         'Suhu Badan',
                         suffix: '°C',
                         value: childCheck?.temperature?.toString(),
-                        isEnabled: childCheck == null,
+                        isEnabled: widget.initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(temperature: value);
+                        },
                       ),
                     ),
                     Container(width: 8),
@@ -95,7 +132,12 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
                         'Lingkar Kepala',
                         suffix: 'cm',
                         value: childCheck?.headSize?.toString(),
-                        isEnabled: childCheck == null,
+                        isEnabled: widget.initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(headSize: value);
+                        },
                       ),
                     ),
                   ],
@@ -103,7 +145,8 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
               ],
             ),
           ),
-          if (!childCheck.isComplete())
+          if (widget.initialData.isComplete()) Container(height: 12),
+          if (!widget.initialData.isComplete())
             Container(
               padding: const EdgeInsets.all(16),
               child: FlatButton(
@@ -133,10 +176,10 @@ extension on ChildCheck {
   }
 
   bool isComplete() {
-    return _isFilled(this.createdAt) &&
-        _isFilled(this.temperature) &&
-        _isFilled(this.headSize) &&
-        _isFilled(this.weight) &&
-        _isFilled(this.height);
+    return _isFilled(this?.createdAt) &&
+        _isFilled(this?.temperature) &&
+        _isFilled(this?.headSize) &&
+        _isFilled(this?.weight) &&
+        _isFilled(this?.height);
   }
 }

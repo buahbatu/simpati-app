@@ -152,7 +152,7 @@ class ChildInfoPage extends StatelessWidget {
                   spacing: 8,
                   children: <Widget>[
                     ...List.generate(
-                      36,
+                      state.items.length,
                       (i) => FlatButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
@@ -164,12 +164,22 @@ class ChildInfoPage extends StatelessWidget {
                           children: <Widget>[
                             Text('Ke ${i + 1}',
                                 style: AppTextStyle.sectionTitle),
-                            Text('30 Feb 2020',
-                                style: AppTextStyle.titleName
-                                    .copyWith(fontSize: 10)),
+                            Text(
+                              state.items[i].createdAt.standardShortFormat(),
+                              style:
+                                  AppTextStyle.titleName.copyWith(fontSize: 10),
+                            ),
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () => showDialog(
+                          context: ctx,
+                          child: ChildMedicalCheckDialog(
+                            i + 1,
+                            bloc,
+                            initialData,
+                            initialData: state.items[i],
+                          ),
+                        ),
                       ),
                     ).reversed,
                     FlatButton(
@@ -182,7 +192,11 @@ class ChildInfoPage extends StatelessWidget {
                       onPressed: () {
                         showDialog(
                           context: ctx,
-                          child: ChildMedicalCheckDialog(1, bloc, initialData),
+                          child: ChildMedicalCheckDialog(
+                            state.items.length + 1,
+                            bloc,
+                            initialData,
+                          ),
                         );
                       },
                     ),

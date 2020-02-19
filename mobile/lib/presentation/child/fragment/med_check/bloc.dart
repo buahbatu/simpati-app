@@ -1,5 +1,5 @@
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
-import 'package:simpati/data/firebase/pregnancy_repository.dart';
+import 'package:simpati/data/firebase/child_repository.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/child_check.dart';
 import 'package:simpati/domain/repository/child_repository.dart';
@@ -13,10 +13,10 @@ class ChildCheckBloc extends ScrollFragmentBloc<ChildCheck> {
 
   ChildCheckBloc(this.child, {IChildRepository childRepository})
       : this._loadChildCheckUsecase = LoadChildCheckUsecase(
-          childRepository ?? PregnancyRepository(),
+          childRepository ?? ChildRepository(),
         ),
         this._createChildCheckUsecase = CreateChildCheckUsecase(
-          childRepository ?? PregnancyRepository(),
+          childRepository ?? ChildRepository(),
         );
 
   @override
