@@ -6,7 +6,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/presentation/child/item/growth_chart.dart';
-import 'package:simpati/presentation/child/dialog/med_check.dart';
+import 'package:simpati/presentation/child/fragment/med_check/dialog.dart';
 
 class ChildInfoPage extends StatelessWidget {
   final Child initialData;

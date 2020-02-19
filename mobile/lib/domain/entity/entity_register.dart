@@ -3,6 +3,7 @@ import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/domain/entity/article.dart';
 import 'package:simpati/domain/entity/auth_info.dart';
 import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/domain/entity/child_check.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/domain/entity/recap_config.dart';
@@ -25,6 +26,8 @@ class EntityRegister {
     DataParserFactory.get().registerDecoder(ArticleList.fromMap);
     DataParserFactory.get().registerDecoder(Child.fromMap);
     DataParserFactory.get().registerDecoder(ChildList.fromMap);
+    DataParserFactory.get().registerDecoder(ChildCheck.fromMap);
+    DataParserFactory.get().registerDecoder(ChildCheckList.fromMap);
     DataParserFactory.get().registerDecoder(Mother.fromMap);
     DataParserFactory.get().registerDecoder(MotherList.fromMap);
     DataParserFactory.get().registerDecoder(Pregnancy.fromMap);
