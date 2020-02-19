@@ -10,7 +10,8 @@ class LoadProfileUsecase {
 
   Future<AuthInfo> start() async {
     final nurseResult = await _nurseRepositoryPref.getProfile();
-    final posyanduResult = await _posyanduRepositoryPref.getPosyandu();
+    final posyanduResult = await _posyanduRepositoryPref.getPosyandu(
+        posyanduId: nurseResult.data.posyanduId);
     return AuthInfo(
       nurse: nurseResult.data,
       posyandu: posyanduResult.data,

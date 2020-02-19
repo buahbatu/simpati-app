@@ -47,7 +47,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           posyanduRepositoryFirebase ?? PosyanduRepositoryPref(),
         ),
         this._reloadProfileUsecase = LoadProfileUsecase(
-          nurseRepositoryPref ?? NurseRepositoryFirebase(),
+          nurseRepositoryPref ?? NurseRepositoryPref(),
           posyanduRepositoryFirebase ?? PosyanduRepositoryFirebase(),
         ),
         this._logoutUsecase = LogoutUsecase(

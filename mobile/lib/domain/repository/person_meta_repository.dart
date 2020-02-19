@@ -10,8 +10,9 @@ abstract class IPersonMetaRepository {
   );
 
   Future<BaseResponse> updateMeta<T extends Data>(
-    String key,
+    String metaKey,
+    String countKey,
     MetaConfigList metaConfigList,
-    T value,
+    String posyanduId,
   );
 }

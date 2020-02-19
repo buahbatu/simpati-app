@@ -4,23 +4,23 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/presentation/mother/page/add_page/bloc.dart';
+import 'package:simpati/presentation/child/page/add_page/bloc.dart';
 
-class Step3AddMother extends StatefulWidget {
+class Step2AddChild extends StatefulWidget {
   final VoidCallback onButtonClick;
 
-  const Step3AddMother({Key key, this.onButtonClick}) : super(key: key);
+  const Step2AddChild({Key key, this.onButtonClick}) : super(key: key);
 
   @override
-  _Step3AddMotherState createState() => _Step3AddMotherState();
+  _Step2AddChildState createState() => _Step2AddChildState();
 }
 
-class _Step3AddMotherState extends State<Step3AddMother> {
+class _Step2AddChildState extends State<Step2AddChild> {
   final bloodController = TextEditingController();
 
   final weightFocus = FocusNode();
-
-  final bloodPresFocus = FocusNode();
+  final tempFocus = FocusNode();
+  final headSizeFocus = FocusNode();
 
   Future<String> showBloodPick(BuildContext context) async {
     final bloods = ['A', 'B', 'AB', 'O']
@@ -57,7 +57,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<AddMotherBloc>(context);
+    final bloc = BlocProvider.of<AddChildBloc>(context);
     final focusScope = FocusScope.of(context);
 
     return Padding(
@@ -74,37 +74,58 @@ class _Step3AddMotherState extends State<Step3AddMother> {
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Tinggi Badan',
+                        suffix: 'cm',
+                        inputType: TextInputType.number,
+                        nextForm: NextForm(focusScope, weightFocus),
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          bloc.child = bloc.child.copyWith(height: value);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Berat Badan',
+                        suffix: 'Kg',
+                        inputType: TextInputType.number,
+                        focusNode: weightFocus,
+                        nextForm: NextForm(focusScope, tempFocus),
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          bloc.child = bloc.child.copyWith(weight: value);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Container(height: 8),
                 FormUtils.buildField(
-                  'Tinggi Badan',
+                  'Suhu Badan',
+                  suffix: '°C',
+                  inputType: TextInputType.number,
+                  focusNode: tempFocus,
+                  nextForm: NextForm(focusScope, headSizeFocus),
+                  onChanged: (s) {
+                    final value = double.tryParse(s);
+                    bloc.child = bloc.child.copyWith(temperature: value);
+                  },
+                ),
+                Container(height: 8),
+                FormUtils.buildField(
+                  'Lingkar Kepala',
                   suffix: 'cm',
                   inputType: TextInputType.number,
+                  focusNode: headSizeFocus,
                   onChanged: (s) {
                     final value = double.tryParse(s);
-                    bloc.mother = bloc.mother.copyWith(height: value);
+                    bloc.child = bloc.child.copyWith(headSize: value);
                   },
-                  nextForm: NextForm(focusScope, weightFocus),
-                ),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Berat Badan',
-                  suffix: 'Kg',
-                  inputType: TextInputType.number,
-                  focusNode: weightFocus,
-                  nextForm: NextForm(focusScope, bloodPresFocus),
-                  onChanged: (s) {
-                    final value = double.tryParse(s);
-                    bloc.mother = bloc.mother.copyWith(weight: value);
-                  },
-                ),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Tekanan Darah',
-                  hint: '120/80',
-                  suffix: 'mmHg',
-                  focusNode: bloodPresFocus,
-                  inputType: TextInputType.datetime,
-                  onChanged: (s) =>
-                      bloc.mother = bloc.mother.copyWith(bloodPressure: s),
                 ),
                 Container(height: 8),
                 InkWell(
@@ -112,7 +133,7 @@ class _Step3AddMotherState extends State<Step3AddMother> {
                     final pick = await showBloodPick(context);
                     if (pick != null)
                       setState(() {
-                        bloc.mother = bloc.mother.copyWith(bloodType: pick);
+                        bloc.child = bloc.child.copyWith(bloodType: pick);
                         bloodController.text = pick;
                       });
                     focusScope.requestFocus(FocusNode());
@@ -133,14 +154,13 @@ class _Step3AddMotherState extends State<Step3AddMother> {
   }
 
   Widget getButton() {
-    return BlocBuilder<AddMotherBloc, AddMotherState>(builder: (ctx, state) {
+    return BlocBuilder<AddChildBloc, AddChildState>(builder: (ctx, state) {
       return FlatButton(
         color: AppColor.primaryColor,
         disabledColor: AppColor.profileBgColor,
         textColor: Colors.white,
-        onPressed:
-            state == AddMotherState.Loading ? null : widget.onButtonClick,
-        child: state == AddMotherState.Loading
+        onPressed: state == AddChildState.Loading ? null : widget.onButtonClick,
+        child: state == AddChildState.Loading
             ? SpinKitWave(color: Colors.white, size: 18.0)
             : Text('Simpan'),
       );

@@ -24,6 +24,9 @@ class FormUtils {
     StringCallback onChanged,
     String errorText,
     TextInputType inputType,
+    Icon beforeIcon,
+    Icon prefixIcon,
+    Icon suffixIcon,
     TextEditingController controller,
   }) {
     final inputAction =
@@ -44,10 +47,13 @@ class FormUtils {
       onChanged: onChanged,
       obscureText: obscureText,
       decoration: InputDecoration(
+        icon: beforeIcon,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         errorText: errorText,
         labelText: label,
         hintText: hint,
-        alignLabelWithHint: true,
+        alignLabelWithHint: true,        
         isDense: true,
         suffixText: suffix,
         border: OutlineInputBorder(

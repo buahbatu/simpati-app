@@ -8,7 +8,7 @@ class MotherRepository extends BaseFirestoreRepo implements IMotherRepository {
   @override
   Future<BaseResponse<Mother>> addMother(
       Posyandu posyandu, Mother mother) async {
-    final newMother = mother.copyWith(posyanduId: posyandu.id);
+    final newMother = mother.copyWith(posyanduId: posyandu.id, childCount: 0);
     final data = await firestore.collection('mothers').add(newMother.toMap());
     final endMother = newMother.copyWith(id: data.documentID);
     data.updateData({'id': data.documentID});

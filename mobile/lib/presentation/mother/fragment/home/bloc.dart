@@ -30,7 +30,9 @@ class MotherBloc extends ScrollFragmentBloc<Mother> {
       }
       yield ScrollFragmentState(items);
     } else if (event is Add<Mother>) {
-      items.add(event.item);
+      items
+        ..add(event.item)
+        ..sort((a, b) => a.fullName.compareTo(b.fullName));
       yield ScrollFragmentState(items);
     }
   }

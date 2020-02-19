@@ -4,7 +4,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 
-class KidMedicalCheckDialog extends StatelessWidget {
+class ChildMedicalCheckDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -29,14 +29,30 @@ class KidMedicalCheckDialog extends StatelessWidget {
                   isEnabled: false,
                 ),
                 Container(height: 8),
-                FormUtils.buildField(
-                  'Berat Badan',
-                  suffix: 'Kg',
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField('Berat Badan', suffix: 'Kg'),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child:
+                          FormUtils.buildField('Panjang Badan', suffix: 'cm'),
+                    ),
+                  ],
                 ),
                 Container(height: 8),
-                FormUtils.buildField(
-                  'Panjang Badan',
-                  suffix: 'cm',
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField('Suhu Badan', suffix: '°C'),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child:
+                          FormUtils.buildField('Lingkar Kepala', suffix: 'cm'),
+                    ),
+                  ],
                 ),
               ],
             ),

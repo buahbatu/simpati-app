@@ -5,7 +5,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/presentation/mother/fragment/home/bloc.dart';
-import 'package:simpati/presentation/mother/page/info_page.dart';
+import 'package:simpati/presentation/mother/page/info_page/screen.dart';
 
 class MotherCard extends StatelessWidget {
   final Mother data;

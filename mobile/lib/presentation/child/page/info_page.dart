@@ -4,14 +4,14 @@ import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/domain/entity/kid.dart';
-import 'package:simpati/presentation/kid/item/growth_chart.dart';
-import 'package:simpati/presentation/kid/page/med_check.dart';
+import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/presentation/child/item/growth_chart.dart';
+import 'package:simpati/presentation/child/dialog/med_check.dart';
 
-class KidInfoPage extends StatelessWidget {
-  final Kid initialData;
+class ChildInfoPage extends StatelessWidget {
+  final Child initialData;
 
-  const KidInfoPage(this.initialData, {Key key}) : super(key: key);
+  const ChildInfoPage(this.initialData, {Key key}) : super(key: key);
 
   Widget createAppBar(BuildContext context) {
     return AppBar(
@@ -68,7 +68,7 @@ class KidInfoPage extends StatelessWidget {
                   Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
                   Container(width: 4),
                   Text(
-                    initialData.address,
+                    initialData?.address ?? 'Jl Impian Raya',
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                 ],
@@ -77,23 +77,6 @@ class KidInfoPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  FlatButton createProfileButton(String source, IconData iconData) {
-    return FlatButton(
-      child: Row(
-        children: <Widget>[
-          Icon(iconData, color: Colors.black38, size: 18),
-          Container(width: 4),
-          Text(source, style: AppTextStyle.titleName),
-        ],
-      ),
-      padding: const EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: BorderSide(color: Colors.black38)),
-      onPressed: () {},
     );
   }
 
@@ -108,13 +91,13 @@ class KidInfoPage extends StatelessWidget {
           Container(height: 21),
           FormUtils.buildField(
             'Nama Ibu',
-            value: 'Khusnaini Aghniya',
+            value: initialData.momName,
             isEnabled: false,
           ),
           Container(height: 8),
           FormUtils.buildField(
             'Tanggal Lahir',
-            value: initialData.dateOfBirth.standardFormat(),
+            value: initialData.birthDate.standardFormat(),
             isEnabled: false,
           ),
           Container(height: 8),
@@ -189,7 +172,7 @@ class KidInfoPage extends StatelessWidget {
                   child: Icon(LineIcons.plus, color: Colors.white),
                   onPressed: () {
                     showDialog(
-                        context: context, child: KidMedicalCheckDialog());
+                        context: context, child: ChildMedicalCheckDialog());
                   },
                 ),
               ],
@@ -230,13 +213,21 @@ class KidInfoPage extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: FormUtils.buildField('Suhu Badan',
-                    value: '40', isEnabled: false, suffix: '°C'),
+                child: FormUtils.buildField(
+                  'Suhu Badan',
+                  value: initialData.temperature.toString(),
+                  isEnabled: false,
+                  suffix: '°C',
+                ),
               ),
               Container(width: 8),
               Expanded(
-                child: FormUtils.buildField('Lingkar Kepala',
-                    value: '100', isEnabled: false, suffix: 'cm'),
+                child: FormUtils.buildField(
+                  'Lingkar Kepala',
+                  value: initialData.headSize.toString(),
+                  isEnabled: false,
+                  suffix: 'cm',
+                ),
               ),
             ],
           ),

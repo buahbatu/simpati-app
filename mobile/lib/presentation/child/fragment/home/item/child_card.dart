@@ -3,25 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
-import 'package:simpati/domain/entity/kid.dart';
-import 'package:simpati/presentation/kid/fragment/home/bloc.dart';
-import 'package:simpati/presentation/kid/page/info_page.dart';
+import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/presentation/child/fragment/home/bloc.dart';
+import 'package:simpati/presentation/child/page/info_page.dart';
 
-class KidCard extends StatelessWidget {
-  final Kid data;
+class ChildCard extends StatelessWidget {
+  final Child data;
 
-  const KidCard(
+  const ChildCard(
     this.data, {
     Key key,
   }) : super(key: key);
 
-  void editKidData(BuildContext context) async {
+  void editChildData(BuildContext context) async {
     // ignore: close_sinks
-    final bloc = BlocProvider.of<KidBloc>(context);
+    final bloc = BlocProvider.of<ChildBloc>(context);
 
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => KidInfoPage(data),
+        builder: (ctx) => ChildInfoPage(data),
       ),
     );
 
@@ -32,7 +32,7 @@ class KidCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => editKidData(context),
+      onTap: () => editChildData(context),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
@@ -59,7 +59,7 @@ class KidCard extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     children: <Widget>[
-                      createChip('Ibu Sophia'),
+                      createChip('Ibu ${data.momFirstName}'),
                       createChip('Gemuk'),
                       createChip('Gizi Baik'),
                     ],
@@ -75,17 +75,17 @@ class KidCard extends StatelessWidget {
 
   Text createAddress() {
     return Text(
-      data.address,
+      data?.address ?? 'Jl. Abu Bakar No. 14',
       style: AppTextStyle.caption.copyWith(color: Colors.black38),
     );
   }
 
   Text createAge() {
-    int month = DateTime.now().month - data.dateOfBirth.month;
-    final diffYear = DateTime.now().year - data.dateOfBirth.year;
+    int month = DateTime.now().month - data.birthDate.month;
+    final diffYear = DateTime.now().year - data.birthDate.year;
     month += 12 * diffYear;
 
-    final diffDay = DateTime.now().day - data.dateOfBirth.day;
+    final diffDay = DateTime.now().day - data.birthDate.day;
 
     if (diffDay < 0) {
       month -= 1;
