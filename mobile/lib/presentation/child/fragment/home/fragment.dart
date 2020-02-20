@@ -134,10 +134,10 @@ class _HomeScreen extends StatelessWidget {
               ],
             ),
             Container(height: safeHeight, color: AppColor.primaryColor),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: createActionButton(state),
-            )
+            // Align(
+            //   alignment: Alignment.bottomRight,
+            //   child: createActionButton(state),
+            // )
           ],
         ),
       );
