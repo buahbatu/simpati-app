@@ -41,25 +41,27 @@ class ChildFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createActionButton(BuildContext ctx, AppState state) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: MaterialButton(
-        onPressed: () async {
-          if (state.posyandu != null) {
-            addChildData(ctx);
-          } else {
-            await Navigator.of(ctx).push(
-              MaterialPageRoute(builder: (ctx) => AuthScreen()),
-            );
-          }
-        },
-        color: AppColor.primaryColor,
-        shape: CircleBorder(),
+  Widget createActionButton(AppState state) {
+    return Builder(builder: (ctx) {
+      return Padding(
         padding: const EdgeInsets.all(16),
-        child: Icon(LineIcons.plus, color: Colors.white),
-      ),
-    );
+        child: MaterialButton(
+          onPressed: () async {
+            if (state.posyandu != null) {
+              addChildData(ctx);
+            } else {
+              await Navigator.of(ctx).push(
+                MaterialPageRoute(builder: (ctx) => AuthScreen()),
+              );
+            }
+          },
+          color: AppColor.primaryColor,
+          shape: CircleBorder(),
+          padding: const EdgeInsets.all(16),
+          child: Icon(LineIcons.plus, color: Colors.white),
+        ),
+      );
+    });
   }
 
   void addChildData(BuildContext context) async {
@@ -120,8 +122,9 @@ class _HomeScreen extends StatelessWidget {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocBuilder<AppBloc, AppState>(builder: (ctx, state) {
       return BlocProvider(
-        create: (ctx) => ChildBloc(ChildFilter('posyanduId', state.posyandu?.id))
-          ..add(Init()),
+        create: (ctx) =>
+            ChildBloc(ChildFilter('posyanduId', state.posyandu?.id))
+              ..add(Init()),
         child: Stack(
           children: <Widget>[
             Column(
@@ -133,7 +136,7 @@ class _HomeScreen extends StatelessWidget {
             Container(height: safeHeight, color: AppColor.primaryColor),
             Align(
               alignment: Alignment.bottomRight,
-              child: createActionButton(ctx, state),
+              child: createActionButton(state),
             )
           ],
         ),
