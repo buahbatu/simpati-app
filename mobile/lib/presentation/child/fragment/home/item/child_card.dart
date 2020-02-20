@@ -5,7 +5,7 @@ import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/presentation/child/fragment/home/bloc.dart';
-import 'package:simpati/presentation/child/page/info_page.dart';
+import 'package:simpati/presentation/child/page/info_page/screen.dart';
 
 class ChildCard extends StatelessWidget {
   final Child data;

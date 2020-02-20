@@ -2,18 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/core/utils/date_utils.dart';
+import 'package:simpati/domain/entity/immunization_config.dart';
 
 class Immunization extends Equatable implements Data {
   final String key;
   final DateTime createdAt;
+  final ImmunizationConfig config;
 
   Immunization({
     this.key,
     this.createdAt,
+    this.config,
   });
 
   @override
-  List<Object> get props => [this.key, this.createdAt];
+  List<Object> get props => [this.key, this.createdAt, this.config];
 
   @override
   Map<String, dynamic> toMap() {
@@ -24,6 +27,18 @@ class Immunization extends Equatable implements Data {
     return Immunization(
       key: map['key'],
       createdAt: DateUtils.parseTimeData(map['createdAt']),
+    );
+  }
+
+  Immunization copyWith({
+    String key,
+    DateTime createdAt,
+    ImmunizationConfig config,
+  }) {
+    return Immunization(
+      key: key ?? this.key,
+      createdAt: createdAt ?? this.createdAt,
+      config: config ?? this.config,
     );
   }
 

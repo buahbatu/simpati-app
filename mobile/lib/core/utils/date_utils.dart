@@ -12,6 +12,11 @@ extension DateUtils on DateTime {
     return DateFormat('dd MMM yyyy').format(this);
   }
 
+  // Dec 2019
+  String monthYearFormat() {
+    return DateFormat('MMM yyyy').format(this);
+  }
+
   bool isBetween(DateTime before, DateTime after) {
     return this.isAfter(before) && this.isBefore(after);
   }

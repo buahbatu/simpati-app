@@ -8,9 +8,11 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/child_check.dart';
+import 'package:simpati/domain/entity/immunization.dart';
 import 'package:simpati/presentation/child/fragment/med_check/bloc.dart';
 import 'package:simpati/presentation/child/item/growth_chart.dart';
 import 'package:simpati/presentation/child/fragment/med_check/dialog.dart';
+import 'package:simpati/presentation/child/page/info_page/bloc.dart';
 
 class ChildInfoPage extends StatelessWidget {
   final Child initialData;
@@ -273,48 +275,40 @@ class ChildInfoPage extends StatelessWidget {
   }
 
   Widget createImmunizationHistory() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Riwayat Imunisasi', style: AppTextStyle.sectionTitle),
-          Container(height: 12),
-          Wrap(
-            spacing: 8,
+    final bloc = ImmunizationListBloc(initialData)..add(Init());
+    return BlocBuilder<ImmunizationListBloc, ScrollFragmentState<Immunization>>(
+      bloc: bloc,
+      builder: (ctx, state) {
+        return Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              createImunCard(
-                'BCG',
-                isDone: true,
-                date: DateTime.now().standardFormat(),
+              Text('Riwayat Imunisasi', style: AppTextStyle.sectionTitle),
+              Container(height: 12),
+              Wrap(
+                spacing: 8,
+                children: state.items.map((e) => createImunCard(e)).toList(),
               ),
-              createImunCard(
-                'Hepatitis B ke-1',
-                isDone: true,
-                date: DateTime.now().standardFormat(),
-              ),
-              createImunCard(
-                'Polio ke 0',
-                isDone: true,
-                date: DateTime.now().standardFormat(),
-              ),
-              createImunCard('Hepatitis B ke-2', isDone: false),
-              createImunCard('Polio ke 1', isDone: false),
-              createImunCard('Polio ke 2', isDone: false),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  FlatButton createImunCard(
-    String title, {
-    String date = '',
-    bool isDone = false,
-  }) {
+  FlatButton createImunCard(Immunization immun) {
+    final isDone = immun.createdAt != null;
     final color = isDone ? AppColor.primaryColor : Colors.black38;
+
+    final start = initialData.birthDate
+        .add(Duration(days: 31 * immun.config.startMonth))
+        .monthYearFormat();
+
+    final end = initialData.birthDate
+        .add(Duration(days: 31 * immun.config.endMonth))
+        .monthYearFormat();
     return FlatButton(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(
@@ -327,9 +321,17 @@ class ChildInfoPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(title, style: TextStyle(color: color)),
+                Text(immun.config.title, style: TextStyle(color: color)),
                 if (isDone)
-                  Text(date, style: TextStyle(color: color, fontSize: 10)),
+                  Text(
+                    immun.createdAt.standardFormat(),
+                    style: TextStyle(color: color, fontSize: 10),
+                  ),
+                if (!isDone)
+                  Text(
+                    '$start - $end',
+                    style: TextStyle(color: color, fontSize: 10),
+                  ),
               ],
             ),
           ),
