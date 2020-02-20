@@ -78,6 +78,8 @@ class _Step1AddChildState extends State<Step1AddChild> {
                 Container(height: 21),
                 FormUtils.buildField(
                   'Nama Ibu',
+                  value: bloc.child.momName != null ? bloc.child.momName : '',
+                  isEnabled: bloc.child.momName == null,
                   onChanged: (s) =>
                       bloc.child = bloc.child.copyWith(momName: s),
                 ),

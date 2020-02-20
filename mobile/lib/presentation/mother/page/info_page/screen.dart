@@ -212,7 +212,7 @@ class MotherInfoPage extends StatelessWidget {
                       child: Icon(LineIcons.plus, color: Colors.white),
                       onPressed: () {
                         Navigator.of(ctx).push(MaterialPageRoute(
-                          builder: (ctx) => ChildAddPage(),
+                          builder: (ctx) => ChildAddPage(momData: initialData),
                         ));
                       },
                     ),
