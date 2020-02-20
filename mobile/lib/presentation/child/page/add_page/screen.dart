@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
-import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/presentation/child/fragment/add_steps/step_1.dart';
 import 'package:simpati/presentation/child/fragment/add_steps/step_2.dart';
 import 'package:simpati/presentation/child/page/add_page/bloc.dart';
 
 class ChildAddPage extends StatefulWidget {
-  final Child initialData;
+  final Mother momData;
 
-  const ChildAddPage({Key key, this.initialData}) : super(key: key);
+  const ChildAddPage({Key key, this.momData}) : super(key: key);
 
   @override
   _ChildAddPageState createState() => _ChildAddPageState();
@@ -44,7 +44,7 @@ class _ChildAddPageState extends State<ChildAddPage>
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AddChildBloc>(
-      create: (ctx) => AddChildBloc(),
+      create: (ctx) => AddChildBloc(mom: widget.momData),
       child: Scaffold(
         backgroundColor: AppColor.appBackground,
         appBar: createAppBar(context),

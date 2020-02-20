@@ -6,6 +6,7 @@ import 'package:simpati/data/firebase/person_meta_repository.dart';
 import 'package:simpati/data/firebase/posyandu_repository_firebase.dart';
 import 'package:simpati/data/local/posyandu_repository_pref.dart';
 import 'package:simpati/domain/entity/child.dart';
+import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/repository/child_repository.dart';
 import 'package:simpati/domain/repository/config_repository.dart';
 import 'package:simpati/domain/repository/person_meta_repository.dart';
@@ -20,7 +21,8 @@ class AddChildEvent {}
 enum AddChildState { Init, Loading, Failed, Success }
 
 class AddChildBloc extends Bloc<AddChildEvent, AddChildState> {
-  Child child = Child(isGirl: true);
+  Mother mom;
+  Child child;
 
   final CreateChildUsecase _createChildUsecase;
   final UpdatePersonMetaUsecase _updatePersonMetaUsecase;
@@ -32,6 +34,7 @@ class AddChildBloc extends Bloc<AddChildEvent, AddChildState> {
     IPersonMetaRepository metaRepository,
     IPosyanduRepository posyanduRepositoryPref,
     IPosyanduRepository posyanduRepositoryFirebase,
+    this.mom,
   })  : this._createChildUsecase = CreateChildUsecase(
           motherRepository ?? ChildRepository(),
           posyanduRepositoryPref ?? PosyanduRepositoryPref(),
@@ -43,7 +46,15 @@ class AddChildBloc extends Bloc<AddChildEvent, AddChildState> {
         this._updatePosyanduUsecase = UpdatePosyanduSizeUsecase(
           posyanduRepositoryPref ?? PosyanduRepositoryPref(),
           posyanduRepositoryFirebase ?? PosyanduRepositoryFirebase(),
-        );
+        ) {
+    child = Child(
+      isGirl: true,
+      momName: mom?.fullName,
+      idMother: mom?.id,
+      address: mom?.address,
+      posyanduId: mom?.posyanduId,
+    );
+  }
 
   @override
   AddChildState get initialState => AddChildState.Init;

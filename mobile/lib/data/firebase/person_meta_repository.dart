@@ -15,13 +15,13 @@ class PersonMetaRepository extends BaseFirestoreRepo
   @override
   Future<BaseResponse<PersonMeta>> getMeta(
     String key,
-    MetaConfigList metaConfigList,
+    RecapConfigList metaConfigList,
   ) async {
     final meta = await firestore.collection(collectionKey).document(key).get();
 
     final activeConfig = metaConfigList.data.where((e) => e.active).toList();
     final listRecap = List();
-    for (MetaConfig config in activeConfig) {
+    for (RecapConfig config in activeConfig) {
       final recap = (await firestore
               .collection(collectionKey)
               .document(key)
@@ -49,7 +49,7 @@ class PersonMetaRepository extends BaseFirestoreRepo
   Future<BaseResponse<Data>> updateMeta<T extends Data>(
     String metaKey,
     String countKey,
-    MetaConfigList metaConfigList,
+    RecapConfigList metaConfigList,
     String posyanduId,
   ) async {
     await firestore.collection(collectionKey).document(metaKey).updateData(

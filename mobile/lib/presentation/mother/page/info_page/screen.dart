@@ -13,7 +13,7 @@ import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/domain/repository/child_repository.dart';
 import 'package:simpati/presentation/child/fragment/home/bloc.dart';
 import 'package:simpati/presentation/child/page/add_page/screen.dart';
-import 'package:simpati/presentation/child/page/info_page.dart';
+import 'package:simpati/presentation/child/page/info_page/screen.dart';
 import 'package:simpati/presentation/mother/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/presentation/pregnancy/fragment/bloc.dart';
 import 'package:simpati/presentation/pregnancy/page/info_page.dart';
@@ -212,7 +212,7 @@ class MotherInfoPage extends StatelessWidget {
                       child: Icon(LineIcons.plus, color: Colors.white),
                       onPressed: () {
                         Navigator.of(ctx).push(MaterialPageRoute(
-                          builder: (ctx) => ChildAddPage(),
+                          builder: (ctx) => ChildAddPage(momData: initialData),
                         ));
                       },
                     ),

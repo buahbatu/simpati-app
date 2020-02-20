@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
-import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/presentation/mother/fragment/add_steps/step_1.dart';
 import 'package:simpati/presentation/mother/fragment/add_steps/step_2.dart';
 import 'package:simpati/presentation/mother/fragment/add_steps/step_3.dart';
 import 'package:simpati/presentation/mother/page/add_page/bloc.dart';
 
 class MotherAddPage extends StatefulWidget {
-  final Mother initialData;
-
-  const MotherAddPage({Key key, this.initialData}) : super(key: key);
-
   @override
   _MotherAddPageState createState() => _MotherAddPageState();
 }

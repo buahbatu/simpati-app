@@ -33,7 +33,8 @@ class UpdatePersonMetaUsecase {
     // don't need init conifg
     await configRepository.initConfig();
 
-    final config = await configRepository.loadConfig<MetaConfigList>(configKey);
+    final config =
+        await configRepository.loadConfig<RecapConfigList>(configKey);
 
     return await metaRepository.updateMeta(
       metaKey,
