@@ -7,6 +7,11 @@ extension DateUtils on DateTime {
     return DateFormat('EEEE, dd MMM yyyy').format(this);
   }
 
+  // 23 Dec 2019
+  String standardShortFormat() {
+    return DateFormat('dd MMM yyyy').format(this);
+  }
+
   bool isBetween(DateTime before, DateTime after) {
     return this.isAfter(before) && this.isBefore(after);
   }

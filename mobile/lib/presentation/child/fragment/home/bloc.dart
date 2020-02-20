@@ -23,7 +23,7 @@ class ChildBloc extends ScrollFragmentBloc<Child> {
   @override
   Stream<ScrollFragmentState<Child>> mapEventToState(
       ScrollFragmentEvent event) async* {
-    if (event is Init) {
+    if (event is Init && childFilter.equalToValue != null) {
       final result = await _loadChildUsecase.start(childFilter);
       if (result.isSuccess()) {
         items.addAll(result.data.childs);

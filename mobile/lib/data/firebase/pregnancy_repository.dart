@@ -2,24 +2,30 @@ import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/data/firebase/base_firestore_repo.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
+import 'package:simpati/domain/entity/pregnancy_check.dart';
 import 'package:simpati/domain/repository/pregnancy_repository.dart';
 
 class PregnancyRepository extends BaseFirestoreRepo
     implements IPregnancyRepository {
   @override
-  Future<BaseResponse<Pregnancy>> addPregnancy(Mother mother) async {
-    // final newPregnancy = pregnancy.copyWith(posyanduId: posyandu.id);
-    // final data =
-    //     await firestore.collection('pregnancys').add(newPregnancy.toMap());
-    // final endMother = newPregnancy.copyWith(id: data.documentID);
-    // data.updateData({'id': data.documentID});
+  Future<BaseResponse<Pregnancy>> addPregnancy(
+    Mother mother,
+    Pregnancy pregnancy,
+  ) async {
+    final data = await firestore
+        .collection('mothers')
+        .document(mother.id)
+        .collection('pregnancy')
+        .add(pregnancy.toMap());
 
-    // return BaseResponse(
-    //   null,
-    //   Status.success,
-    //   'add pregnancy success',
-    //   endMother,
-    // );
+    await data.updateData({'id': data.documentID});
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'add pregnancy success',
+      pregnancy,
+    );
   }
 
   @override
@@ -31,15 +37,65 @@ class PregnancyRepository extends BaseFirestoreRepo
         .orderBy('lastMenstruation')
         .getDocuments();
 
-    final pregnancys = snapshots.documents
+    final pregnancies = snapshots.documents
         .map((e) => parserFactory.decode<Pregnancy>(e.data))
         .toList();
 
     return BaseResponse(
       null,
       Status.success,
-      'Load pregnancys success',
-      PregnancyList(pregnancys),
+      'Load pregnancies success',
+      PregnancyList(pregnancies),
+    );
+  }
+
+  @override
+  Future<BaseResponse<PregnancyCheck>> addMedCheck(
+    Mother mother,
+    Pregnancy pregnancy,
+    PregnancyCheck pregnancyCheck,
+  ) async {
+    final data = await firestore
+        .collection('mothers')
+        .document(mother.id)
+        .collection('pregnancy')
+        .document(pregnancy.id)
+        .collection('checkUp')
+        .add(pregnancyCheck.toMap());
+
+    await data.updateData({'id': data.documentID});
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'add pregnancy check success',
+      pregnancyCheck,
+    );
+  }
+
+  @override
+  Future<BaseResponse<PregnancyCheckList>> getAllMedCheck(
+    Mother mother,
+    Pregnancy pregnancy,
+  ) async {
+    final snapshots = await firestore
+        .collection('mothers')
+        .document(mother.id)
+        .collection('pregnancy')
+        .document(pregnancy.id)
+        .collection('checkUp')
+        .orderBy('createdAt')
+        .getDocuments();
+
+    final pregnancies = snapshots.documents
+        .map((e) => parserFactory.decode<PregnancyCheck>(e.data))
+        .toList();
+
+    return BaseResponse(
+      null,
+      Status.success,
+      'Load pregnancy checks success',
+      PregnancyCheckList(pregnancies),
     );
   }
 }

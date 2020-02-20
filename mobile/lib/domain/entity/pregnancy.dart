@@ -5,23 +5,44 @@ import 'package:simpati/core/tools/data_parser_factory.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 
 class Pregnancy extends Equatable implements Data {
+  final String id;
   final DateTime lastMenstruation;
-  final MenstruationCycle period;
+  final MenstruationCycle menstruationCycle;
   final double weight;
   final double height;
   final String bloodPressure;
 
   Pregnancy({
+    this.id,
     this.lastMenstruation,
-    this.period,
+    this.menstruationCycle,
     this.weight,
     this.height,
     this.bloodPressure,
   });
 
+  Pregnancy copyWith({
+    String id,
+    DateTime lastMenstruation,
+    MenstruationCycle menstruationCycle,
+    double weight,
+    double height,
+    String bloodPressure,
+  }) {
+    return Pregnancy(
+      id: id ?? this.id,
+      lastMenstruation: lastMenstruation ?? this.lastMenstruation,
+      menstruationCycle: menstruationCycle ?? this.menstruationCycle,
+      weight: weight ?? this.weight,
+      height: height ?? this.height,
+      bloodPressure: bloodPressure ?? this.bloodPressure,
+    );
+  }
+
   static Pregnancy mock = Pregnancy(
+    id: '1',
     lastMenstruation: DateFormat('dd/MM/yyyy').parse('1/10/2019'),
-    period: MenstruationCycle.short,
+    menstruationCycle: MenstruationCycle.short,
     weight: 50,
     height: 150,
     bloodPressure: '120/20',
@@ -29,8 +50,9 @@ class Pregnancy extends Equatable implements Data {
 
   static Pregnancy fromMap(Map<dynamic, dynamic> map) {
     return Pregnancy(
+      id: map['id'],
       lastMenstruation: DateUtils.parseTimeData(map['lastMenstruation']),
-      period: map['period'],
+      menstruationCycle: MenstruationCycle.parseKey(map['menstruationCycle']),
       weight: double.parse(map['weight'].toString()),
       height: double.parse(map['height'].toString()),
       bloodPressure: map['bloodPressure'],
@@ -39,8 +61,9 @@ class Pregnancy extends Equatable implements Data {
 
   @override
   List<Object> get props => [
+        this.id,
         this.lastMenstruation,
-        this.period,
+        this.menstruationCycle,
         this.weight,
         this.height,
         this.bloodPressure,
@@ -49,8 +72,9 @@ class Pregnancy extends Equatable implements Data {
   @override
   Map<String, dynamic> toMap() {
     return {
+      'id': this.id,
       'lastMenstruation': this.lastMenstruation.millisecondsSinceEpoch,
-      'period': this.period,
+      'menstruationCycle': this.menstruationCycle.key,
       'weight': this.weight,
       'height': this.height,
       'bloodPressure': this.bloodPressure,
@@ -64,13 +88,26 @@ class MenstruationCycle {
 
   MenstruationCycle(this.key, this.title);
 
-  factory MenstruationCycle.parse(String key) {
+  factory MenstruationCycle.parseKey(String key) {
     switch (key) {
       case 'short':
         return short;
       case 'regular':
         return regular;
       case 'long':
+        return long;
+      default:
+        throw ArgumentError('Unknown key for menstruation');
+    }
+  }
+
+  factory MenstruationCycle.parse(String title) {
+    switch (title) {
+      case 'Pendek (<28 Hari)':
+        return short;
+      case 'Normal (28-30 Hari)':
+        return regular;
+      case 'Panjang (>30 Hari)':
         return long;
       default:
         throw ArgumentError('Unknown key for menstruation');

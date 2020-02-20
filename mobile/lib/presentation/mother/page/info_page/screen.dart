@@ -307,46 +307,52 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createPregnancyInfo() {
+    final bloc = PregnancyListBloc(initialData)..add(Init());
     return BlocBuilder<PregnancyListBloc, ScrollFragmentState<Pregnancy>>(
-        bloc: PregnancyListBloc(initialData)..add(Init()),
-        builder: (ctx, state) {
-          return Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
-                Container(height: 21),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: <Widget>[
-                    ...List.generate(
-                      state.items.length,
-                      (i) => createPregnancyButton(i, ctx, state.items[i]),
-                    ).reversed,
-                    FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      color: AppColor.primaryColor,
-                      child: Icon(LineIcons.plus, color: Colors.white),
-                      onPressed: () => showDialog(
-                        context: ctx,
-                        child: AddPregnancyDialog(1, initialData),
+      bloc: bloc,
+      builder: (ctx, state) {
+        return Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
+              Container(height: 21),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: <Widget>[
+                  ...List.generate(
+                    state.items.length,
+                    (i) => createPregnancyButton(i, ctx, state.items[i]),
+                  ).reversed,
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    color: AppColor.primaryColor,
+                    child: Icon(LineIcons.plus, color: Colors.white),
+                    onPressed: () => showDialog(
+                      context: ctx,
+                      child: AddPregnancyDialog(
+                        state.items.length + 1,
+                        initialData,
+                        bloc,
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   FlatButton createPregnancyButton(
@@ -376,7 +382,7 @@ class MotherInfoPage extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(ctx).push(MaterialPageRoute(
-          builder: (ctx) => PregnancyInfoPage(i, pregnancy),
+          builder: (ctx) => PregnancyInfoPage(i, initialData, pregnancy),
         ));
       },
     );
