@@ -6,13 +6,13 @@ import 'package:simpati/domain/entity/recap_config.dart';
 abstract class IPersonMetaRepository {
   Future<BaseResponse<PersonMeta>> getMeta(
     String key,
-    MetaConfigList metaConfigList,
+    RecapConfigList metaConfigList,
   );
 
   Future<BaseResponse> updateMeta<T extends Data>(
     String metaKey,
     String countKey,
-    MetaConfigList metaConfigList,
+    RecapConfigList metaConfigList,
     String posyanduId,
   );
 }

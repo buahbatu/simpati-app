@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:simpati/core/result/base_data.dart';
 import 'package:simpati/core/tools/data_parser_factory.dart';
 
-class MetaConfig extends Equatable implements Data {
+class RecapConfig extends Equatable implements Data {
   final String key;
   final bool active;
 
-  MetaConfig({this.key, this.active});
+  RecapConfig({this.key, this.active});
 
   @override
   List<Object> get props => [this.key, this.active];
@@ -16,15 +16,15 @@ class MetaConfig extends Equatable implements Data {
     return {'key': key, 'active': active};
   }
 
-  static MetaConfig fromMap(Map<dynamic, dynamic> map) {
-    return MetaConfig(key: map['key'], active: map['active']);
+  static RecapConfig fromMap(Map<dynamic, dynamic> map) {
+    return RecapConfig(key: map['key'], active: map['active']);
   }
 }
 
-class MetaConfigList extends Equatable implements Data {
-  final List<MetaConfig> data;
+class RecapConfigList extends Equatable implements Data {
+  final List<RecapConfig> data;
 
-  MetaConfigList(this.data);
+  RecapConfigList(this.data);
 
   @override
   List<Object> get props => [this.data];
@@ -34,10 +34,10 @@ class MetaConfigList extends Equatable implements Data {
     return {'data': data.map((e) => e.toMap()).toList()};
   }
 
-  static MetaConfigList fromMap(Map<dynamic, dynamic> map) {
+  static RecapConfigList fromMap(Map<dynamic, dynamic> map) {
     final data = (map['data'] as List)
-        .map((e) => DataParserFactory.get().decode<MetaConfig>(e))
+        .map((e) => DataParserFactory.get().decode<RecapConfig>(e))
         .toList();
-    return MetaConfigList(data);
+    return RecapConfigList(data);
   }
 }

@@ -27,7 +27,8 @@ class LoadPersonMetaUsecase {
 
     await configRepository.initConfig();
 
-    final config = await configRepository.loadConfig<MetaConfigList>(configKey);
+    final config =
+        await configRepository.loadConfig<RecapConfigList>(configKey);
 
     return await metaRepository.getMeta(metaKey, config);
   }

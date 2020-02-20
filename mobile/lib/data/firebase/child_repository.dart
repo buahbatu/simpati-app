@@ -2,6 +2,7 @@ import 'package:simpati/core/result/base_response.dart';
 import 'package:simpati/data/firebase/base_firestore_repo.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/child_check.dart';
+import 'package:simpati/domain/entity/immunization.dart';
 import 'package:simpati/domain/entity/posyandu.dart';
 import 'package:simpati/domain/repository/child_repository.dart';
 
@@ -72,5 +73,17 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
       'Load childs success',
       ChildCheckList(checks),
     );
+  }
+
+  @override
+  Future<BaseResponse<ChildCheck>> addImmunization(Child child, Immunization data) {
+    // TODO: implement addImmunization
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<BaseResponse<ChildCheckList>> getAllImmunization(Child child) {
+    // TODO: implement getAllImmunization
+    throw UnimplementedError();
   }
 }
