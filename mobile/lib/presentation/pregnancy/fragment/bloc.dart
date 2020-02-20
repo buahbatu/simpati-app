@@ -35,6 +35,7 @@ class PregnancyListBloc extends ScrollFragmentBloc<Pregnancy> {
       final result = await _createPregnancyUsecase.start(mother, event.item);
       if (result.isSuccess()) {
         items.add(result.data);
+        items.sort((a, b) => a.lastMenstruation.compareTo(b.lastMenstruation));
       }
       yield ScrollFragmentState(items);
     }

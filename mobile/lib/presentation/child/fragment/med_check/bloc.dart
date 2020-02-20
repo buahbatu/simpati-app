@@ -36,6 +36,7 @@ class ChildCheckBloc extends ScrollFragmentBloc<ChildCheck> {
       final result = await _createChildCheckUsecase.start(child, event.item);
       if (result.isSuccess()) {
         items.add(result.data);
+        items.sort((a, b) => a.createdAt.compareTo(b.createdAt));
       }
       yield ScrollFragmentState(items);
     }

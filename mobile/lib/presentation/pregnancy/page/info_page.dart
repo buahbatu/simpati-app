@@ -9,7 +9,7 @@ import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/mother.dart';
 import 'package:simpati/domain/entity/pregnancy.dart';
 import 'package:simpati/domain/entity/pregnancy_check.dart';
-import 'package:simpati/presentation/mother/dialog/med_check.dart';
+import 'package:simpati/presentation/pregnancy/dialog/med_check.dart';
 import 'package:simpati/presentation/pregnancy/page/bloc.dart';
 
 class PregnancyInfoPage extends StatelessWidget {

@@ -26,7 +26,7 @@ class PregnancyCheck extends Equatable implements Data {
     double weight,
     double weightFetus,
     String amnioticStatus,
-    String isGirlPrediction,
+    bool isGirlPrediction,
     String bloodPressure,
   }) {
     return PregnancyCheck(
@@ -76,6 +76,7 @@ class PregnancyCheck extends Equatable implements Data {
       weight: double.parse(map['weight'].toString()),
       weightFetus: double.parse(map['weightFetus'].toString()),
       amnioticStatus: map['amnioticStatus'],
+      isGirlPrediction: map['isGirlPrediction'],
       bloodPressure: map['bloodPressure'],
     );
   }
