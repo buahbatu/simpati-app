@@ -41,8 +41,9 @@ class ImmunizationListBloc extends ScrollFragmentBloc<Immunization> {
     } else if (event is Add<Immunization>) {
       final result = await _createImmunizationUsecase.start(child, event.item);
       if (result.isSuccess()) {
-        items.removeWhere((element) => element.key == result.data.key);
-        items.add(result.data);
+        final i = items.indexWhere((element) => element.key == result.data.key);
+        items.removeAt(i);
+        items.insert(i, result.data);
         items.sort(
           (a, b) => a.config.startMonth.compareTo(b.config.startMonth),
         );

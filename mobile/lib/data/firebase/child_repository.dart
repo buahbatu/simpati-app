@@ -79,13 +79,20 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
   @override
   Future<BaseResponse<Immunization>> addImmunization(
       Child child, Immunization data) async {
-    // TODO: implement addImmunization
-    throw UnimplementedError();
+    await firestore
+        .collection('childs')
+        .document(child.id)
+        .collection('immunization')
+        .add(data.toMap());
+
+    return BaseResponse(null, Status.success, 'add Immunization success', data);
   }
 
   @override
   Future<BaseResponse<ImmunizationList>> getAllImmunization(
-      Child child, ImmunizationConfigList configs) async {
+    Child child,
+    ImmunizationConfigList configs,
+  ) async {
     final snapshots = await firestore
         .collection('childs')
         .document(child.id)
@@ -108,7 +115,7 @@ class ChildRepository extends BaseFirestoreRepo implements IChildRepository {
       if (immun != null) {
         return immun.copyWith(config: e);
       } else {
-        return Immunization(config: e);
+        return Immunization(key: e.key, config: e);
       }
     }).toList();
 
