@@ -30,9 +30,8 @@ class ChildBloc extends ScrollFragmentBloc<Child> {
       }
       yield ScrollFragmentState(items);
     } else if (event is Add<Child>) {
-      items
-        ..add(event.item)
-        ..sort((a, b) => a.fullName.compareTo(b.fullName));
+      items.add(event.item);
+      items.sort((a, b) => a.fullName.compareTo(b.fullName));
       yield ScrollFragmentState(items);
     }
   }

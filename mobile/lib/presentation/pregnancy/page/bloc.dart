@@ -44,6 +44,7 @@ class PregnancyCheckBloc extends ScrollFragmentBloc<PregnancyCheck> {
         event.item,
       );
       if (result.isSuccess()) {
+        items.add(result.data);
         items.sort((a, b) => a.createdAt.compareTo(b.createdAt));
       }
       yield ScrollFragmentState(items);
