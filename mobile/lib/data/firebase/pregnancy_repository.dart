@@ -24,7 +24,7 @@ class PregnancyRepository extends BaseFirestoreRepo
       null,
       Status.success,
       'add pregnancy success',
-      pregnancy,
+      pregnancy.copyWith(id: data.documentID),
     );
   }
 

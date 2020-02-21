@@ -186,8 +186,10 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createChildInfo() {
+    final bloc = ChildBloc(ChildFilter('idMother', initialData.id))
+      ..add(Init());
     return BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
-      bloc: ChildBloc(ChildFilter('idMother', initialData.id))..add(Init()),
+      bloc: bloc,
       builder: (ctx, state) {
         return Container(
           color: Colors.white,
@@ -210,10 +212,21 @@ class MotherInfoPage extends StatelessWidget {
                       shape: CircleBorder(),
                       color: AppColor.primaryColor,
                       child: Icon(LineIcons.plus, color: Colors.white),
-                      onPressed: () {
-                        Navigator.of(ctx).push(MaterialPageRoute(
+                      onPressed: () async {
+                        final child =
+                            await Navigator.of(ctx).push(MaterialPageRoute(
                           builder: (ctx) => ChildAddPage(momData: initialData),
                         ));
+
+                        if (child != null && child is Child) {
+                          Scaffold.of(ctx).showSnackBar(
+                            SnackBar(
+                              content: Text('Anak berhasil ditambahkan'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          bloc.add(Add(child));
+                        }
                       },
                     ),
                   ),
