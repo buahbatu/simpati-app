@@ -54,15 +54,19 @@ class _HomeScreen extends StatelessWidget {
         direction: Axis.vertical,
         spacing: 2,
         children: <Widget>[
-          if (state.nurse != null)
-            Text(greeting, style: AppTextStyle.titleName),
           Text(
-            ReCase(state.posyandu.fullName).titleCase,
-            style: AppTextStyle.title.copyWith(
-              color: AppColor.primaryColor,
-              fontSize: state.nurse != null ? 16 : 20,
-            ),
+            greeting,
+            style: state.posyandu != null
+                ? AppTextStyle.titleName
+                : AppTextStyle.title
+                    .copyWith(color: AppColor.primaryColor, fontSize: 20),
           ),
+          if (state.posyandu != null)
+            Text(
+              ReCase(state.posyandu.fullName).titleCase,
+              style: AppTextStyle.title
+                  .copyWith(color: AppColor.primaryColor, fontSize: 16),
+            ),
         ],
       ),
       backgroundColor: AppColor.appBackground,
