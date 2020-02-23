@@ -44,54 +44,49 @@ class DashboardFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createAppBar() {
-    return BlocBuilder<AppBloc, AppState>(
-      builder: (ctx, state) {
-        final greeting = 'Selamat Datang!';
+  Widget createAppBar(BuildContext ctx, AppState state) {
+    final greeting = 'Selamat Datang!';
 
-        return AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Wrap(
-            direction: Axis.vertical,
-            spacing: 2,
-            children: <Widget>[
-              if (state.nurse != null)
-                Text('Hi ${ReCase(state.nurse.fullName).titleCase},',
-                    style: AppTextStyle.titleName),
-              Text(
-                greeting,
-                style: AppTextStyle.title.copyWith(
-                  color: AppColor.primaryColor,
-                  fontSize: state.nurse != null ? 16 : 20,
-                ),
-              ),
-            ],
-          ),
-          backgroundColor: AppColor.appBackground,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(LineIcons.info),
+    return AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      title: Wrap(
+        direction: Axis.vertical,
+        spacing: 2,
+        children: <Widget>[
+          if (state.nurse != null)
+            Text(greeting, style: AppTextStyle.titleName),
+          Text(
+            ReCase(state.posyandu.fullName).titleCase,
+            style: AppTextStyle.title.copyWith(
               color: AppColor.primaryColor,
-              onPressed: () => ctx.showAppInfo(
-                nurse: state?.nurse,
-                posyandu: state?.posyandu,
-                onLoginClick: () => onLoginClick(ctx),
-                onLogoutClick: () {
-                  Navigator.of(ctx).pop();
-                  BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
-                  Scaffold.of(ctx).showSnackBar(
-                    SnackBar(
-                      content: Text('Logout Berhasil'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
-        );
-      },
+              fontSize: state.nurse != null ? 16 : 20,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: AppColor.appBackground,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(LineIcons.info),
+          color: AppColor.primaryColor,
+          onPressed: () => ctx.showAppInfo(
+            nurse: state?.nurse,
+            posyandu: state?.posyandu,
+            onLoginClick: () => onLoginClick(ctx),
+            onLogoutClick: () {
+              Navigator.of(ctx).pop();
+              BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+              Scaffold.of(ctx).showSnackBar(
+                SnackBar(
+                  content: Text('Logout Berhasil'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
@@ -117,32 +112,38 @@ class _HomeScreen extends StatelessWidget {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider<DashboardBloc>(
       create: (ctx) => DashboardBloc()..add(DashboardEvent.Init),
-      child: Stack(
-        children: <Widget>[
-          Column(
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (ctx, state) {
+          return Stack(
             children: <Widget>[
-              createAppBar(),
-              Expanded(child: createContent()),
+              Column(
+                children: <Widget>[
+                  createAppBar(ctx, state),
+                  Expanded(child: createContent(ctx, state)),
+                ],
+              ),
+              Container(height: safeHeight, color: AppColor.primaryColor),
             ],
-          ),
-          Container(height: safeHeight, color: AppColor.primaryColor),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget createContent() {
+  Widget createContent(BuildContext ctx, AppState appState) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (ctx, state) {
         return ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.all(0),
           children: <Widget>[
-            getSpace(),
-            getSection(ctx, createSectionData(true, state.motherMeta)),
-            getSpace(),
-            getSection(ctx, createSectionData(false, state.childMeta)),
-            getSpace(isSmall: true),
+            if (appState.posyandu != null) getSpace(),
+            if (appState.posyandu != null)
+              getSection(ctx, createSectionData(true, state.motherMeta)),
+            if (appState.posyandu != null) getSpace(),
+            if (appState.posyandu != null)
+              getSection(ctx, createSectionData(false, state.childMeta)),
+            if (appState.posyandu != null) Container(height: 28),
             ...getArticleSections(state.articles),
           ],
         );
@@ -237,7 +238,7 @@ class _HomeScreen extends StatelessWidget {
     return (articles != null && articles.isNotEmpty)
         ? <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 'Artikel Terbaru',
                 style: AppTextStyle.title.copyWith(
@@ -250,7 +251,7 @@ class _HomeScreen extends StatelessWidget {
           ]
         : <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 'Artikel Terbaru',
                 style: AppTextStyle.title.copyWith(
