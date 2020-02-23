@@ -86,8 +86,6 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createAddress() {
-    final address =
-        '${initialData.address}, ${initialData.city}, ${initialData.province}';
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -95,7 +93,7 @@ class MotherInfoPage extends StatelessWidget {
         Container(width: 4),
         Expanded(
           child: Text(
-            ReCase(address).titleCase,
+            ReCase(initialData.fullAddress).titleCase,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyle.titleName.copyWith(fontSize: 12),

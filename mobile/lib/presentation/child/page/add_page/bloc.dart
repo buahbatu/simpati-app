@@ -51,7 +51,6 @@ class AddChildBloc extends Bloc<AddChildEvent, AddChildState> {
       isGirl: true,
       momName: mom?.fullName,
       idMother: mom?.id,
-      address: mom?.address,
       posyanduId: mom?.posyanduId,
     );
   }

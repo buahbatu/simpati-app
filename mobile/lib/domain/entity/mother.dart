@@ -160,6 +160,9 @@ class Mother extends Equatable implements Data {
       posyanduId: map['posyanduId'],
     );
   }
+
+  String get fullAddress =>
+      [address, city, province].where((e) => e != null).join(', ');
 }
 
 class MotherList extends Equatable implements Data {

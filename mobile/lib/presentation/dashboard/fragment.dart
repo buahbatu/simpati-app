@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
@@ -56,7 +57,7 @@ class _HomeScreen extends StatelessWidget {
             spacing: 2,
             children: <Widget>[
               if (state.nurse != null)
-                Text('Hi ${state.nurse.fullName},',
+                Text('Hi ${ReCase(state.nurse.fullName).titleCase},',
                     style: AppTextStyle.titleName),
               Text(
                 greeting,
@@ -152,7 +153,7 @@ class _HomeScreen extends StatelessWidget {
   SectionData createSectionData(bool isMother, PersonMeta meta) {
     return SectionData(
       LineIcons.child,
-      'Rekap Kondisi ${isMother ? 'Ibu' : 'Anak'}',
+      'Rekap ${isMother ? 'Ibu' : 'Anak'}',
       meta?.size ?? 0,
       'orang',
       isMother ? AppColor.redGradient : AppColor.yellowGradient,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
@@ -68,14 +69,15 @@ class ChildInfoPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(initialData.fullName, style: AppTextStyle.registerTitle),
+              Text(ReCase(initialData.fullName).titleCase,
+                  style: AppTextStyle.registerTitle),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
+                  Icon(LineIcons.female, size: 16, color: Colors.black38),
                   Container(width: 4),
                   Text(
-                    initialData?.address ?? 'Jl Impian Raya',
+                    initialData?.momName,
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                 ],

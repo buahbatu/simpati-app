@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
@@ -68,7 +69,7 @@ class PregnancyInfoPage extends StatelessWidget {
               Icon(LineIcons.female, size: 16, color: Colors.black38),
               Container(width: 4),
               Text(
-                initialMom.fullName,
+                ReCase(initialMom.fullName).titleCase,
                 style: AppTextStyle.titleName.copyWith(fontSize: 12),
               ),
             ],
@@ -100,6 +101,7 @@ class PregnancyInfoPage extends StatelessWidget {
           Container(height: 8),
           FormUtils.buildField(
             'Tekanan Darah',
+            hint: '120/80',
             value: initialData.bloodPressure,
             suffix: 'mmHg',
             isEnabled: false,

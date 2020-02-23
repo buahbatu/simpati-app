@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/nurse.dart';
@@ -36,9 +37,9 @@ extension MessageUtils on BuildContext {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(posyandu?.fullName ?? '',
+            Text(ReCase(posyandu?.fullName ?? '').titleCase,
                 style: AppTextStyle.title.copyWith()),
-            Text(nurse?.fullName ?? '',
+            Text(ReCase(nurse?.fullName ?? '').titleCase,
                 style: AppTextStyle.caption.copyWith(color: Colors.white)),
           ],
         ),

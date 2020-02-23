@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/mother.dart';
@@ -17,7 +18,7 @@ class MotherCard extends StatelessWidget {
 
   void editMotherData(BuildContext context) async {
     // ignore: close_sinks
-    final bloc = BlocProvider.of<MotherBloc>(context);
+    // final bloc = BlocProvider.of<MotherBloc>(context);
 
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
@@ -54,7 +55,8 @@ class MotherCard extends StatelessWidget {
                       createAge(),
                     ],
                   ),
-                  createAddress(),
+                  Container(height: 2),
+                  createSubtitle(),
                   Container(height: 8),
                   Wrap(
                     spacing: 4,
@@ -74,9 +76,9 @@ class MotherCard extends StatelessWidget {
     );
   }
 
-  Text createAddress() {
+  Text createSubtitle() {
     return Text(
-      data.address,
+      data?.address != null ? data.fullAddress : 'NIK: ${data.nik}',
       style: AppTextStyle.caption.copyWith(color: Colors.black38),
     );
   }
@@ -95,9 +97,10 @@ class MotherCard extends StatelessWidget {
     );
   }
 
-  Text createName() {
-    return Text(data.fullName, style: AppTextStyle.itemTitle);
-  }
+  Text createName() => Text(
+        ReCase(data.fullName).titleCase,
+        style: AppTextStyle.itemTitle,
+      );
 
   Container createChip(String title) {
     return Container(

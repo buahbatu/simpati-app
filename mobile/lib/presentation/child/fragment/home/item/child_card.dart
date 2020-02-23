@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/child.dart';
-import 'package:simpati/presentation/child/fragment/home/bloc.dart';
 import 'package:simpati/presentation/child/page/info_page/screen.dart';
 
 class ChildCard extends StatelessWidget {
@@ -17,7 +17,7 @@ class ChildCard extends StatelessWidget {
 
   void editChildData(BuildContext context) async {
     // ignore: close_sinks
-    final bloc = BlocProvider.of<ChildBloc>(context);
+    // final bloc = BlocProvider.of<ChildBloc>(context);
 
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
@@ -54,12 +54,12 @@ class ChildCard extends StatelessWidget {
                       createAge(),
                     ],
                   ),
-                  createAddress(),
+                  Container(height: 2),
+                  createSubtitle(),
                   Container(height: 8),
                   Wrap(
                     spacing: 4,
                     children: <Widget>[
-                      createChip('Ibu ${data.momFirstName}'),
                       createChip('Gemuk'),
                       createChip('Gizi Baik'),
                     ],
@@ -73,9 +73,9 @@ class ChildCard extends StatelessWidget {
     );
   }
 
-  Text createAddress() {
+  Text createSubtitle() {
     return Text(
-      data?.address ?? 'Belum mengisi jalan',
+      'Anak ibu ${data.momName}',
       style: AppTextStyle.caption.copyWith(color: Colors.black38),
     );
   }
@@ -96,9 +96,10 @@ class ChildCard extends StatelessWidget {
     );
   }
 
-  Text createName() {
-    return Text(data.fullName, style: AppTextStyle.itemTitle);
-  }
+  Text createName() => Text(
+        ReCase(data.fullName).titleCase,
+        style: AppTextStyle.itemTitle,
+      );
 
   Container createChip(String title) {
     return Container(

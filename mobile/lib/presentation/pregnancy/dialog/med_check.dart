@@ -189,6 +189,7 @@ class _PregnancyMedicalCheckDialogState
                 Container(height: 8),
                 FormUtils.buildField(
                   'Tekanan Darah',
+                  hint: '120/80',
                   inputType: TextInputType.datetime,
                   suffix: 'mmHg',
                   value: widget.initialData?.bloodPressure,
