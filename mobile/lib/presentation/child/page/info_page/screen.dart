@@ -133,7 +133,7 @@ class ChildInfoPage extends StatelessWidget {
             '(Kg)',
             style: TextStyle(color: Colors.black38, fontSize: 10),
           ),
-          GrowthChart(),
+          GrowthChart(child: initialData),
         ],
       ),
     );
