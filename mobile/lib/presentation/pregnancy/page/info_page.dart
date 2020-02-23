@@ -193,10 +193,15 @@ class PregnancyInfoPage extends StatelessWidget {
   }
 
   Widget createCheckupHistory() {
-    final bloc = PregnancyCheckBloc(initialMom, initialData)..add(Init());
-    return BlocBuilder<PregnancyCheckBloc, ScrollFragmentState<PregnancyCheck>>(
-        bloc: bloc,
+    return BlocProvider(
+      create: (ctx) => PregnancyCheckBloc(
+        initialMom,
+        initialData,
+      )..add(Init()),
+      child:
+          BlocBuilder<PregnancyCheckBloc, ScrollFragmentState<PregnancyCheck>>(
         builder: (ctx, state) {
+          final bloc = BlocProvider.of<PregnancyCheckBloc>(ctx);
           return Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -260,6 +265,8 @@ class PregnancyInfoPage extends StatelessWidget {
               ],
             ),
           );
-        });
+        },
+      ),
+    );
   }
 }
