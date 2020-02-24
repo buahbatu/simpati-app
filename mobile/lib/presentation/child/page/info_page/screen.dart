@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
+import 'package:simpati/core/classifier/child_classifier.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/domain/entity/child.dart';
-import 'package:simpati/domain/entity/child_check.dart';
 import 'package:simpati/domain/entity/immunization.dart';
 import 'package:simpati/presentation/child/fragment/immunization/bloc.dart';
 import 'package:simpati/presentation/child/fragment/immunization/dialog.dart';
-import 'package:simpati/presentation/child/fragment/med_check/bloc.dart';
+import 'package:simpati/presentation/child/item/bloc.dart';
 import 'package:simpati/presentation/child/item/growth_chart.dart';
 import 'package:simpati/presentation/child/fragment/med_check/dialog.dart';
 
@@ -34,21 +35,27 @@ class ChildInfoPage extends StatelessWidget {
     return Scaffold(
       appBar: createAppBar(context),
       backgroundColor: AppColor.appBackground,
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          createNameSection(),
-          Container(height: 8),
-          createPersonalInfo(),
-          Container(height: 8),
-          createHealthCheckInfo(),
-          Container(height: 8),
-          createWeightHistory(),
-          Container(height: 8),
-          createCheckupHistory(),
-          Container(height: 8),
-          createImmunizationHistory(),
-        ],
+      body: BlocProvider(
+        create: (ctx) => ChildInfoBloc(
+          initialData,
+          DefaultAssetBundle.of(context),
+        )..add(ChildInfoEvent()),
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            createNameSection(),
+            Container(height: 8),
+            createPersonalInfo(),
+            Container(height: 8),
+            createHealthInfo(),
+            Container(height: 8),
+            createWeightHistory(),
+            Container(height: 8),
+            createCheckupHistory(),
+            Container(height: 8),
+            createImmunizationHistory(),
+          ],
+        ),
       ),
     );
   }
@@ -68,14 +75,15 @@ class ChildInfoPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(initialData.fullName, style: AppTextStyle.registerTitle),
+              Text(ReCase(initialData.fullName).titleCase,
+                  style: AppTextStyle.registerTitle),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Icon(LineIcons.map_marker, size: 16, color: Colors.black38),
+                  Icon(LineIcons.female, size: 16, color: Colors.black38),
                   Container(width: 4),
                   Text(
-                    initialData?.address ?? 'Jl Impian Raya',
+                    initialData?.momName,
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                 ],
@@ -131,173 +139,178 @@ class ChildInfoPage extends StatelessWidget {
             '(Kg)',
             style: TextStyle(color: Colors.black38, fontSize: 10),
           ),
-          GrowthChart(),
+          GrowthChart(child: initialData),
         ],
       ),
     );
   }
 
   Widget createCheckupHistory() {
-    final bloc = ChildCheckBloc(initialData)..add(Init());
-    return BlocBuilder<ChildCheckBloc, ScrollFragmentState<ChildCheck>>(
-        bloc: bloc,
+    return BlocBuilder<ChildInfoBloc, ChildInfoState>(builder: (ctx, state) {
+      final bloc = BlocProvider.of<ChildInfoBloc>(ctx);
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Riwayat Periksa Kesehatan', style: AppTextStyle.sectionTitle),
+            Container(height: 12),
+            Wrap(
+              spacing: 8,
+              children: <Widget>[
+                ...List.generate(
+                  state.checks.length,
+                  (i) => FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Wrap(
+                      direction: Axis.vertical,
+                      spacing: 2,
+                      children: <Widget>[
+                        Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
+                        Text(
+                          state.checks[i].createdAt.standardShortFormat(),
+                          style: AppTextStyle.titleName.copyWith(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                    onPressed: () => showDialog(
+                      context: ctx,
+                      child: ChildMedicalCheckDialog(
+                        i + 1,
+                        bloc,
+                        initialData,
+                        initialData: state.checks[i],
+                      ),
+                    ),
+                  ),
+                ).reversed,
+                FlatButton(
+                  padding: const EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  color: AppColor.primaryColor,
+                  child: Icon(LineIcons.plus, color: Colors.white),
+                  onPressed: () {
+                    showDialog(
+                      context: ctx,
+                      child: ChildMedicalCheckDialog(
+                        state.checks.length + 1,
+                        bloc,
+                        initialData,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  List<String> getClassifiedResult(ChildInfoState state) => [
+        ChildClassifier(initialData).classifyWeightByAge(state.lines),
+      ];
+
+  Widget createHealthInfo() {
+    return BlocBuilder<ChildInfoBloc, ChildInfoState>(
+        builder: (context, state) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Informasi Kesehatan', style: AppTextStyle.sectionTitle),
+            Container(height: 21),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: FormUtils.buildField(
+                    'Panjang Badan',
+                    value: initialData.height.toString(),
+                    isEnabled: false,
+                    suffix: 'cm',
+                  ),
+                ),
+                Container(width: 8),
+                Expanded(
+                  child: FormUtils.buildField('Berat Badan',
+                      value: initialData.weight.toString(),
+                      isEnabled: false,
+                      suffix: 'Kg'),
+                ),
+              ],
+            ),
+            Container(height: 8),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: FormUtils.buildField(
+                    'Suhu Badan',
+                    value: initialData.temperature.toString(),
+                    isEnabled: false,
+                    suffix: '°C',
+                  ),
+                ),
+                Container(width: 8),
+                Expanded(
+                  child: FormUtils.buildField(
+                    'Lingkar Kepala',
+                    value: initialData.headSize.toString(),
+                    isEnabled: false,
+                    suffix: 'cm',
+                  ),
+                ),
+              ],
+            ),
+            Container(height: 21),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: getClassifiedResult(state)
+                  .where((e) => e.isNotEmpty)
+                  .map((e) => FormUtils.createChip(e))
+                  .toList(),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget createImmunizationHistory() {
+    return BlocProvider(
+      create: (ctx) => ImmunizationListBloc(initialData)..add(Init()),
+      child:
+          BlocBuilder<ImmunizationListBloc, ScrollFragmentState<Immunization>>(
         builder: (ctx, state) {
+          final bloc = BlocProvider.of<ImmunizationListBloc>(ctx);
           return Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Riwayat Periksa Kesehatan',
-                    style: AppTextStyle.sectionTitle),
+                Text('Riwayat Imunisasi', style: AppTextStyle.sectionTitle),
                 Container(height: 12),
                 Wrap(
                   spacing: 8,
-                  children: <Widget>[
-                    ...List.generate(
-                      state.items.length,
-                      (i) => FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          side: BorderSide(color: Colors.black),
-                        ),
-                        child: Wrap(
-                          direction: Axis.vertical,
-                          spacing: 2,
-                          children: <Widget>[
-                            Text('Ke ${i + 1}',
-                                style: AppTextStyle.sectionTitle),
-                            Text(
-                              state.items[i].createdAt.standardShortFormat(),
-                              style:
-                                  AppTextStyle.titleName.copyWith(fontSize: 10),
-                            ),
-                          ],
-                        ),
-                        onPressed: () => showDialog(
-                          context: ctx,
-                          child: ChildMedicalCheckDialog(
-                            i + 1,
-                            bloc,
-                            initialData,
-                            initialData: state.items[i],
-                          ),
-                        ),
-                      ),
-                    ).reversed,
-                    FlatButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      color: AppColor.primaryColor,
-                      child: Icon(LineIcons.plus, color: Colors.white),
-                      onPressed: () {
-                        showDialog(
-                          context: ctx,
-                          child: ChildMedicalCheckDialog(
-                            state.items.length + 1,
-                            bloc,
-                            initialData,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                  children: state.items
+                      .map((e) => createImunCard(ctx, bloc, e))
+                      .toList(),
                 ),
               ],
             ),
           );
-        });
-  }
-
-  Widget createHealthCheckInfo() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Informasi Kesehatan', style: AppTextStyle.sectionTitle),
-          Container(height: 21),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: FormUtils.buildField('Panjang Badan',
-                    value: initialData.height.toString(),
-                    isEnabled: false,
-                    suffix: 'cm'),
-              ),
-              Container(width: 8),
-              Expanded(
-                child: FormUtils.buildField('Berat Badan',
-                    value: initialData.weight.toString(),
-                    isEnabled: false,
-                    suffix: 'Kg'),
-              ),
-            ],
-          ),
-          Container(height: 8),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: FormUtils.buildField(
-                  'Suhu Badan',
-                  value: initialData.temperature.toString(),
-                  isEnabled: false,
-                  suffix: '°C',
-                ),
-              ),
-              Container(width: 8),
-              Expanded(
-                child: FormUtils.buildField(
-                  'Lingkar Kepala',
-                  value: initialData.headSize.toString(),
-                  isEnabled: false,
-                  suffix: 'cm',
-                ),
-              ),
-            ],
-          ),
-          Container(height: 21),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: <Widget>[
-              FormUtils.createChip('Panjang Badan Ideal'),
-              FormUtils.createChip('Berat Ideal - sesuai umur'),
-              FormUtils.createChip('Berat Ideal - sesuai tinggi'),
-              FormUtils.createChip('Gizi Baik'),
-            ],
-          ),
-        ],
+        },
       ),
-    );
-  }
-
-  Widget createImmunizationHistory() {
-    final bloc = ImmunizationListBloc(initialData)..add(Init());
-    return BlocBuilder<ImmunizationListBloc, ScrollFragmentState<Immunization>>(
-      bloc: bloc,
-      builder: (ctx, state) {
-        return Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Riwayat Imunisasi', style: AppTextStyle.sectionTitle),
-              Container(height: 12),
-              Wrap(
-                spacing: 8,
-                children: state.items
-                    .map((e) => createImunCard(ctx, bloc, e))
-                    .toList(),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 

@@ -9,7 +9,6 @@ class Child extends Equatable implements Data {
   final String idMother;
   final String posyanduId;
   final String fullName;
-  final String address;
   final String momName;
   final String bloodType;
   final double weight;
@@ -25,7 +24,6 @@ class Child extends Equatable implements Data {
     this.idMother,
     this.posyanduId,
     this.fullName,
-    this.address,
     this.momName,
     this.bloodType,
     this.weight,
@@ -42,7 +40,6 @@ class Child extends Equatable implements Data {
     String idMother,
     String posyanduId,
     String fullName,
-    String address,
     String momName,
     String bloodType,
     double weight,
@@ -58,7 +55,6 @@ class Child extends Equatable implements Data {
       idMother: idMother ?? this.idMother,
       posyanduId: posyanduId ?? this.posyanduId,
       fullName: fullName ?? this.fullName,
-      address: address ?? this.address,
       momName: momName ?? this.momName,
       bloodType: bloodType ?? this.bloodType,
       weight: weight ?? this.weight,
@@ -76,7 +72,6 @@ class Child extends Equatable implements Data {
     idMother: '1',
     posyanduId: '1',
     fullName: 'Akbar Haqiqi',
-    address: 'Jl Singosari 2',
     momName: 'Khusnaini Aghniya',
     bloodType: 'A',
     weight: 50,
@@ -93,7 +88,6 @@ class Child extends Equatable implements Data {
         this.idMother,
         this.posyanduId,
         this.fullName,
-        this.address,
         this.momName,
         this.bloodType,
         this.weight,
@@ -112,7 +106,6 @@ class Child extends Equatable implements Data {
       'idMother': this.idMother,
       'posyanduId': this.posyanduId,
       'fullName': this.fullName,
-      'address': this.address,
       'momName': this.momName,
       'bloodType': this.bloodType,
       'weight': this.weight,
@@ -131,7 +124,6 @@ class Child extends Equatable implements Data {
       idMother: map['idMother'],
       posyanduId: map['posyanduId'],
       fullName: map['fullName'],
-      address: map['address'],
       momName: map['momName'],
       bloodType: map['bloodType'],
       weight: double.parse(map['weight'].toString()),

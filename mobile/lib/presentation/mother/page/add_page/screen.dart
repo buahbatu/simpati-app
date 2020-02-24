@@ -75,14 +75,10 @@ class _MotherAddPageState extends State<MotherAddPage>
                 Step2AddMother(
                   onButtonClick: () {
                     final mother = bloc.mother;
-                    if (!isFilled(mother.phone) ||
-                        !isFilled(mother.address) ||
-                        !isFilled(mother.province) ||
-                        !isFilled(mother.city)) {
-                      Scaffold.of(ctx).showSnackBar(
-                        SnackBar(
-                            content: Text('Isi semua kolom terlebih dulu')),
-                      );
+                    if (!isFilled(mother.province) || !isFilled(mother.city)) {
+                      Scaffold.of(ctx).showSnackBar(SnackBar(
+                        content: Text('Isi semua kolom terlebih dulu'),
+                      ));
                     } else {
                       _tabController.animateTo(2);
                     }
@@ -100,17 +96,10 @@ class _MotherAddPageState extends State<MotherAddPage>
                       matchFormat = regex.hasMatch(mother.bloodPressure);
                     }
 
-                    if (!isFilled(mother.height) ||
-                        !isFilled(mother.weight) ||
-                        !isFilled(mother.bloodPressure) ||
-                        !matchFormat ||
-                        !isFilled(mother.bloodType)) {
-                      Scaffold.of(ctx).showSnackBar(
-                        SnackBar(
-                          content: Text('Isi semua kolom terlebih dulu, ' +
-                              'tekanan darah dipisahkan menggunakan /'),
-                        ),
-                      );
+                    if (isFilled(mother.bloodPressure) && !matchFormat) {
+                      Scaffold.of(ctx).showSnackBar(SnackBar(
+                        content: Text('Tekanan darah dipisahkan menggunakan /'),
+                      ));
                     } else {
                       bloc.add(AddMotherEvent());
                     }

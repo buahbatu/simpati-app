@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:simpati/core/bloc/scroll_fragment_bloc.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/domain/entity/child.dart';
 import 'package:simpati/domain/entity/child_check.dart';
-import 'package:simpati/presentation/child/fragment/med_check/bloc.dart';
+import 'package:simpati/presentation/child/item/bloc.dart';
 
 class ChildMedicalCheckDialog extends StatefulWidget {
   final int index;
-  final ChildCheckBloc bloc;
+  final ChildInfoBloc bloc;
   final Child child;
   final ChildCheck initialData;
 
@@ -155,7 +154,7 @@ class _ChildMedicalCheckDialogState extends State<ChildMedicalCheckDialog> {
                 child: Text('Simpan'),
                 onPressed: () {
                   if (childCheck.isComplete()) {
-                    widget.bloc.add(Add<ChildCheck>(childCheck));
+                    widget.bloc.add(Add(childCheck));
                     Navigator.of(context).pop();
                   }
                 },

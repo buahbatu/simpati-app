@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:recase/recase.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/article.dart';
@@ -43,54 +44,53 @@ class DashboardFragment implements BaseHomeFragment {
 }
 
 class _HomeScreen extends StatelessWidget {
-  Widget createAppBar() {
-    return BlocBuilder<AppBloc, AppState>(
-      builder: (ctx, state) {
-        final greeting = 'Selamat Datang!';
+  Widget createAppBar(BuildContext ctx, AppState state) {
+    final greeting = 'Selamat Datang!';
 
-        return AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Wrap(
-            direction: Axis.vertical,
-            spacing: 2,
-            children: <Widget>[
-              if (state.nurse != null)
-                Text('Hi ${state.nurse.fullName},',
-                    style: AppTextStyle.titleName),
-              Text(
-                greeting,
-                style: AppTextStyle.title.copyWith(
-                  color: AppColor.primaryColor,
-                  fontSize: state.nurse != null ? 16 : 20,
-                ),
-              ),
-            ],
+    return AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      title: Wrap(
+        direction: Axis.vertical,
+        spacing: 2,
+        children: <Widget>[
+          Text(
+            greeting,
+            style: state.posyandu != null
+                ? AppTextStyle.titleName
+                : AppTextStyle.title
+                    .copyWith(color: AppColor.primaryColor, fontSize: 20),
           ),
-          backgroundColor: AppColor.appBackground,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(LineIcons.info),
-              color: AppColor.primaryColor,
-              onPressed: () => ctx.showAppInfo(
-                nurse: state?.nurse,
-                posyandu: state?.posyandu,
-                onLoginClick: () => onLoginClick(ctx),
-                onLogoutClick: () {
-                  Navigator.of(ctx).pop();
-                  BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
-                  Scaffold.of(ctx).showSnackBar(
-                    SnackBar(
-                      content: Text('Logout Berhasil'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
-        );
-      },
+          if (state.posyandu != null)
+            Text(
+              ReCase(state.posyandu.fullName).titleCase,
+              style: AppTextStyle.title
+                  .copyWith(color: AppColor.primaryColor, fontSize: 16),
+            ),
+        ],
+      ),
+      backgroundColor: AppColor.appBackground,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(LineIcons.info),
+          color: AppColor.primaryColor,
+          onPressed: () => ctx.showAppInfo(
+            nurse: state?.nurse,
+            posyandu: state?.posyandu,
+            onLoginClick: () => onLoginClick(ctx),
+            onLogoutClick: () {
+              Navigator.of(ctx).pop();
+              BlocProvider.of<AppBloc>(ctx).add(AppEvent.AppLogout);
+              Scaffold.of(ctx).showSnackBar(
+                SnackBar(
+                  content: Text('Logout Berhasil'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 
@@ -116,32 +116,38 @@ class _HomeScreen extends StatelessWidget {
     final safeHeight = MediaQuery.of(context).padding.top;
     return BlocProvider<DashboardBloc>(
       create: (ctx) => DashboardBloc()..add(DashboardEvent.Init),
-      child: Stack(
-        children: <Widget>[
-          Column(
+      child: BlocBuilder<AppBloc, AppState>(
+        builder: (ctx, state) {
+          return Stack(
             children: <Widget>[
-              createAppBar(),
-              Expanded(child: createContent()),
+              Column(
+                children: <Widget>[
+                  createAppBar(ctx, state),
+                  Expanded(child: createContent(ctx, state)),
+                ],
+              ),
+              Container(height: safeHeight, color: AppColor.primaryColor),
             ],
-          ),
-          Container(height: safeHeight, color: AppColor.primaryColor),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget createContent() {
+  Widget createContent(BuildContext ctx, AppState appState) {
     return BlocBuilder<DashboardBloc, DashboardState>(
       builder: (ctx, state) {
         return ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.all(0),
           children: <Widget>[
-            getSpace(),
-            getSection(ctx, createSectionData(true, state.motherMeta)),
-            getSpace(),
-            getSection(ctx, createSectionData(false, state.childMeta)),
-            getSpace(isSmall: true),
+            if (appState.posyandu != null) getSpace(),
+            if (appState.posyandu != null)
+              getSection(ctx, createSectionData(true, state.motherMeta)),
+            if (appState.posyandu != null) getSpace(),
+            if (appState.posyandu != null)
+              getSection(ctx, createSectionData(false, state.childMeta)),
+            if (appState.posyandu != null) Container(height: 28),
             ...getArticleSections(state.articles),
           ],
         );
@@ -152,7 +158,7 @@ class _HomeScreen extends StatelessWidget {
   SectionData createSectionData(bool isMother, PersonMeta meta) {
     return SectionData(
       LineIcons.child,
-      'Rekap Kondisi ${isMother ? 'Ibu' : 'Anak'}',
+      'Rekap ${isMother ? 'Ibu' : 'Anak'}',
       meta?.size ?? 0,
       'orang',
       isMother ? AppColor.redGradient : AppColor.yellowGradient,
@@ -236,7 +242,7 @@ class _HomeScreen extends StatelessWidget {
     return (articles != null && articles.isNotEmpty)
         ? <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 'Artikel Terbaru',
                 style: AppTextStyle.title.copyWith(
@@ -249,7 +255,7 @@ class _HomeScreen extends StatelessWidget {
           ]
         : <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: Text(
                 'Artikel Terbaru',
                 style: AppTextStyle.title.copyWith(

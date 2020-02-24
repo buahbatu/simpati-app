@@ -136,6 +136,7 @@ class _AddPregnancyDialogState extends State<AddPregnancyDialog> {
                 Container(height: 8),
                 FormUtils.buildField(
                   'Tekanan Darah',
+                  hint: '120/80',
                   suffix: 'mmHg',
                   inputType: TextInputType.datetime,
                   nextForm: NextForm(focusScope, weightFocus),

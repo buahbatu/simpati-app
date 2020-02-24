@@ -86,8 +86,6 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createAddress() {
-    final address =
-        '${initialData.address}, ${initialData.city}, ${initialData.province}';
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -95,7 +93,7 @@ class MotherInfoPage extends StatelessWidget {
         Container(width: 4),
         Expanded(
           child: Text(
-            ReCase(address).titleCase,
+            ReCase(initialData.fullAddress).titleCase,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyle.titleName.copyWith(fontSize: 12),
@@ -186,56 +184,62 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createChildInfo() {
-    final bloc = ChildBloc(ChildFilter('idMother', initialData.id))
-      ..add(Init());
-    return BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
-      bloc: bloc,
-      builder: (ctx, state) {
-        return Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Daftar Anak', style: AppTextStyle.sectionTitle),
-              Container(height: 21),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: <Widget>[
-                  ...state.items.map((e) => createChildCircle(ctx, e)).toList(),
-                  SizedBox(
-                    height: 59,
-                    width: 59,
-                    child: FlatButton(
-                      padding: const EdgeInsets.all(0),
-                      shape: CircleBorder(),
-                      color: AppColor.primaryColor,
-                      child: Icon(LineIcons.plus, color: Colors.white),
-                      onPressed: () async {
-                        final child =
-                            await Navigator.of(ctx).push(MaterialPageRoute(
-                          builder: (ctx) => ChildAddPage(momData: initialData),
-                        ));
+    return BlocProvider(
+      create: (ctx) => ChildBloc(
+        ChildFilter('idMother', initialData.id),
+      )..add(Init()),
+      child: BlocBuilder<ChildBloc, ScrollFragmentState<Child>>(
+        builder: (ctx, state) {
+          final bloc = BlocProvider.of<ChildBloc>(ctx);
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Daftar Anak', style: AppTextStyle.sectionTitle),
+                Container(height: 21),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: <Widget>[
+                    ...state.items
+                        .map((e) => createChildCircle(ctx, e))
+                        .toList(),
+                    SizedBox(
+                      height: 59,
+                      width: 59,
+                      child: FlatButton(
+                        padding: const EdgeInsets.all(0),
+                        shape: CircleBorder(),
+                        color: AppColor.primaryColor,
+                        child: Icon(LineIcons.plus, color: Colors.white),
+                        onPressed: () async {
+                          final child =
+                              await Navigator.of(ctx).push(MaterialPageRoute(
+                            builder: (ctx) =>
+                                ChildAddPage(momData: initialData),
+                          ));
 
-                        if (child != null && child is Child) {
-                          Scaffold.of(ctx).showSnackBar(
-                            SnackBar(
-                              content: Text('Anak berhasil ditambahkan'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          bloc.add(Add(child));
-                        }
-                      },
+                          if (child != null && child is Child) {
+                            Scaffold.of(ctx).showSnackBar(
+                              SnackBar(
+                                content: Text('Anak berhasil ditambahkan'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                            bloc.add(Add(child));
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -320,51 +324,53 @@ class MotherInfoPage extends StatelessWidget {
   }
 
   Widget createPregnancyInfo() {
-    final bloc = PregnancyListBloc(initialData)..add(Init());
-    return BlocBuilder<PregnancyListBloc, ScrollFragmentState<Pregnancy>>(
-      bloc: bloc,
-      builder: (ctx, state) {
-        return Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
-              Container(height: 21),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: <Widget>[
-                  ...List.generate(
-                    state.items.length,
-                    (i) => createPregnancyButton(i, ctx, state.items[i]),
-                  ).reversed,
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ),
-                    color: AppColor.primaryColor,
-                    child: Icon(LineIcons.plus, color: Colors.white),
-                    onPressed: () => showDialog(
-                      context: ctx,
-                      child: AddPregnancyDialog(
-                        state.items.length + 1,
-                        initialData,
-                        bloc,
+    return BlocProvider(
+      create: (ctx) => PregnancyListBloc(initialData)..add(Init()),
+      child: BlocBuilder<PregnancyListBloc, ScrollFragmentState<Pregnancy>>(
+        builder: (ctx, state) {
+          final bloc = BlocProvider.of<PregnancyListBloc>(ctx);
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('Riwayat Kehamilan', style: AppTextStyle.sectionTitle),
+                Container(height: 21),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: <Widget>[
+                    ...List.generate(
+                      state.items.length,
+                      (i) => createPregnancyButton(i, ctx, state.items[i]),
+                    ).reversed,
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                      color: AppColor.primaryColor,
+                      child: Icon(LineIcons.plus, color: Colors.white),
+                      onPressed: () => showDialog(
+                        context: ctx,
+                        child: AddPregnancyDialog(
+                          state.items.length + 1,
+                          initialData,
+                          bloc,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
