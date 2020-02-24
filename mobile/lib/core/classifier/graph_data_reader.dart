@@ -20,18 +20,18 @@ class GraphDataReader {
 
   GraphDataReader(this.isGirl, this.bundle);
 
-  Future<List<Line>> getWeightLines() async {
+  Future<List<Line>> getWeightLines({bool isImiginary = false}) async {
     final gender = isGirl ? 'girl' : 'boy';
     final rawString = await bundle.loadString(
       'assets/data/$gender/raw_bb_u.in',
     );
     final rawLines = rawString.split('\n');
 
-    final datas = getDatas(rawLines);
-    final dataImaginary = createImaginaryLine(datas);
+    List<List<FlSpot>> datas = getDatas(rawLines);
+    if (isImiginary) datas = createImaginaryLine(datas);
 
     final lines = List<Line>();
-    dataImaginary.asMap().forEach((i, value) {
+    datas.asMap().forEach((i, value) {
       if (i == 0) {
         lines.add(Line('-4 SD', value, HexColor('E3292C')));
       } else if (i == 1) {
@@ -49,7 +49,7 @@ class GraphDataReader {
       } else if (i == 7) {
         lines.add(Line('+3 SD', value, HexColor('E3292C')));
       } else {
-        lines.add(Line('+3 SD', value, HexColor('E3292C')));
+        lines.add(Line('+4 SD', value, HexColor('E3292C')));
       }
     });
 

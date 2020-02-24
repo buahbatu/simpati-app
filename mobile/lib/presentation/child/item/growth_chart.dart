@@ -12,87 +12,83 @@ class GrowthChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GrowthChartBloc>(
-      create: (ctx) => GrowthChartBloc(child, DefaultAssetBundle.of(context))
-        ..add(GrowthChartEvent()),
-      child: BlocBuilder<GrowthChartBloc, GrowthChartState>(
-          builder: (context, state) {
-        return Container(
-          width: double.infinity,
-          height: 160,
-          child: LineChart(
-            LineChartData(
-              borderData: FlBorderData(show: false),
-              lineTouchData: const LineTouchData(enabled: false),
-              lineBarsData: [
-                ...getTemplateBars(state.lines),
-                if (state.weightLine != null) getDataBar(state.weightLine)
-              ],
-              betweenBarsData: [
-                ...getTemplateColors(state.lines),
-              ],
-              minY: 0,
-              titlesData: FlTitlesData(
-                bottomTitles: SideTitles(
-                  reservedSize: 10,
-                  showTitles: true,
-                  textStyle: TextStyle(fontSize: 10, color: Colors.black45),
-                  getTitles: (value) {
-                    if (value == 60) {
-                      return '(bln)';
-                    } else if (value % 6 == 0) {
-                      return value.toInt().toString();
-                    } else {
-                      return '';
-                    }
-                  },
-                  margin: 8,
-                ),
-                leftTitles: SideTitles(
-                  reservedSize: 12,
-                  showTitles: true,
-                  textStyle: TextStyle(fontSize: 10, color: Colors.black45),
-                  getTitles: (value) {
-                    if (value % 5 == 0)
-                      return value.toInt().toString();
-                    else
-                      return '';
-                  },
-                ),
+    return BlocBuilder<ChildInfoBloc, ChildInfoState>(
+        builder: (context, state) {
+      return Container(
+        width: double.infinity,
+        height: 160,
+        child: LineChart(
+          LineChartData(
+            borderData: FlBorderData(show: false),
+            lineTouchData: const LineTouchData(enabled: false),
+            lineBarsData: [
+              ...getTemplateBars(state.imaginary),
+              if (state.weightLine != null) getDataBar(state.weightLine)
+            ],
+            betweenBarsData: [
+              ...getTemplateColors(state.imaginary),
+            ],
+            minY: 0,
+            titlesData: FlTitlesData(
+              bottomTitles: SideTitles(
+                reservedSize: 10,
+                showTitles: true,
+                textStyle: TextStyle(fontSize: 10, color: Colors.black45),
+                getTitles: (value) {
+                  if (value == 60) {
+                    return '(bln)';
+                  } else if (value % 6 == 0) {
+                    return value.toInt().toString();
+                  } else {
+                    return '';
+                  }
+                },
+                margin: 8,
               ),
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: true,
-                getDrawingHorizontalLine: (value) => const FlLine(
-                  color: Colors.black45,
-                  strokeWidth: 0.2,
-                ),
-                getDrawingVerticalLine: (value) => const FlLine(
-                  color: Colors.black45,
-                  strokeWidth: 0.2,
-                ),
+              leftTitles: SideTitles(
+                reservedSize: 12,
+                showTitles: true,
+                textStyle: TextStyle(fontSize: 10, color: Colors.black45),
+                getTitles: (value) {
+                  if (value % 5 == 0)
+                    return value.toInt().toString();
+                  else
+                    return '';
+                },
+              ),
+            ),
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: true,
+              getDrawingHorizontalLine: (value) => const FlLine(
+                color: Colors.black45,
+                strokeWidth: 0.2,
+              ),
+              getDrawingVerticalLine: (value) => const FlLine(
+                color: Colors.black45,
+                strokeWidth: 0.2,
               ),
             ),
           ),
-        );
-      }),
-    );
+        ),
+      );
+    });
   }
 
-  List<BetweenBarsData> getTemplateColors(List<Line> lines) {
+  List<BetweenBarsData> getTemplateColors(List<Line> imaginary) {
     List<BetweenBarsData> datas = [];
-    for (int i = 0; i < lines.length - 1; i++) {
+    for (int i = 0; i < imaginary.length - 1; i++) {
       datas.add(BetweenBarsData(
         fromIndex: i,
         toIndex: i + 1,
-        colors: [lines[i].lineColor.withOpacity(0.3)],
+        colors: [imaginary[i].lineColor.withOpacity(0.3)],
       ));
     }
     return datas;
   }
 
-  List<LineChartBarData> getTemplateBars(List<Line> lines) {
-    return lines.map((e) => getDataBar(e)).toList();
+  List<LineChartBarData> getTemplateBars(List<Line> imaginary) {
+    return imaginary.map((e) => getDataBar(e)).toList();
   }
 
   LineChartBarData getDataBar(Line line) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:recase/recase.dart';
+import 'package:simpati/core/utils/date_utils.dart';
 import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/domain/entity/child.dart';
@@ -81,17 +81,8 @@ class ChildCard extends StatelessWidget {
   }
 
   Text createAge() {
-    int month = DateTime.now().month - data.birthDate.month;
-    final diffYear = DateTime.now().year - data.birthDate.year;
-    month += 12 * diffYear;
-
-    final diffDay = DateTime.now().day - data.birthDate.day;
-
-    if (diffDay < 0) {
-      month -= 1;
-    }
     return Text(
-      '$month bln',
+      '${data.birthDate.countAgeMonths()} bln',
       style: AppTextStyle.caption.copyWith(color: Colors.black87),
     );
   }

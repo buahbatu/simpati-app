@@ -37,4 +37,17 @@ extension DateUtils on DateTime {
 
     return createdAt;
   }
+
+  int countAgeMonths() {
+    int month = DateTime.now().month - this.month;
+    final diffYear = DateTime.now().year - this.year;
+    month += 12 * diffYear;
+
+    final diffDay = DateTime.now().day - this.day;
+
+    if (diffDay < 0) {
+      month -= 1;
+    }
+    return month;
+  }
 }
