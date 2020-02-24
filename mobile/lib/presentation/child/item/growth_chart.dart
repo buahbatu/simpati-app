@@ -23,7 +23,7 @@ class GrowthChart extends StatelessWidget {
             lineTouchData: const LineTouchData(enabled: false),
             lineBarsData: [
               ...getTemplateBars(state.imaginary),
-              if (state.weightLine != null) getDataBar(state.weightLine)
+              if (state.weightLine.data.isNotEmpty) getDataBar(state.weightLine)
             ],
             betweenBarsData: [
               ...getTemplateColors(state.imaginary),
