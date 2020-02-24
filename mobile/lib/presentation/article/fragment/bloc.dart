@@ -20,7 +20,7 @@ class ArticleBloc extends ScrollFragmentBloc<Article> {
   Stream<ScrollFragmentState<Article>> mapEventToState(
       ScrollFragmentEvent event) async* {
     if (event is Init) {
-      final articleResult = await _loadArticleUsecase.start(5);
+      final articleResult = await _loadArticleUsecase.start(-1); // load all
       items.addAll(articleResult.data.articles);
       yield ScrollFragmentState(items);
     } else if (event is Add<Article>) {
