@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/tools/app_loader.dart';
 import 'package:simpati/presentation/home/screen.dart';
 
@@ -24,7 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Simpati',
-      theme: ThemeData(primaryColor: AppColor.primaryColor),
+      theme: ThemeData(
+        primaryColor: AppColor.primaryColor,
+        scaffoldBackgroundColor: ResColor.lightGrey,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: HomeScreen(),
     );
   }
