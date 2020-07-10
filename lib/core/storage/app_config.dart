@@ -7,7 +7,7 @@ const AppConfigKey = 'AsetKuLocalStorage';
 /// Can store String, int, double, Map and List
 class AppConfig {
   // TODO: set to false
-  static ConfigValue<bool> isDummyOn = ConfigValue('isDummyOn', true);
+  static ConfigValue<bool> isDummyOn = ConfigValue('isDummyOn', false);
 
   // creation
   static Future setup() => GetStorage.init(AppConfigKey);

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/mother_model.dart';
-import 'package:simpati/core/domain/repository/mother_repository_impl.dart';
+import 'package:simpati/core/domain/repository/mother_repository.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/core/utils/easter_egg.dart';
 import 'package:simpati/core/utils/framework_service_locator.dart';
 
 class MotherState {
@@ -16,7 +17,8 @@ class MotherState {
 
 class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
   final apiAssetRepo =
-      Get.getRepository<MotherRepositoryImpl>(ResDataSource.Remote);
+      Get.getRepository<MotherRepository>(ResDataSource.Remote);
+  EasterEgg easterEgg = EasterEgg();
 
   @override
   Future<MotherState> initState() async {
@@ -29,6 +31,8 @@ class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
     state.mother = await apiAssetRepo.getAll();
     print(state.mother.data[0].slug.toString());
   }
+
+  void onAppBarClick() => easterEgg.onClick();
 }
 
 class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
@@ -44,7 +48,7 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
       body: ListView(
         children: state.mother.data.map((e) => motherList(e)).toList(),
       ),
-      appBar: createAppBar(),
+      appBar: createAppBar(action),
       floatingActionButton: FloatingActionButton(
         onPressed: () => action.getMothers(),
         child: Icon(LineAwesomeIcons.plus),
@@ -53,14 +57,17 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
     );
   }
 
-  Widget createAppBar() {
+  Widget createAppBar(MotherAction action) {
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
-      title: Wrap(
-        direction: Axis.vertical,
-        spacing: 2,
-        children: [Text("Daftar Ibu")],
+      title: GestureDetector(
+        onTap: () => action.onAppBarClick(),
+        child: Wrap(
+          direction: Axis.vertical,
+          spacing: 2,
+          children: [Text("Daftar Ibu")],
+        ),
       ),
     );
   }

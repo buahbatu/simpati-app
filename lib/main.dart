@@ -4,7 +4,6 @@ import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/storage/app_config.dart';
 import 'package:simpati/feature/home/home_screen.dart';
 import 'package:simpati/core/utils/feature_service_locator.dart';
-import 'package:simpati/core/utils/framework_service_locator.dart';
 
 void main() async {
   Get.setupFeatureLocator();
@@ -17,7 +16,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: ResColor.primaryColor,
