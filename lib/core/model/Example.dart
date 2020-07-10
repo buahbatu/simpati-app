@@ -1,4 +1,4 @@
-import 'package:aset_ku/core/model/ExampleKind.dart';
+import 'package:simpati/core/model/ExampleKind.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

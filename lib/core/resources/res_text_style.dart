@@ -1,6 +1,6 @@
-import 'package:aset_ku/core/resources/res_color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simpati/core/resources/res_color.dart';
 
 class ResTextStyle {
   static final TextStyle fullPageImageCaption = GoogleFonts.roboto(

@@ -1,4 +1,4 @@
-import 'package:aset_ku/core/storage/storage_value.dart';
+import 'package:simpati/core/storage/storage_value.dart';
 import 'package:get_storage/get_storage.dart';
 
 const AppConfigKey = 'AsetKuLocalStorage';

@@ -1,5 +1,5 @@
-import 'package:aset_ku/core/resources/res_color.dart';
-import 'package:aset_ku/core/resources/res_text_style.dart';
+import 'package:simpati/core/resources/res_color.dart';
+import 'package:simpati/core/resources/res_text_style.dart';
 import 'package:blobs/blobs.dart';
 import 'package:flutter/cupertino.dart';
 

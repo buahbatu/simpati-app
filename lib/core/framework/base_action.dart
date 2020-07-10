@@ -1,6 +1,6 @@
-import 'package:aset_ku/core/framework/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simpati/core/framework/base_view.dart';
 
 enum SnackBarType { RED, GREEN, YELLOW, GREY }
 

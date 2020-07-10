@@ -1,33 +1,18 @@
-import 'dart:async';
-
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:simpati/core/resources/app_color.dart';
 import 'package:simpati/core/resources/res_color.dart';
-import 'package:simpati/core/tools/app_loader.dart';
-import 'package:simpati/presentation/home/screen.dart';
-
-bool isDebug = false;
+import 'package:simpati/feature/home/home_screen.dart';
 
 void main() {
-  runZoned<Future<void>>(() async {
-    // run on splash screen
-    await AppLoader.get().onAppStart(isDebug: isDebug);
-
-    WidgetsFlutterBinding.ensureInitialized();
-    runApp(MyApp());
-  }, onError: Crashlytics.instance.recordError);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Simpati',
+    return MaterialApp(
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: AppColor.primaryColor,
-        scaffoldBackgroundColor: ResColor.lightGrey,
+        primaryColor: ResColor.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
