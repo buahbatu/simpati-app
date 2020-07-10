@@ -23,6 +23,7 @@ class MotherProvider {
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMSIsImVtYWlsIjoidGlzQGxlYXB1cC5pZCIsInRpbWVzdGFtcCI6MTU5NDAwMDAzMH0.Qn7wou_ZB1wCg8jS6FJoGdcRcm7cwMjEopMQI1RlWos",
           }));
       responseJson = CustomException().response(response);
+      print(response.statusCode);
     } on SocketException {
       throw FetchDataException("No Internet Connection");
     }

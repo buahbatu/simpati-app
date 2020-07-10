@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/mother_model.dart';
-import 'package:simpati/core/domain/repository/mother_repository.dart';
+import 'package:simpati/core/domain/repository/mother_repository_impl.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
+import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/core/utils/framework_service_locator.dart';
 
 class MotherState {
   Mother mother;
@@ -12,16 +15,18 @@ class MotherState {
 }
 
 class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
+  final apiAssetRepo =
+      Get.getRepository<MotherRepositoryImpl>(ResDataSource.Remote);
+
   @override
   Future<MotherState> initState() async {
-    final mother = await repository.getMothersData();
-    MotherState(mother: mother);
-    return MotherState();
+    final mother = await apiAssetRepo.getAll();
+    print(mother.data[0].slug);
+    return MotherState(mother: mother);
   }
 
-  final MotherRepository repository = MotherRepository();
   void getMothers() async {
-    state.mother = await repository.getMothersData();
+    state.mother = await apiAssetRepo.getAll();
     print(state.mother.data[0].slug.toString());
   }
 }

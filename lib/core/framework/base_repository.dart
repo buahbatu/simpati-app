@@ -1,5 +1,5 @@
 abstract class BaseRepository<T> {
-  Future<List<T>> getAll();
+  Future<T> getAll();
 
   Future<T> getByKey(dynamic key);
 
