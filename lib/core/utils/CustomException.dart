@@ -41,7 +41,7 @@ class CustomException implements Exception {
   dynamic response(_dio.Response response) {
     switch (response.statusCode) {
       case 200:
-        // var responseJson = json.decode(response.data.toString());
+        // var responseJson = jsonDecode(response.data.toString());
         return response.data;
         break;
       case 201:
@@ -62,6 +62,23 @@ class CustomException implements Exception {
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
     }
   }
+
+  dynamic responseDioError(_dio.DioError error) {
+    if (error.type == _dio.DioErrorType.RESPONSE) {
+      switch (error.response.statusCode) {
+        case 401:
+        case 403:
+          throw Exception(error.message.toString());
+        case 500:
+          throw Exception(error.message.toString());
+        default:
+          throw FetchDataException(
+              'Error occured while Communication with Server with StatusCode : ${error.response.statusCode}');
+      }
+    } else if (error.type == _dio.DioErrorType.DEFAULT) {
+      throw Exception(error.message.toString());
+    }
+  }
 }
 
 class FetchDataException extends CustomException {
@@ -75,6 +92,10 @@ class BadRequestException extends CustomException {
 
 class UnauthorisedException extends CustomException {
   UnauthorisedException([message]) : super(message, "Unauthoraised: ");
+}
+
+class ServerException extends CustomException {
+  ServerException([message]) : super(message, "Server Error: ");
 }
 
 class InvalidInputException extends CustomException {

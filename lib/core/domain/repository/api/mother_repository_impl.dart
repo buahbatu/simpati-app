@@ -60,8 +60,8 @@ class MotherRepositoryImpl extends MotherRepository {
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMSIsImVtYWlsIjoidGlzQGxlYXB1cC5pZCIsInRpbWVzdGFtcCI6MTU5NDAwMDAzMH0.Qn7wou_ZB1wCg8jS6FJoGdcRcm7cwMjEopMQI1RlWos",
           }));
       responseJson = CustomException().response(response);
-    } on SocketException {
-      throw FetchDataException("No Internet Connection");
+    } on _dio.DioError catch (er) {
+      CustomException().responseDioError(er);
     }
     return Mother.fromJson(responseJson);
   }

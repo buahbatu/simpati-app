@@ -57,6 +57,7 @@ class AuthRepositoryApi extends AuthRepository {
           "password": password,
         },
       );
+
       responseJson = CustomException().response(response);
     } on SocketException {
       throw FetchDataException("No Internet Connection");

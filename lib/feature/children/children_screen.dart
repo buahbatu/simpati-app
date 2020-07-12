@@ -26,9 +26,9 @@ class ChildrenAction
 
   @override
   Future<ChildrenState> initState() async {
-    final mother = await apiAssetRepo.getAll();
-    print(mother.data[0].slug);
-    return ChildrenState(mother: mother);
+    // final mother = await apiAssetRepo.getAll();
+    // print(mother.data[0].slug);
+    return ChildrenState();
   }
 
   void getChildrens() async {
@@ -83,9 +83,10 @@ class ChildrenScreen
   Widget render(
       BuildContext context, ChildrenAction action, ChildrenState state) {
     return Scaffold(
-      body: ListView(
-        children: state.mother.data.map((e) => motherList(e)).toList(),
-      ),
+      body: Container(),
+      // ListView(
+      //   children: state.mother.data.map((e) => motherList(e)).toList(),
+      // ),
       appBar: createAppBar(action, context),
     );
   }

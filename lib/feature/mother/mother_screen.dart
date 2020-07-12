@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/mother_model.dart';
@@ -23,13 +24,12 @@ class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
   @override
   Future<MotherState> initState() async {
     final mother = await apiAssetRepo.getAll();
-    print(mother.data[0].slug);
     return MotherState(mother: mother);
   }
 
-  void getMothers() async {
-    state.mother = await apiAssetRepo.getAll();
-    print(state.mother.data[0].slug.toString());
+  Future<MotherState> getMothers() async {
+    final mother = await apiAssetRepo.getAll();
+    return MotherState(mother: mother);
   }
 
   void onAppBarClick() => easterEgg.onClick();
@@ -45,9 +45,11 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
   @override
   Widget render(BuildContext context, MotherAction action, MotherState state) {
     return Scaffold(
-      body: ListView(
-        children: state.mother.data.map((e) => motherList(e)).toList(),
-      ),
+      body: state.mother != null
+          ? ListView(
+              children: state.mother.data.map((e) => motherList(e)).toList(),
+            )
+          : bodyStateBuilder(action, state),
       appBar: createAppBar(action),
       floatingActionButton: FloatingActionButton(
         onPressed: () => action.getMothers(),
@@ -55,6 +57,60 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
         backgroundColor: ResColor.primaryColor,
       ),
     );
+  }
+
+  Widget bodyStateBuilder(MotherAction action, MotherState state) {
+    return FutureBuilder(
+        future: action.getMothers(),
+        builder: (BuildContext context, AsyncSnapshot<MotherState> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Container(
+                child: Center(
+                  child: SpinKitChasingDots(
+                    color: ResColor.primaryColor,
+                    size: 50.0,
+                  ),
+                ),
+              );
+              break;
+            case ConnectionState.waiting:
+              return Container(
+                child: Center(
+                  child: SpinKitChasingDots(
+                    color: ResColor.primaryColor,
+                    size: 50.0,
+                  ),
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              return Container(
+                child: Center(
+                  child: SpinKitChasingDots(
+                    color: ResColor.primaryColor,
+                    size: 50.0,
+                  ),
+                ),
+              );
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return Container(
+                  child: Text(
+                    snapshot.error.toString(),
+                  ),
+                );
+              } else {
+                return ListView(
+                  children:
+                      state.mother.data.map((e) => motherList(e)).toList(),
+                );
+              }
+              break;
+          }
+          return Container();
+        });
   }
 
   Widget createAppBar(MotherAction action) {
