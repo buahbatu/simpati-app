@@ -3,13 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/mother_model.dart';
-import 'package:simpati/core/domain/repository/mother_repository.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
-import 'package:simpati/core/utils/framework_service_locator.dart';
+import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherState {
   Mother mother;
@@ -23,13 +22,18 @@ class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
 
   @override
   Future<MotherState> initState() async {
-    final mother = await apiAssetRepo.getAll();
-    return MotherState(mother: mother);
+    final result = await apiAssetRepo.getAll();
+    if (result.isError) showSnackBar(message: result.failure.data);
+
+    if (result.isSuccess) {
+      return MotherState(mother: result.data);
+    }
+    return MotherState();
   }
 
   Future<MotherState> getMothers() async {
     final mother = await apiAssetRepo.getAll();
-    return MotherState(mother: mother);
+    return MotherState(mother: mother.data);
   }
 
   void onAppBarClick() => easterEgg.onClick();
@@ -40,7 +44,14 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
   MotherAction initAction() => MotherAction();
 
   @override
-  Widget loadingViewBuilder(BuildContext context) => Container();
+  Widget loadingViewBuilder(BuildContext context) => Container(
+        child: Center(
+          child: SpinKitChasingDots(
+            color: ResColor.primaryColor,
+            size: 50.0,
+          ),
+        ),
+      );
 
   @override
   Widget render(BuildContext context, MotherAction action, MotherState state) {
@@ -49,7 +60,7 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
           ? ListView(
               children: state.mother.data.map((e) => motherList(e)).toList(),
             )
-          : bodyStateBuilder(action, state),
+          : Container(),
       appBar: createAppBar(action),
       floatingActionButton: FloatingActionButton(
         onPressed: () => action.getMothers(),

@@ -2,20 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/children_model.dart';
-import 'package:simpati/core/domain/model/mother_model.dart';
-import 'package:simpati/core/domain/repository/children_repository.dart';
-import 'package:simpati/core/domain/repository/mother_repository.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
-import 'package:simpati/core/utils/framework_service_locator.dart';
 import 'package:simpati/feature/home/login/login_dialog.dart';
+import 'package:simpati/feature/repository/children_repository.dart';
 
 class ChildrenState {
-  Children mother;
-  ChildrenState({this.mother});
+  Children children;
+  ChildrenState({this.children});
 }
 
 class ChildrenAction
@@ -26,14 +23,16 @@ class ChildrenAction
 
   @override
   Future<ChildrenState> initState() async {
-    // final mother = await apiAssetRepo.getAll();
-    // print(mother.data[0].slug);
+    final child = await apiAssetRepo.getAll();
+    if (child.isSuccess) {
+      return ChildrenState(children: child.data);
+    }
     return ChildrenState();
   }
 
   void getChildrens() async {
-    state.mother = await apiAssetRepo.getAll();
-    print(state.mother.data[0].slug.toString());
+    // state.mother = await apiAssetRepo.getAll();
+    // print(state.mother.data[0].slug.toString());
   }
 
   void navigateToLogin() async {
@@ -59,7 +58,6 @@ class ChildrenAction
                 FlatButton(
                   child: Text('Go to app settings'),
                   onPressed: () {
-                    // SimplePermissions.openSettings();
                     Get.back();
                   },
                 )
@@ -83,10 +81,11 @@ class ChildrenScreen
   Widget render(
       BuildContext context, ChildrenAction action, ChildrenState state) {
     return Scaffold(
-      body: Container(),
-      // ListView(
-      //   children: state.mother.data.map((e) => motherList(e)).toList(),
-      // ),
+      body: state.children != null
+          ? ListView(
+              children: state.children.data.map((e) => motherList(e)).toList(),
+            )
+          : Container(),
       appBar: createAppBar(action, context),
     );
   }

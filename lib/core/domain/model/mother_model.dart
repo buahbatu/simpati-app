@@ -4,20 +4,23 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 Mother motherFromJson(String str) => Mother.fromJson(json.decode(str));
 
 String motherToJson(Mother data) => json.encode(data.toJson());
 
-class Mother {
+// ignore: must_be_immutable
+class Mother extends Equatable {
+  String status;
+  String message;
+  List<MotherDatum> data;
+
   Mother({
     this.status,
     this.message,
     this.data,
   });
-
-  String status;
-  String message;
-  List<MotherDatum> data;
 
   factory Mother.fromJson(Map<String, dynamic> json) => Mother(
         status: json["status"],
@@ -31,6 +34,13 @@ class Mother {
         "message": message,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
+
+  @override
+  List<Object> get props => [
+        this.status,
+        this.message,
+        this.data,
+      ];
 }
 
 class MotherDatum {

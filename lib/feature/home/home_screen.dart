@@ -1,16 +1,24 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
+import 'package:simpati/core/resources/res_color.dart';
+import 'package:simpati/core/storage/app_config.dart';
 import 'package:simpati/core/view/fade_indexed_stack.dart';
 import 'package:simpati/feature/article/article_screen.dart';
 import 'package:simpati/feature/children/children_screen.dart';
 import 'package:simpati/feature/dashboard/dashboard_screen.dart';
+import 'package:simpati/feature/home/login/login_dialog.dart';
 import 'package:simpati/feature/mother/mother_screen.dart';
 
 class HomeState {
   int selectedIndex = 0;
+  bool isLoggedIn = false;
+
+  HomeState({this.isLoggedIn});
 
   Map<BaseView, BottomNavyBarItem> createItems() {
     return {
@@ -44,7 +52,16 @@ class HomeState {
 
 class HomeAction extends BaseAction<HomeScreen, HomeAction, HomeState> {
   @override
-  Future<HomeState> initState() async => HomeState();
+  Future<HomeState> initState() async {
+    final token = AppConfig.token.val.accessToken;
+    bool loggedIn;
+    if (token.isNotEmpty) {
+      loggedIn = true;
+    } else {
+      await navigateToLogin();
+    }
+    return HomeState(isLoggedIn: loggedIn);
+  }
 
   void onItemSelected() {
     return null;
@@ -54,6 +71,10 @@ class HomeAction extends BaseAction<HomeScreen, HomeAction, HomeState> {
     state.selectedIndex = idx;
     render();
   }
+
+  void navigateToLogin() async {
+    await Get.to(LoginScreen());
+  }
 }
 
 class HomeScreen extends BaseView<HomeScreen, HomeAction, HomeState> {
@@ -61,7 +82,15 @@ class HomeScreen extends BaseView<HomeScreen, HomeAction, HomeState> {
   HomeAction initAction() => HomeAction();
 
   @override
-  Widget loadingViewBuilder(BuildContext context) => Container();
+  Widget loadingViewBuilder(BuildContext context) => Container(
+        color: ResColor.appBackground,
+        child: Center(
+          child: SpinKitChasingDots(
+            color: ResColor.primaryColor,
+            size: 50.0,
+          ),
+        ),
+      );
 
   @override
   Widget render(BuildContext context, HomeAction action, HomeState state) {
@@ -69,11 +98,10 @@ class HomeScreen extends BaseView<HomeScreen, HomeAction, HomeState> {
 
     return Scaffold(
         body: SafeArea(
-          child: FadeIndexedStack(
-            index: state.selectedIndex,
-            children: items.keys.toList(),
-          ),
-        ),
+            child: FadeIndexedStack(
+          index: state.selectedIndex,
+          children: items.keys.toList(),
+        )),
         bottomNavigationBar:
             createNavBar(state, action, items.values.toList()));
   }

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:simpati/core/domain/repository/auth_repository.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
+import 'package:simpati/core/network/network.dart';
+import 'package:simpati/core/network/network_token.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/core/utils/framework_service_locator.dart';
+import 'package:simpati/feature/repository/auth_repository.dart';
 
 class LoginState {}
 
 class LoginAction extends BaseAction<LoginScreen, LoginAction, LoginState> {
   String em, pass;
   final apiAssetRepo = Get.getRepository<AuthRepository>(ResDataSource.Remote);
+  bool isReload = false;
 
   @override
   Future<LoginState> initState() async {
@@ -38,7 +40,6 @@ class LoginAction extends BaseAction<LoginScreen, LoginAction, LoginState> {
                     style: AppTextStyle.titleName.copyWith(fontSize: 12),
                   ),
                   onPressed: () {
-                    // SimplePermissions.openSettings();
                     Get.back();
                     print(em);
                     print(pass);
@@ -47,6 +48,24 @@ class LoginAction extends BaseAction<LoginScreen, LoginAction, LoginState> {
               ],
             )),
         barrierDismissible: false);
+  }
+
+  bool reloadWhenLoggedIn() {
+    return isReload;
+  }
+
+  void getLogin(String email, String password) async {
+    final result = await apiAssetRepo.login(em, pass);
+    if (result.isSuccess) {
+      Api.updateDio(token: NetworkToken(result.data.data.token));
+      isReload = true;
+      Get.back();
+      Get.back();
+      showSnackBar(message: "Halo, selamat datang...");
+    }
+    if (result.isError) {
+      showSnackBar(message: "Username dan password salah");
+    }
   }
 
   List<Widget> getForm() {
@@ -75,13 +94,7 @@ class LoginAction extends BaseAction<LoginScreen, LoginAction, LoginState> {
           'Masuk',
           style: TextStyle(color: Colors.white),
         ),
-        onPressed: () {
-          // SimplePermissions.openSettings();
-          // Get.back();
-          apiAssetRepo.login(em, pass);
-          print(em);
-          print(pass);
-        },
+        onPressed: () => getLogin(em, pass),
       )
     ];
   }
@@ -132,6 +145,7 @@ class LoginScreen extends BaseView<LoginScreen, LoginAction, LoginState> {
   Widget render(BuildContext context, LoginAction action, LoginState state) {
     return Container(
       color: Colors.white,
+      child: Text("inLogin"),
     );
   }
 }

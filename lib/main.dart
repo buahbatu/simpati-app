@@ -6,7 +6,7 @@ import 'package:simpati/feature/home/home_screen.dart';
 import 'package:simpati/core/utils/feature_service_locator.dart';
 
 void main() async {
-  Get.setupFeatureLocator();
+  FeatureServiceLocator.setupFeatureLocator();
 
   await AppConfig.setup();
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Simpati App',
       theme: ThemeData(
         primaryColor: ResColor.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
