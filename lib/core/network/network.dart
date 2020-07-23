@@ -1,28 +1,31 @@
 import 'dart:io';
 
-import 'package:simpati/core/network/network_token.dart';
+import 'package:simpati/core/network/NetworkToken.dart';
 import 'package:simpati/core/network/network_env.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+export 'package:simpati/core/network/NetworkToken.dart';
 export 'package:simpati/core/network/dio_ext.dart';
+export 'package:simpati/core/network/network_env.dart';
 export 'package:simpati/core/network/network_failure.dart';
 export 'package:simpati/core/network/network_response.dart';
 
 typedef OptionUpdater = BaseOptions Function(BaseOptions);
+typedef DioFactory = Dio Function(BaseOptions);
 
 class Api {
   static const DEFAULT_TIMEOUT = 30000; // 30ms
 
-  final Dio _dio;
-  Api._internal(this._dio);
-
-  static Api _instance;
+  @visibleForTesting
+  static Dio dio;
 
   static Dio get v1 => updateDio();
 
   /// call this line after you change env
   /// or you can call [Api.dio(newEnv)] to reset it
-  static void resetApi() => _instance = null;
+  static void resetApi() => dio = null;
 
   /// don't set baseUrl in [optionUpdater] it will be override by [env.url]
   /// optionUpdater will update [BaseOption] from [defaultOptions]
@@ -37,10 +40,11 @@ class Api {
       resetApi();
 
       final newOption = _updateOption(optionUpdater);
-      _instance = Api._internal(Dio(newOption));
+      final dioFactory = Get.find<DioFactory>();
+      dio = dioFactory(newOption);
     }
 
-    return _instance._dio;
+    return dio;
   }
 
   static BaseOptions get defaultOptions {
@@ -65,10 +69,7 @@ class Api {
     if (env != null && env != NetworkEnv.get()) NetworkEnv.set(env);
     if (token != null && token != NetworkToken.get()) NetworkToken.set(token);
 
-    return _instance == null ||
-        env != null ||
-        token != null ||
-        optionUpdater != null;
+    return dio == null || env != null || token != null || optionUpdater != null;
   }
 
   static BaseOptions _updateOption(OptionUpdater updater) {

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/network/network.dart';
-import 'package:simpati/core/network/network_token.dart';
+import 'package:simpati/core/network/NetworkToken.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
@@ -59,6 +59,7 @@ class LoginAction extends BaseAction<LoginScreen, LoginAction, LoginState> {
     if (result.isSuccess) {
       Api.updateDio(token: NetworkToken(result.data.data.token));
       isReload = true;
+      print(result.data.data.token);
       Get.back();
       Get.back();
       showSnackBar(message: "Halo, selamat datang...");
@@ -145,7 +146,6 @@ class LoginScreen extends BaseView<LoginScreen, LoginAction, LoginState> {
   Widget render(BuildContext context, LoginAction action, LoginState state) {
     return Container(
       color: Colors.white,
-      child: Text("inLogin"),
     );
   }
 }

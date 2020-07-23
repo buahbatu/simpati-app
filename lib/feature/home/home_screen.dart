@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
+import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/storage/app_config.dart';
 import 'package:simpati/core/view/fade_indexed_stack.dart';

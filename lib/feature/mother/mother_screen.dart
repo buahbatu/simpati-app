@@ -2,41 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/domain/model/mother_model.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
+import 'package:simpati/core/network/NetworkToken.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/core/resources/res_strings.dart';
+import 'package:simpati/core/storage/app_config.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
+import 'package:simpati/feature/mother/page/mother_add.dart';
+import 'package:simpati/feature/mother/page/mother_info_screen.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherState {
-  Mother mother;
+  List<MotherN> mother;
   MotherState({this.mother});
 }
 
 class MotherAction extends BaseAction<MotherScreen, MotherAction, MotherState> {
-  final apiAssetRepo =
-      Get.getRepository<MotherRepository>(ResDataSource.Remote);
+  final apiAssetRepo = Get.getRepository<MotherRepository>(
+    ResDataSource.Remote,
+  );
   EasterEgg easterEgg = EasterEgg();
 
   @override
   Future<MotherState> initState() async {
     final result = await apiAssetRepo.getAll();
     if (result.isError) showSnackBar(message: result.failure.data);
-
     if (result.isSuccess) {
+      print(result.data.length);
       return MotherState(mother: result.data);
     }
-    return MotherState();
+
+    return MotherState(mother: []);
   }
 
-  Future<MotherState> getMothers() async {
+  Future<void> getMothers() async {
     final mother = await apiAssetRepo.getAll();
-    return MotherState(mother: mother.data);
+    print(AppConfig.token.val.accessToken);
+    MotherState(mother: mother.data);
+    reloadScreen();
   }
 
   void onAppBarClick() => easterEgg.onClick();
+
+  void navigateToMother(String id) {
+    Get.to(MotherInfoScreen(), arguments: id);
+  }
+
+  void navigateAddMother() {
+    Get.to(MotherAddScreen());
+  }
 }
 
 class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
@@ -56,72 +74,18 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
   @override
   Widget render(BuildContext context, MotherAction action, MotherState state) {
     return Scaffold(
-      body: state.mother != null
-          ? ListView(
-              children: state.mother.data.map((e) => motherList(e)).toList(),
-            )
+      body: state.mother.isNotEmpty
+          ? RefreshIndicator(
+              onRefresh: () => action.getMothers(),
+              child: motherList(action, state))
           : Container(),
       appBar: createAppBar(action),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => action.getMothers(),
+        onPressed: () => action.navigateAddMother(),
         child: Icon(LineAwesomeIcons.plus),
         backgroundColor: ResColor.primaryColor,
       ),
     );
-  }
-
-  Widget bodyStateBuilder(MotherAction action, MotherState state) {
-    return FutureBuilder(
-        future: action.getMothers(),
-        builder: (BuildContext context, AsyncSnapshot<MotherState> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Container(
-                child: Center(
-                  child: SpinKitChasingDots(
-                    color: ResColor.primaryColor,
-                    size: 50.0,
-                  ),
-                ),
-              );
-              break;
-            case ConnectionState.waiting:
-              return Container(
-                child: Center(
-                  child: SpinKitChasingDots(
-                    color: ResColor.primaryColor,
-                    size: 50.0,
-                  ),
-                ),
-              );
-              break;
-            case ConnectionState.active:
-              return Container(
-                child: Center(
-                  child: SpinKitChasingDots(
-                    color: ResColor.primaryColor,
-                    size: 50.0,
-                  ),
-                ),
-              );
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                return Container(
-                  child: Text(
-                    snapshot.error.toString(),
-                  ),
-                );
-              } else {
-                return ListView(
-                  children:
-                      state.mother.data.map((e) => motherList(e)).toList(),
-                );
-              }
-              break;
-          }
-          return Container();
-        });
   }
 
   Widget createAppBar(MotherAction action) {
@@ -133,62 +97,76 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
         child: Wrap(
           direction: Axis.vertical,
           spacing: 2,
-          children: [Text("Daftar Ibu")],
+          children: [Text(ResString.TITLE_MOTHER)],
         ),
       ),
     );
   }
 
-  Widget motherList(MotherDatum data) {
-    return Container(
-      padding: EdgeInsets.all(12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.black26,
-            child: Icon(LineAwesomeIcons.female, color: Colors.white),
-          ),
-          SizedBox(
-            width: 8.0,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                data.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-              ),
-              SizedBox(
-                height: 4.0,
-              ),
-              Container(
-                width: 270.0,
-                child: Text(
-                  "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
+  Widget motherList(MotherAction action, MotherState state) {
+    return ListView(
+      children: state.mother
+          .map(
+            (e) => InkWell(
+              onTap: () => action.navigateToMother(e.id),
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.black26,
+                      child: Icon(LineAwesomeIcons.female, color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    motherInfo(e),
+                    Text(
+                      "25 Thn",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.0),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Wrap(
-                spacing: 4,
-                children: [
-                  createChip("0 anak"),
-                  createChip("Berat Ideal"),
-                  createChip("Gizi Baik"),
-                ],
-              )
-            ],
-          ),
-          Text(
-            "25 Thn",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+            ),
           )
-        ],
-      ),
+          .toList(),
+    );
+  }
+
+  Widget motherInfo(MotherN e) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          e.title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+        ),
+        SizedBox(
+          height: 4.0,
+        ),
+        Container(
+          width: 270.0,
+          child: Text(
+            "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
+          ),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Wrap(
+          spacing: 4,
+          children: [
+            createChip("0 anak"),
+            createChip("Berat Ideal"),
+            createChip("Gizi Baik"),
+          ],
+        )
+      ],
     );
   }
 

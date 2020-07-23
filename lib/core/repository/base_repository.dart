@@ -1,7 +1,7 @@
 import 'package:simpati/core/repository/result.dart';
 
 abstract class BaseRepository<T> {
-  Future<Result<T>> getAll();
+  Future<Result<List<T>>> getAll();
 
   Future<Result<T>> getByKey(dynamic key);
 

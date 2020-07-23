@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'network_token.dart';
+part of 'NetworkToken.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,15 +8,15 @@ part of 'network_token.dart';
 
 NetworkToken _$NetworkTokenFromJson(Map<String, dynamic> json) {
   return NetworkToken(
-    json['accessToken'] as String,
-    tokenType: json['tokenType'] as String,
-    expireAt: json['expireAt'] as String,
+    json['access_token'] as String ?? '',
+    tokenType: json['token_type'] as String,
+    expireAt: json['expires_at'] as String,
   );
 }
 
 Map<String, dynamic> _$NetworkTokenToJson(NetworkToken instance) =>
     <String, dynamic>{
-      'accessToken': instance.accessToken,
-      'tokenType': instance.tokenType,
-      'expireAt': instance.expireAt,
+      'access_token': instance.accessToken,
+      'token_type': instance.tokenType,
+      'expires_at': instance.expireAt,
     };

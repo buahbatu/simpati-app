@@ -18,12 +18,17 @@ class Debouncer {
 
     _runJustOnceAtTheEnd?.cancel();
     _completer?.complete(CANCELLED);
-
     _completer = Completer();
-    _runJustOnceAtTheEnd = Timer(
-      duration,
-      () => _completer.complete(onTimePassed()),
-    );
+    _runJustOnceAtTheEnd = Timer(duration, () {
+      _completer.complete(onTimePassed);
+      _completer = null;
+    });
+
+    // _completer = Completer();
+    // _runJustOnceAtTheEnd = Timer(
+    //   duration,
+    //   () => _completer.complete(onTimePassed()),
+    // );
 
     return _completer.future;
   }

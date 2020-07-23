@@ -6,38 +6,36 @@ import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/core/resources/res_strings.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
 import 'package:simpati/feature/home/login/login_dialog.dart';
 import 'package:simpati/feature/repository/children_repository.dart';
 
 class ChildrenState {
-  Children children;
+  List<Children> children;
   ChildrenState({this.children});
 }
 
 class ChildrenAction
     extends BaseAction<ChildrenScreen, ChildrenAction, ChildrenState> {
-  final apiAssetRepo =
-      Get.getRepository<ChildrenRepository>(ResDataSource.Remote);
+  final apiAssetRepo = Get.getRepository<ChildrenRepository>(
+    ResDataSource.Remote,
+  );
   EasterEgg easterEgg = EasterEgg();
 
+  // TODO: implement request
   @override
   Future<ChildrenState> initState() async {
-    final child = await apiAssetRepo.getAll();
-    if (child.isSuccess) {
-      return ChildrenState(children: child.data);
-    }
+    // final child = await apiAssetRepo.getAll();
+    // if (child.isSuccess) {
+    //   return ChildrenState(children: child.data);
+    // }
     return ChildrenState();
   }
 
   void getChildrens() async {
     // state.mother = await apiAssetRepo.getAll();
     // print(state.mother.data[0].slug.toString());
-  }
-
-  void navigateToLogin() async {
-    await Get.to(LoginScreen());
-    reloadScreen();
   }
 
   void openDialog() {
@@ -80,12 +78,15 @@ class ChildrenScreen
   @override
   Widget render(
       BuildContext context, ChildrenAction action, ChildrenState state) {
+    //TODO: implement body
     return Scaffold(
-      body: state.children != null
-          ? ListView(
-              children: state.children.data.map((e) => motherList(e)).toList(),
-            )
-          : Container(),
+      body:
+          // state.children != null
+          //     ? ListView(
+          //         children: state.children.map((e) => motherList(e)).toList(),
+          //       )
+          //     : Container(),
+          Container(),
       appBar: createAppBar(action, context),
     );
   }
@@ -94,18 +95,15 @@ class ChildrenScreen
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
-      title: GestureDetector(
-        onTap: () => action.navigateToLogin(),
-        child: Wrap(
-          direction: Axis.vertical,
-          spacing: 2,
-          children: [Text("Daftar Anak")],
-        ),
+      title: Wrap(
+        direction: Axis.vertical,
+        spacing: 2,
+        children: [Text(ResString.TITLE_CHILDREN)],
       ),
     );
   }
 
-  Widget motherList(ChildrenDatum data) {
+  Widget childrenList(ChildrenDatum data) {
     return Container(
       padding: EdgeInsets.all(12.0),
       child: Row(
@@ -118,43 +116,47 @@ class ChildrenScreen
           SizedBox(
             width: 8.0,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                data.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-              ),
-              SizedBox(
-                height: 4.0,
-              ),
-              Container(
-                width: 270.0,
-                child: Text(
-                  "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
-                ),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Wrap(
-                spacing: 4,
-                children: [
-                  createChip("0 anak"),
-                  createChip("Berat Ideal"),
-                  createChip("Gizi Baik"),
-                ],
-              )
-            ],
-          ),
+          childInfo(data),
           Text(
             "25 Thn",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
           )
         ],
       ),
+    );
+  }
+
+  Widget childInfo(ChildrenDatum data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          data.title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+        ),
+        SizedBox(
+          height: 4.0,
+        ),
+        Container(
+          width: 270.0,
+          child: Text(
+            "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
+          ),
+        ),
+        SizedBox(
+          height: 8.0,
+        ),
+        Wrap(
+          spacing: 4,
+          children: [
+            createChip("0 anak"),
+            createChip("Berat Ideal"),
+            createChip("Gizi Baik"),
+          ],
+        )
+      ],
     );
   }
 

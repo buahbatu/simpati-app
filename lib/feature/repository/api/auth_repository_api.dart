@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:simpati/core/domain/model/auth_model.dart';
 import 'package:dio/dio.dart' as _dio;
 import 'package:get/get.dart';
@@ -10,9 +11,6 @@ import 'package:simpati/core/utils/constants.dart' as Constants;
 import 'package:simpati/feature/repository/auth_repository.dart';
 
 class AuthRepositoryApi extends AuthRepository {
-  final _dio.Dio dio = _dio.Dio();
-  final url = Constants.API_URL;
-
   static void register() {
     Get.put<AuthRepository>(
       AuthRepositoryApi(),
@@ -61,7 +59,7 @@ class AuthRepositoryApi extends AuthRepository {
   }
 
   @override
-  Future<Result<Auth>> getAll() {
+  Future<Result<List<Auth>>> getAll() {
     // TODO: implement getAll
     throw UnimplementedError();
   }
