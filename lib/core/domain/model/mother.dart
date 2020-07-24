@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'mother.g.dart';
 
-class MotherN extends Equatable {
+class Mother extends Equatable {
   final String id;
   final String title;
   final String slug;
@@ -26,7 +26,7 @@ class MotherN extends Equatable {
   final String nomorHandphoneAlternatif;
   final String catatan;
 
-  MotherN(
+  Mother(
       {String id,
       String title,
       String slug,
@@ -92,7 +92,7 @@ class MotherN extends Equatable {
     ];
   }
 
-  MotherN copyWith(
+  Mother copyWith(
       {String id,
       String title,
       String slug,
@@ -112,7 +112,7 @@ class MotherN extends Equatable {
       String statusKeluargaSejahtera,
       String nomorHandphoneAlternatif,
       String catatan}) {
-    return MotherN(
+    return Mother(
       id: id ?? this.id,
       title: title ?? this.title,
       slug: slug ?? this.slug,
@@ -137,7 +137,7 @@ class MotherN extends Equatable {
     );
   }
 
-  MotherRequest motherToMotherRequest(MotherN mother) {
+  MotherRequest motherToMotherRequest(Mother mother) {
     final motherReq = MotherRequest();
     motherReq.atribut = MotherAtrForRequest();
     motherReq.title = mother.title;
@@ -243,39 +243,34 @@ class DataRequest extends Equatable {
 class ResponseMother extends Equatable {
   @JsonKey(name: 'data')
   final List<MotherForResponse> motherList;
-  final mothers = List<MotherN>();
+  final mothers = List<Mother>();
   ResponseMother({this.motherList});
 
   factory ResponseMother.fromJson(json) => _$ResponseMotherFromJson(json);
 
-  List<MotherN> mapToMothers() {
+  List<Mother> mapToMothers() {
     for (var item in motherList) {
-      MotherN mother = MotherN();
-      mother = mother.copyWith(id: item.id);
-      mother = mother.copyWith(title: item.title);
-      mother = mother.copyWith(slug: item.slug);
-      mother = mother.copyWith(content: item.content);
-      mother = mother.copyWith(createdAt: item.createdAt);
-      mother = mother.copyWith(status: item.status);
-      mother = mother.copyWith(posyandu: item.atribut.posyandu.content);
-      mother = mother.copyWith(nik: item.atribut.nik.content);
-      mother = mother.copyWith(namaSuami: item.atribut.namaSuami.content);
-      mother = mother.copyWith(nikSuami: item.atribut.nikSuami.content);
-      mother = mother.copyWith(tanggalLahir: item.atribut.tanggalLahir.content);
-      mother = mother.copyWith(tempatLahir: item.atribut.tempatLahir.content);
-      mother =
-          mother.copyWith(nomorHandphone: item.atribut.nomorHandphone.content);
-      mother =
-          mother.copyWith(golonganDarah: item.atribut.golonganDarah.content);
-      mother = mother.copyWith(alamat: item.atribut.alamat.content);
-      mother = mother.copyWith(nomorBpjs: item.atribut.nomorBpjs.content);
+      Mother mother = Mother();
       mother = mother.copyWith(
-          statusKeluargaSejahtera:
-              item.atribut.statusKeluargaSejahtera.content);
-      mother = mother.copyWith(
+          id: item.id,
+          title: item.title,
+          slug: item.slug,
+          content: item.content,
+          createdAt: item.createdAt,
+          status: item.status,
+          posyandu: item.atribut.posyandu.content,
+          nik: item.atribut.nik.content,
+          namaSuami: item.atribut.namaSuami.content,
+          nikSuami: item.atribut.nikSuami.content,
+          tanggalLahir: item.atribut.tanggalLahir.content,
+          tempatLahir: item.atribut.tempatLahir.content,
+          nomorHandphone: item.atribut.nomorHandphone.content,
+          golonganDarah: item.atribut.golonganDarah.content,
+          alamat: item.atribut.alamat.content,
+          nomorBpjs: item.atribut.nomorBpjs.content,
+          statusKeluargaSejahtera: item.atribut.statusKeluargaSejahtera.content,
           nomorHandphoneAlternatif:
               item.atribut.nomorHandphoneAlternatif.content);
-      mother = mother.copyWith(catatan: item.atribut.catatan.content);
       mothers.add(mother);
     }
     return mothers;
@@ -473,16 +468,16 @@ class DataAtribut extends Equatable {
 
 @JsonSerializable(explicitToJson: false)
 class Data extends Equatable {
-  String id;
-  String content;
-  String caption;
-  String dataType;
+  final String id;
+  final String content;
+  final String caption;
+  final String dataType;
 
   Data({
-    String id,
-    String content,
-    String caption,
-    String dataType,
+    String id = "",
+    String content = "",
+    String caption = "",
+    String dataType = "",
   })  : this.id = id ?? "",
         this.content = content ?? "",
         this.caption = caption ?? "",
@@ -491,7 +486,6 @@ class Data extends Equatable {
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   @override
-  // TODO: implement props
   List<Object> get props {
     return <Object>[
       this.id,

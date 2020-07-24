@@ -3,19 +3,13 @@ import 'dart:convert';
 import 'package:simpati/core/domain/model/child_info.dart';
 import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/domain/model/mother_info.dart';
-import 'package:simpati/core/domain/model/mother_model.dart';
-import 'package:dio/dio.dart' as _dio;
 import 'package:get/get.dart';
 import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
-import 'package:simpati/core/utils/constants.dart' as Constants;
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherRepositoryImpl extends MotherRepository {
-  final _dio.Dio dio = _dio.Dio();
-  final url = Constants.API_URL;
-
   static void register() {
     Get.put<MotherRepository>(
       MotherRepositoryImpl(),
@@ -24,8 +18,8 @@ class MotherRepositoryImpl extends MotherRepository {
   }
 
   @override
-  Future<Result<MotherN>> add(MotherN instance) async {
-    final motherRequest = MotherN().motherToMotherRequest(instance);
+  Future<Result<Mother>> add(Mother instance) async {
+    final motherRequest = Mother().motherToMotherRequest(instance);
     return await Api.v1
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
@@ -58,13 +52,13 @@ class MotherRepositoryImpl extends MotherRepository {
   }
 
   @override
-  Future<Result<MotherN>> edit(MotherN instance) {
+  Future<Result<Mother>> edit(Mother instance) {
     // TODO: implement edit
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<List<MotherN>>> getAll() async {
+  Future<Result<List<Mother>>> getAll() async {
     return await Api.v1.get(
       "/klaster-by-member-relation-sub",
       queryParameters: {
@@ -82,7 +76,7 @@ class MotherRepositoryImpl extends MotherRepository {
   }
 
   @override
-  Future<Result<MotherN>> getByKey(ins) {
+  Future<Result<Mother>> getByKey(ins) {
     // TODO: implement getByKey
     throw UnimplementedError();
   }

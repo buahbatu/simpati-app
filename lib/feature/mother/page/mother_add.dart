@@ -17,7 +17,7 @@ class MotherAddState {
   String longAddress = "";
   String province = "Jawa Barat";
   String city = "Sumedang";
-  MotherN motherRequest = MotherN();
+  Mother motherRequest = Mother();
   MotherAddState({this.motherRequest, this.name, this.tinggi});
 
   MotherAddState copyWith({String name, String tinggi}) {
@@ -35,7 +35,7 @@ class MotherAddAction
       Get.getRepository<MotherRepository>(ResDataSource.Remote);
   @override
   Future<MotherAddState> initState() async {
-    final motherRequest = MotherN();
+    final motherRequest = Mother();
     return MotherAddState(motherRequest: motherRequest);
   }
 
@@ -93,7 +93,7 @@ class MotherAddAction
           alamat: "${state.longAddress}, ${state.city}, ${state.province}");
   }
 
-  void addMother(MotherN newMother) async {
+  void addMother(Mother newMother) async {
     final result = await apiAssetRepo.add(newMother);
     if (result.isError) {
       showSnackBar(message: result.failure.data);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simpati/core/domain/request/mother_request.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/utils/form_utils.dart';
@@ -25,8 +24,6 @@ class Step2Screen
   @override
   Widget render(
       BuildContext context, MotherAddAction action, MotherAddState state) {
-    final focusScope = FocusScope.of(context);
-
     return Padding(
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
       child: Column(
@@ -37,64 +34,7 @@ class Step2Screen
             'Tulis dengan detail untuk mempermudah kunjugan berikutnya',
             style: AppTextStyle.titleName.copyWith(fontSize: 12),
           ),
-          Expanded(
-            child: ListView(
-              children: <Widget>[
-                Container(height: 24),
-                FormUtils.buildField(
-                  'Nomor Telpon',
-                  inputType: TextInputType.phone,
-                  onChanged: (s) => {action.updateFormData2(nomerTelpon: s)},
-                  nextForm: NextForm(focusScope, addressFocus),
-                ),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Alamat',
-                  focusNode: addressFocus,
-                  onChanged: (s) => {action.updateFormData2(longAddress: s)},
-                ),
-                Container(height: 8),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: FormUtils.buildField(
-                        'Provinsi',
-                        value: 'Jawa Barat',
-                        nextForm: NextForm(focusScope, cityFocus),
-                        onChanged: (s) => {action.updateFormData2(province: s)},
-                      ),
-                    ),
-                    Container(width: 8),
-                    Expanded(
-                        child: FormUtils.buildField(
-                      'Kota',
-                      focusNode: cityFocus,
-                      value: 'Sumedang',
-                      onChanged: (s) => {action.updateFormData2(city: s)},
-                    )),
-                  ],
-                ),
-                Container(height: 8),
-                InkWell(
-                  onTap: () async {
-                    final pick = await showBloodPick(context);
-                    if (pick != null) {
-                      print(pick);
-                      action.updateFormData2(bloodType: pick);
-                      bloodController.text = pick;
-                    }
-                    focusScope.requestFocus(FocusNode());
-                  },
-                  child: FormUtils.buildField(
-                    'Golongan Darah',
-                    isEnabled: false,
-                    controller: bloodController,
-                  ),
-                ),
-                // FormUtils.buildField('Titik Koordinat', isEnabled: false),
-              ],
-            ),
-          ),
+          buildForm(context),
           Container(
             width: double.infinity,
             child: FlatButton(
@@ -104,6 +44,68 @@ class Step2Screen
               child: Text('Simpan'),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget buildForm(BuildContext context) {
+    final focusScope = FocusScope.of(context);
+
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          Container(height: 24),
+          FormUtils.buildField(
+            'Nomor Telpon',
+            inputType: TextInputType.phone,
+            onChanged: (s) => {action.updateFormData2(nomerTelpon: s)},
+            nextForm: NextForm(focusScope, addressFocus),
+          ),
+          Container(height: 8),
+          FormUtils.buildField(
+            'Alamat',
+            focusNode: addressFocus,
+            onChanged: (s) => {action.updateFormData2(longAddress: s)},
+          ),
+          Container(height: 8),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: FormUtils.buildField(
+                  'Provinsi',
+                  value: 'Jawa Barat',
+                  nextForm: NextForm(focusScope, cityFocus),
+                  onChanged: (s) => {action.updateFormData2(province: s)},
+                ),
+              ),
+              Container(width: 8),
+              Expanded(
+                  child: FormUtils.buildField(
+                'Kota',
+                focusNode: cityFocus,
+                value: 'Sumedang',
+                onChanged: (s) => {action.updateFormData2(city: s)},
+              )),
+            ],
+          ),
+          Container(height: 8),
+          InkWell(
+            onTap: () async {
+              final pick = await showBloodPick(context);
+              if (pick != null) {
+                print(pick);
+                action.updateFormData2(bloodType: pick);
+                bloodController.text = pick;
+              }
+              focusScope.requestFocus(FocusNode());
+            },
+            child: FormUtils.buildField(
+              'Golongan Darah',
+              isEnabled: false,
+              controller: bloodController,
+            ),
+          ),
         ],
       ),
     );

@@ -3,10 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/domain/model/mother.dart';
-import 'package:simpati/core/domain/model/mother_model.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
-import 'package:simpati/core/network/NetworkToken.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/resources/res_strings.dart';
@@ -17,7 +15,7 @@ import 'package:simpati/feature/mother/page/mother_info_screen.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherState {
-  List<MotherN> mother;
+  List<Mother> mother;
   MotherState({this.mother});
 }
 
@@ -136,7 +134,7 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
     );
   }
 
-  Widget motherInfo(MotherN e) {
+  Widget motherInfo(Mother e) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

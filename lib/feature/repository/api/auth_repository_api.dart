@@ -1,13 +1,8 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:simpati/core/domain/model/auth_model.dart';
-import 'package:dio/dio.dart' as _dio;
 import 'package:get/get.dart';
 import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
-import 'package:simpati/core/utils/constants.dart' as Constants;
 import 'package:simpati/feature/repository/auth_repository.dart';
 
 class AuthRepositoryApi extends AuthRepository {
