@@ -1,15 +1,16 @@
 // To parse this JSON data, do
 //
-//     final mother = motherFromJson(jsonString);
+//     final motherInfo = motherInfoFromJson(jsonString);
 
 import 'dart:convert';
 
-Mother motherFromJson(String str) => Mother.fromJson(json.decode(str));
+MotherInfo motherInfoFromJson(String str) =>
+    MotherInfo.fromJson(json.decode(str));
 
-String motherToJson(Mother data) => json.encode(data.toJson());
+String motherInfoToJson(MotherInfo data) => json.encode(data.toJson());
 
-class Mother {
-  Mother({
+class MotherInfo {
+  MotherInfo({
     this.status,
     this.message,
     this.data,
@@ -17,13 +18,13 @@ class Mother {
 
   String status;
   String message;
-  List<MotherDatum> data;
+  List<MotherInfoDatum> data;
 
-  factory Mother.fromJson(Map<String, dynamic> json) => Mother(
+  factory MotherInfo.fromJson(Map<String, dynamic> json) => MotherInfo(
         status: json["status"],
         message: json["message"],
-        data: List<MotherDatum>.from(
-            json["data"].map((x) => MotherDatum.fromJson(x))),
+        data: List<MotherInfoDatum>.from(
+            json["data"].map((x) => MotherInfoDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,8 +34,8 @@ class Mother {
       };
 }
 
-class MotherDatum {
-  MotherDatum({
+class MotherInfoDatum {
+  MotherInfoDatum({
     this.id,
     this.title,
     this.slug,
@@ -51,18 +52,18 @@ class MotherDatum {
   String content;
   DateTime createdAt;
   String status;
-  Map<String, Atribut> atribut;
+  Atribut atribut;
   List<dynamic> taksonomi;
 
-  factory MotherDatum.fromJson(Map<String, dynamic> json) => MotherDatum(
+  factory MotherInfoDatum.fromJson(Map<String, dynamic> json) =>
+      MotherInfoDatum(
         id: json["ID"],
         title: json["title"],
         slug: json["slug"],
         content: json["content"],
         createdAt: DateTime.parse(json["created_at"]),
         status: json["status"],
-        atribut: Map.from(json["atribut"])
-            .map((k, v) => MapEntry<String, Atribut>(k, Atribut.fromJson(v))),
+        atribut: Atribut.fromJson(json["atribut"]),
         taksonomi: List<dynamic>.from(json["taksonomi"].map((x) => x)),
       );
 
@@ -73,14 +74,45 @@ class MotherDatum {
         "content": content,
         "created_at": createdAt.toIso8601String(),
         "status": status,
-        "atribut": Map.from(atribut)
-            .map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+        "atribut": atribut.toJson(),
         "taksonomi": List<dynamic>.from(taksonomi.map((x) => x)),
       };
 }
 
 class Atribut {
   Atribut({
+    this.ibu,
+    this.posyandu,
+    this.kehamilanKe,
+    this.prediksiKelamin,
+    this.terakhirMenstruasi,
+  });
+
+  Ibu ibu;
+  Ibu posyandu;
+  Ibu kehamilanKe;
+  Ibu prediksiKelamin;
+  Ibu terakhirMenstruasi;
+
+  factory Atribut.fromJson(Map<String, dynamic> json) => Atribut(
+        ibu: Ibu.fromJson(json["ibu"]),
+        posyandu: Ibu.fromJson(json["posyandu"]),
+        kehamilanKe: Ibu.fromJson(json["kehamilan_ke"]),
+        prediksiKelamin: Ibu.fromJson(json["prediksi_kelamin"]),
+        terakhirMenstruasi: Ibu.fromJson(json["terakhir_menstruasi"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ibu": ibu.toJson(),
+        "posyandu": posyandu.toJson(),
+        "kehamilan_ke": kehamilanKe.toJson(),
+        "prediksi_kelamin": prediksiKelamin.toJson(),
+        "terakhir_menstruasi": terakhirMenstruasi.toJson(),
+      };
+}
+
+class Ibu {
+  Ibu({
     this.id,
     this.slug,
     this.title,
@@ -92,15 +124,15 @@ class Atribut {
   String slug;
   String title;
   String content;
-  List<AtributDatum> data;
+  List<IbuDatum> data;
 
-  factory Atribut.fromJson(Map<String, dynamic> json) => Atribut(
+  factory Ibu.fromJson(Map<String, dynamic> json) => Ibu(
         id: json["ID"],
         slug: json["slug"],
         title: json["title"],
         content: json["content"],
-        data: List<AtributDatum>.from(
-            json["data"].map((x) => AtributDatum.fromJson(x))),
+        data:
+            List<IbuDatum>.from(json["data"].map((x) => IbuDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -112,8 +144,8 @@ class Atribut {
       };
 }
 
-class AtributDatum {
-  AtributDatum({
+class IbuDatum {
+  IbuDatum({
     this.id,
     this.content,
     this.caption,
@@ -123,38 +155,19 @@ class AtributDatum {
   String id;
   String content;
   String caption;
-  DataType dataType;
+  String dataType;
 
-  factory AtributDatum.fromJson(Map<String, dynamic> json) => AtributDatum(
+  factory IbuDatum.fromJson(Map<String, dynamic> json) => IbuDatum(
         id: json["ID"],
         content: json["content"],
         caption: json["caption"],
-        dataType: dataTypeValues.map[json["data_type"]],
+        dataType: json["data_type"],
       );
 
   Map<String, dynamic> toJson() => {
         "ID": id,
         "content": content,
         "caption": caption,
-        "data_type": dataTypeValues.reverse[dataType],
+        "data_type": dataType,
       };
-}
-
-enum DataType { PLAIN, KLASTER_RELATION }
-
-final dataTypeValues = EnumValues(
-    {"klaster_relation": DataType.KLASTER_RELATION, "plain": DataType.PLAIN});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
 }
