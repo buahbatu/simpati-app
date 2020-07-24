@@ -1,5 +1,5 @@
-import 'package:simpati/core/resources/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:simpati/core/resources/res_color.dart';
 
 class AppTextStyle {
   static const TextStyle title = TextStyle(
@@ -23,7 +23,7 @@ class AppTextStyle {
   static TextStyle registerTitle = TextStyle(
     fontSize: 21,
     fontWeight: FontWeight.bold,
-    color: AppColor.primaryColor,
+    color: ResColor.primaryColor,
   );
 
   static TextStyle sectionData = TextStyle(
@@ -41,7 +41,7 @@ class AppTextStyle {
   static TextStyle calenderTitle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,
-    color: AppColor.primaryColor,
+    color: ResColor.primaryColor,
   );
 
   static TextStyle itemTitle = TextStyle(

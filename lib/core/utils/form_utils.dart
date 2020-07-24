@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 
 typedef StringCallback = void Function(String data);
@@ -53,7 +53,7 @@ class FormUtils {
         errorText: errorText,
         labelText: label,
         hintText: hint,
-        alignLabelWithHint: true,        
+        alignLabelWithHint: true,
         isDense: true,
         suffixText: suffix,
         border: OutlineInputBorder(
@@ -67,7 +67,7 @@ class FormUtils {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: AppColor.accentColor),
+          borderRadius: BorderRadius.circular(12), color: ResColor.accentColor),
       child: Text(
         title,
         style: AppTextStyle.caption.copyWith(fontSize: 14),

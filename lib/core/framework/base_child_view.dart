@@ -1,7 +1,8 @@
-import 'package:aset_ku/core/framework/base_action.dart';
-import 'package:aset_ku/core/framework/base_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simpati/core/framework/base_action.dart';
+import 'package:simpati/core/framework/base_view.dart';
+import 'package:simpati/feature/mother/page/mother_add.dart';
 
 abstract class BaseChildView<V extends BaseView<V, A, S>,
     A extends BaseAction<V, A, S>, S> extends StatelessWidget {

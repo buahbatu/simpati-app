@@ -1,6 +1,6 @@
-import 'package:aset_ku/core/resources/res_color.dart';
-import 'package:aset_ku/core/utils/debouncer.dart';
-import 'package:aset_ku/feature/playground/feature_check_screen.dart';
+import 'package:simpati/core/resources/res_color.dart';
+import 'package:simpati/core/utils/debouncer.dart';
+import 'package:simpati/feature/playground/feature_check_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,15 +8,15 @@ class EasterEgg {
   static const String password = "lux in side";
   static const int maxClicked = 7;
 
-  Debouncer debugScreenDebouncer = Debouncer();
+  Debouncer clickDebouncer = Debouncer();
 
   String typedPassword = '';
   int clicked = 0;
 
-  void scheduleCancelClick() async {
-    debugScreenDebouncer.runAtEnd(() {
-      clicked = 0;
-    });
+  /// cancel  click count when window duration
+  void scheduleCancelClick() {
+    // reset click to 0 if debounce duration meet
+    clickDebouncer.runLastCall(() => clicked = 0);
   }
 
   void onClick() {

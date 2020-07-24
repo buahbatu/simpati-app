@@ -1,9 +1,9 @@
 class ResString {
   // APP BAR TITLE
-  static const TITLE_APP = 'Aset Ku';
-  static const TITLE_PROFILE = 'Akun';
-  static const TITLE_CUSTOMIZE = 'Kostumisasi Fitur';
-  static const TITLE_VOTE = 'Vote Fitur';
+  static const TITLE_APP = 'Simpati';
+  static const TITLE_MOTHER = 'Daftar Ibu';
+  static const TITLE_CHILDREN = 'Daftar Anak';
+  static const TITLE_ARTICLE = 'Artikel';
   static const TITLE_NOTIFICATION = 'Notifikasi';
 
   // Screen Asset

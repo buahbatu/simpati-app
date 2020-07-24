@@ -1,6 +1,6 @@
-import 'package:aset_ku/core/framework/base_action.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simpati/core/framework/base_action.dart';
 
 abstract class BaseView<V extends BaseView<V, A, S>,
     A extends BaseAction<V, A, S>, S> extends StatelessWidget {
@@ -8,8 +8,13 @@ abstract class BaseView<V extends BaseView<V, A, S>,
 
   @override
   Widget build(BuildContext context) {
+    A action = initAction();
     return GetBuilder<A>(
-      init: initAction(),
+      init: action,
+      dispose: (State state) => action.dispose(),
+      didChangeDependencies: (State state) => action.didChangeDependencies(
+        state.context,
+      ),
       builder: (A action) => WillPopScope(
         child: action.isBusy
             ? loadingViewBuilder(context)

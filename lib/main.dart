@@ -1,33 +1,37 @@
-import 'dart:async';
-
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
-import 'package:simpati/core/resources/app_color.dart';
+import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/resources/res_color.dart';
-import 'package:simpati/core/tools/app_loader.dart';
-import 'package:simpati/presentation/home/screen.dart';
+import 'package:simpati/core/utils/framework_service_locator.dart';
+import 'package:simpati/feature/home/home_screen.dart';
 
-bool isDebug = false;
+import 'core/utils/feature_service_locator.dart';
 
-void main() {
-  runZoned<Future<void>>(() async {
-    // run on splash screen
-    await AppLoader.get().onAppStart(isDebug: isDebug);
-
-    WidgetsFlutterBinding.ensureInitialized();
-    runApp(MyApp());
-  }, onError: Crashlytics.instance.recordError);
+void main({
+  FrameworkServiceLocator frSl = const FrameworkServiceLocator(),
+  FeatureServiceLocator feSl = const FeatureServiceLocator(),
+  Widget root = const MyApp(),
+}) async {
+  // DI Setup
+  await frSl.setupFrameworkLocator(Get);
+  await feSl.setupFeatureLocator();
+  runApp(root);
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp();
+  void setupStatusBar() {
+    FlutterStatusbarcolor.setStatusBarColor(ResColor.darkBlue);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Simpati',
+      title: 'Simpati App',
       theme: ThemeData(
-        primaryColor: AppColor.primaryColor,
-        scaffoldBackgroundColor: ResColor.lightGrey,
+        primaryColor: ResColor.primaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomeScreen(),
