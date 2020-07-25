@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -171,17 +169,17 @@ class MotherRequest extends Equatable {
 @JsonSerializable()
 class MotherAtrForRequest extends Equatable {
   @JsonKey(name: "nik")
-  DataRequest nik;
+  final DataRequest nik;
   @JsonKey(name: "nama_suami")
-  DataRequest namaSuami;
+  final DataRequest namaSuami;
   @JsonKey(name: "nik_suami")
-  DataRequest nikSuami;
+  final DataRequest nikSuami;
   @JsonKey(name: "tanggal_lahir")
-  DataRequest tanggalLahir;
+  final DataRequest tanggalLahir;
   @JsonKey(name: "nomor_handphone")
-  DataRequest nomorHandphone;
+  final DataRequest nomorHandphone;
   @JsonKey(name: "golongan_darah")
-  DataRequest golonganDarah;
+  final DataRequest golonganDarah;
   @JsonKey(name: "alamat")
   DataRequest alamat;
 
@@ -274,6 +272,46 @@ class ResponseMother extends Equatable {
       mothers.add(mother);
     }
     return mothers;
+  }
+
+  Mother mapToMother() {
+    Mother mother = Mother();
+    MotherForResponse item = motherList.first;
+    // print(
+    //   item.atribut.nomorHandphoneAlternatif.data.first.content ?? "sdfdsf",
+    // );
+    mother = mother.copyWith(
+        id: item.id,
+        title: item.title,
+        slug: item.slug,
+        content: item.content,
+        createdAt: item.createdAt,
+        status: item.status,
+        posyandu: getContentOrElse(item.atribut.posyandu),
+        nik: getContentOrElse(item.atribut.nik),
+        namaSuami: getContentOrElse(item.atribut.namaSuami),
+        nikSuami: getContentOrElse(item.atribut.nikSuami),
+        tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
+        tempatLahir: getContentOrElse(item.atribut.tempatLahir),
+        nomorHandphone: getContentOrElse(item.atribut.nomorHandphone),
+        golonganDarah: getContentOrElse(item.atribut.golonganDarah),
+        alamat: getContentOrElse(item.atribut.alamat),
+        nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
+        statusKeluargaSejahtera:
+            item.atribut.statusKeluargaSejahtera.data.first.content,
+        nomorHandphoneAlternatif:
+            getContentOrElse(item.atribut.nomorHandphoneAlternatif));
+
+    print(mother.id);
+
+    return mother;
+  }
+
+  String getContentOrElse(DataAtribut atribut, [String defaultValue = ""]) {
+    if (atribut.data.isEmpty) {
+      return defaultValue;
+    }
+    return atribut.data.first.content;
   }
 
   @override
@@ -375,7 +413,7 @@ class AtributForResponse extends Equatable {
   final DataAtribut nomorBpjs;
   @JsonKey(name: 'status_keluarga_sejahtera')
   final DataAtribut statusKeluargaSejahtera;
-  @JsonKey(name: 'status_keluarga_sejahtera(alternatif)')
+  @JsonKey(name: 'nomor_handphone_(alternatif)')
   final DataAtribut nomorHandphoneAlternatif;
   @JsonKey(name: 'catatan')
   final DataAtribut catatan;
@@ -433,23 +471,28 @@ class AtributForResponse extends Equatable {
 
 @JsonSerializable(explicitToJson: false)
 class DataAtribut extends Equatable {
+  @JsonKey(name: "ID")
   final String id;
+  @JsonKey(name: "slug")
   final String slug;
+  @JsonKey(name: "title")
   final String title;
+  @JsonKey(name: "content")
   final String content;
+  @JsonKey(name: "data")
   final List<Data> data;
 
   DataAtribut({
-    String id,
-    String slug,
-    String title,
-    String content,
-    List<Data> data,
+    String id = "",
+    String slug = "",
+    String title = "",
+    String content = "",
+    List<Data> data = const [],
   })  : this.id = id ?? "",
         this.slug = slug ?? "",
         this.title = title ?? "",
         this.content = content ?? "",
-        this.data = data ?? [];
+        this.data = data ?? [Data()];
 
   factory DataAtribut.fromJson(Map<String, dynamic> json) =>
       _$DataAtributFromJson(json);
@@ -468,9 +511,13 @@ class DataAtribut extends Equatable {
 
 @JsonSerializable(explicitToJson: false)
 class Data extends Equatable {
+  @JsonKey(name: "ID")
   final String id;
+  @JsonKey(name: "content")
   final String content;
+  @JsonKey(name: "caption")
   final String caption;
+  @JsonKey(name: "data_type")
   final String dataType;
 
   Data({

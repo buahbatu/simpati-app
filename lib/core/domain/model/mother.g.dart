@@ -114,11 +114,10 @@ AtributForResponse _$AtributForResponseFromJson(Map<String, dynamic> json) {
         ? null
         : DataAtribut.fromJson(
             json['status_keluarga_sejahtera'] as Map<String, dynamic>),
-    nomorHandphoneAlternatif:
-        json['status_keluarga_sejahtera(alternatif)'] == null
-            ? null
-            : DataAtribut.fromJson(json['status_keluarga_sejahtera(alternatif)']
-                as Map<String, dynamic>),
+    nomorHandphoneAlternatif: json['nomor_handphone_(alternatif)'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['nomor_handphone_(alternatif)'] as Map<String, dynamic>),
     catatan: json['catatan'] == null
         ? null
         : DataAtribut.fromJson(json['catatan'] as Map<String, dynamic>),
@@ -127,7 +126,7 @@ AtributForResponse _$AtributForResponseFromJson(Map<String, dynamic> json) {
 
 DataAtribut _$DataAtributFromJson(Map<String, dynamic> json) {
   return DataAtribut(
-    id: json['id'] as String,
+    id: json['ID'] as String,
     slug: json['slug'] as String,
     title: json['title'] as String,
     content: json['content'] as String,
@@ -140,7 +139,7 @@ DataAtribut _$DataAtributFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DataAtributToJson(DataAtribut instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'ID': instance.id,
       'slug': instance.slug,
       'title': instance.title,
       'content': instance.content,
@@ -149,16 +148,16 @@ Map<String, dynamic> _$DataAtributToJson(DataAtribut instance) =>
 
 Data _$DataFromJson(Map<String, dynamic> json) {
   return Data(
-    id: json['id'] as String,
+    id: json['ID'] as String,
     content: json['content'] as String,
     caption: json['caption'] as String,
-    dataType: json['dataType'] as String,
+    dataType: json['data_type'] as String,
   );
 }
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
-      'id': instance.id,
+      'ID': instance.id,
       'content': instance.content,
       'caption': instance.caption,
-      'dataType': instance.dataType,
+      'data_type': instance.dataType,
     };
