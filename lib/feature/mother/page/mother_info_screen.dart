@@ -3,9 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:recase/recase.dart';
 import 'package:simpati/core/domain/model/child_info.dart';
-import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
@@ -14,12 +12,17 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/feature/mother/model/mother.dart';
+import 'package:simpati/feature/mother/model/pregnancy.dart';
+import 'package:simpati/feature/mother/page/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MotherInfoState {
   Mother mother;
   ChildInfo childInfo;
-  MotherInfoState({this.mother, this.childInfo});
+  Pregnancy pregnancy = Pregnancy();
+  MotherInfoState({this.pregnancy, this.mother, this.childInfo});
 }
 
 class MotherInfoAction
@@ -35,6 +38,25 @@ class MotherInfoAction
       return MotherInfoState(mother: result.data, childInfo: resultChild.data);
     }
     return MotherInfoState();
+  }
+
+  void updateFormData(
+      {String nik,
+      String name,
+      String lastMenstruation,
+      String bloodPressure,
+      String height,
+      String weight,
+      MenstruationCycle menstruationCycle,
+      String namaSuami,
+      String bloodType}) {
+    if (name != null) state.pregnancy = state.pregnancy.copyWith(title: name);
+    if (nik != null) state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    if (menstruationCycle != null)
+      state.pregnancy =
+          state.pregnancy.copyWith(menstruationCycle: menstruationCycle);
+    if (namaSuami != null)
+      state.pregnancy = state.pregnancy.copyWith(namaSuami: namaSuami);
   }
 }
 
@@ -62,7 +84,7 @@ class MotherInfoScreen
     return Scaffold(
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
-      body: state.mother.id != ""
+      body: state.mother != null
           ? getContents(state.mother, state.childInfo, context)
           : Align(
               alignment: Alignment.center,
@@ -161,7 +183,14 @@ class MotherInfoScreen
           Text('Informasi Kontak', style: AppTextStyle.sectionTitle),
           Container(height: 21),
           InkWell(
-            onTap: () async {},
+            onTap: () async {
+              String phone = 'tel:${mother.nomorHandphone}';
+              if (await canLaunch(phone)) {
+                await launch(phone);
+              } else {
+                throw 'Nomor tidak valid ${mother.nomorHandphone}';
+              }
+            },
             child: FormUtils.buildField('Nomor Telpon',
                 value: mother.nomorHandphone,
                 isEnabled: false,
@@ -311,17 +340,17 @@ class MotherInfoScreen
               //       i, context, state.data[0].atribut.kehamilanKe.data[i]),
               // ).reversed,
               FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                color: ResColor.primaryColor,
-                child: Icon(LineAwesomeIcons.plus, color: Colors.white),
-                onPressed: () => null,
-              ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  color: ResColor.primaryColor,
+                  child: Icon(LineAwesomeIcons.plus, color: Colors.white),
+                  onPressed: () => showDialog(
+                      context: context, child: AddPregnancyDialog())),
             ],
           ),
         ],

@@ -200,6 +200,8 @@ class MotherAtrForRequest extends Equatable {
         this.alamat = nik ?? DataRequest();
 
   Map<String, dynamic> toJson() => _$MotherAtrForRequestToJson(this);
+  factory MotherAtrForRequest.fromJson(Map<String, dynamic> json) =>
+      _$MotherAtrForRequestFromJson(json);
 
   @override
   // TODO: implement props
@@ -226,6 +228,8 @@ class DataRequest extends Equatable {
   String content;
   String caption;
   Map<String, dynamic> toJson() => _$DataRequestToJson(this);
+  factory DataRequest.fromJson(Map<String, dynamic> json) =>
+      _$DataRequestFromJson(json);
 
   @override
   // TODO: implement props
@@ -389,7 +393,7 @@ class MotherForResponse extends Equatable {
   Map<String, dynamic> toJson() => _$MotherForResponseToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class AtributForResponse extends Equatable {
   @JsonKey(name: 'posyandu')
   final DataAtribut posyandu;
@@ -449,6 +453,8 @@ class AtributForResponse extends Equatable {
   factory AtributForResponse.fromJson(Map<String, dynamic> json) =>
       _$AtributForResponseFromJson(json);
 
+  Map<String, dynamic> toJson() => _$AtributForResponseToJson(this);
+
   @override
   List<Object> get props {
     return [
@@ -496,6 +502,7 @@ class DataAtribut extends Equatable {
 
   factory DataAtribut.fromJson(Map<String, dynamic> json) =>
       _$DataAtributFromJson(json);
+  Map<String, dynamic> toJson() => _$DataAtributToJson(this);
 
   @override
   List<Object> get props {

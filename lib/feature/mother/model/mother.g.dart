@@ -6,12 +6,48 @@ part of 'mother.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+MotherRequest _$MotherRequestFromJson(Map<String, dynamic> json) {
+  return MotherRequest(
+    title: json['title'] as String,
+    content: json['content'] as String,
+    atribut: json['atribut'] == null
+        ? null
+        : MotherAtrForRequest.fromJson(json['atribut'] as Map<String, dynamic>),
+  );
+}
+
 Map<String, dynamic> _$MotherRequestToJson(MotherRequest instance) =>
     <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
       'atribut': instance.atribut?.toJson(),
     };
+
+MotherAtrForRequest _$MotherAtrForRequestFromJson(Map<String, dynamic> json) {
+  return MotherAtrForRequest(
+    nik: json['nik'] == null
+        ? null
+        : DataRequest.fromJson(json['nik'] as Map<String, dynamic>),
+    namaSuami: json['nama_suami'] == null
+        ? null
+        : DataRequest.fromJson(json['nama_suami'] as Map<String, dynamic>),
+    nikSuami: json['nik_suami'] == null
+        ? null
+        : DataRequest.fromJson(json['nik_suami'] as Map<String, dynamic>),
+    tanggalLahir: json['tanggal_lahir'] == null
+        ? null
+        : DataRequest.fromJson(json['tanggal_lahir'] as Map<String, dynamic>),
+    nomorHandphone: json['nomor_handphone'] == null
+        ? null
+        : DataRequest.fromJson(json['nomor_handphone'] as Map<String, dynamic>),
+    golonganDarah: json['golongan_darah'] == null
+        ? null
+        : DataRequest.fromJson(json['golongan_darah'] as Map<String, dynamic>),
+    alamat: json['alamat'] == null
+        ? null
+        : DataRequest.fromJson(json['alamat'] as Map<String, dynamic>),
+  );
+}
 
 Map<String, dynamic> _$MotherAtrForRequestToJson(
         MotherAtrForRequest instance) =>
@@ -123,6 +159,23 @@ AtributForResponse _$AtributForResponseFromJson(Map<String, dynamic> json) {
         : DataAtribut.fromJson(json['catatan'] as Map<String, dynamic>),
   );
 }
+
+Map<String, dynamic> _$AtributForResponseToJson(AtributForResponse instance) =>
+    <String, dynamic>{
+      'posyandu': instance.posyandu,
+      'nik': instance.nik,
+      'nama_suami': instance.namaSuami,
+      'nik_suami': instance.nikSuami,
+      'tanggal_lahir': instance.tanggalLahir,
+      'tempat_lahir': instance.tempatLahir,
+      'nomor_handphone': instance.nomorHandphone,
+      'golongan_darah': instance.golonganDarah,
+      'alamat': instance.alamat,
+      'nomor_bpjs': instance.nomorBpjs,
+      'status_keluarga_sejahtera': instance.statusKeluargaSejahtera,
+      'nomor_handphone_(alternatif)': instance.nomorHandphoneAlternatif,
+      'catatan': instance.catatan,
+    };
 
 DataAtribut _$DataAtributFromJson(Map<String, dynamic> json) {
   return DataAtribut(
