@@ -119,10 +119,41 @@ class Children extends Equatable {
 class ResponseChildren extends Equatable {
   @JsonKey(name: 'data')
   final List<ChildrenForResponse> childrenList;
-  final mothers = List<Children>();
+  final childrens = List<Children>();
   ResponseChildren({this.childrenList});
 
   factory ResponseChildren.fromJson(json) => _$ResponseChildrenFromJson(json);
+
+  List<Children> mapToChildren() {
+    for (var item in childrenList) {
+      Children child = Children();
+      child = child.copyWith(
+          id: item.id,
+          title: item.title,
+          content: item.content,
+          status: item.status,
+          createdAt: item.createdAt,
+          slug: item.slug,
+          note: getContentOrElse(item.atribut.note),
+          golonganDarah: getContentOrElse(item.atribut.golonganDarah),
+          ibu: getContentOrElse(item.atribut.ibu),
+          jenisKelamin: getContentOrElse(item.atribut.jenisKelamin),
+          kehamilan: getContentOrElse(item.atribut.kehamilan),
+          nik: getContentOrElse(item.atribut.nik),
+          nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
+          posyandu: getContentOrElse(item.atribut.posyandu),
+          tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
+          tempatLahir: getContentOrElse(item.atribut.tempatLahir));
+
+      childrens.add(child);
+    }
+    return childrens;
+  }
+
+  String getContentOrElse(DataAtribut atribut, [String defaultValue = ""]) {
+    if (atribut.data.isEmpty) return defaultValue;
+    return atribut.data.first.content;
+  }
 
   @override
   // TODO: implement props
@@ -196,6 +227,7 @@ class ChildrenForResponse extends Equatable {
 
   factory ChildrenForResponse.fromJson(Map<String, dynamic> json) =>
       _$ChildrenForResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$ChildrenForResponseToJson(this);
 }
 
@@ -205,82 +237,69 @@ class AtributForResponse extends Equatable {
   final DataAtribut posyandu;
   @JsonKey(name: 'nik')
   final DataAtribut nik;
-  @JsonKey(name: 'nama_suami')
-  final DataAtribut namaSuami;
-  @JsonKey(name: 'nik_suami')
-  final DataAtribut nikSuami;
+  @JsonKey(name: 'ibu')
+  final DataAtribut ibu;
+  @JsonKey(name: 'kehamilan')
+  final DataAtribut kehamilan;
   @JsonKey(name: 'tanggal_lahir')
   final DataAtribut tanggalLahir;
   @JsonKey(name: 'tempat_lahir')
   final DataAtribut tempatLahir;
-  @JsonKey(name: 'nomor_handphone')
-  final DataAtribut nomorHandphone;
   @JsonKey(name: 'golongan_darah')
   final DataAtribut golonganDarah;
-  @JsonKey(name: 'alamat')
-  final DataAtribut alamat;
-  @JsonKey(name: 'nomor_bpjs')
+  @JsonKey(name: 'bpjs_number')
   final DataAtribut nomorBpjs;
-  @JsonKey(name: 'status_keluarga_sejahtera')
-  final DataAtribut statusKeluargaSejahtera;
-  @JsonKey(name: 'status_keluarga_sejahtera(alternatif)')
-  final DataAtribut nomorHandphoneAlternatif;
-  @JsonKey(name: 'catatan')
-  final DataAtribut catatan;
+  @JsonKey(name: 'jenis_kelamin')
+  final DataAtribut jenisKelamin;
+  @JsonKey(name: 'note')
+  final DataAtribut note;
 
-  AtributForResponse(
-      {DataAtribut posyandu,
-      DataAtribut nik,
-      DataAtribut namaSuami,
-      DataAtribut nikSuami,
-      DataAtribut tanggalLahir,
-      DataAtribut tempatLahir,
-      DataAtribut nomorHandphone,
-      DataAtribut golonganDarah,
-      DataAtribut alamat,
-      DataAtribut nomorBpjs,
-      DataAtribut statusKeluargaSejahtera,
-      DataAtribut nomorHandphoneAlternatif,
-      DataAtribut catatan})
-      : this.posyandu = posyandu ?? DataAtribut(),
+  AtributForResponse({
+    DataAtribut posyandu,
+    DataAtribut nik,
+    DataAtribut ibu,
+    DataAtribut kehamilan,
+    DataAtribut tanggalLahir,
+    DataAtribut tempatLahir,
+    DataAtribut golonganDarah,
+    DataAtribut nomorBpjs,
+    DataAtribut jenisKelamin,
+    DataAtribut note,
+  })  : this.posyandu = posyandu ?? DataAtribut(),
         this.nik = nik ?? DataAtribut(),
-        this.namaSuami = namaSuami ?? DataAtribut(),
-        this.nikSuami = nikSuami ?? DataAtribut(),
+        this.ibu = ibu ?? DataAtribut(),
+        this.kehamilan = kehamilan ?? DataAtribut(),
         this.tanggalLahir = tanggalLahir ?? DataAtribut(),
         this.tempatLahir = tempatLahir ?? DataAtribut(),
-        this.nomorHandphone = nomorHandphone ?? DataAtribut(),
-        this.alamat = alamat ?? DataAtribut(),
-        this.nomorBpjs = nomorBpjs ?? DataAtribut(),
         this.golonganDarah = golonganDarah ?? DataAtribut(),
-        this.statusKeluargaSejahtera = statusKeluargaSejahtera ?? DataAtribut(),
-        this.nomorHandphoneAlternatif =
-            nomorHandphoneAlternatif ?? DataAtribut(),
-        this.catatan = catatan ?? DataAtribut();
+        this.nomorBpjs = nomorBpjs ?? DataAtribut(),
+        this.jenisKelamin = jenisKelamin ?? DataAtribut(),
+        this.note = note ?? DataAtribut();
+
   factory AtributForResponse.fromJson(Map<String, dynamic> json) =>
       _$AtributForResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$AtributForResponseToJson(this);
 
   @override
   List<Object> get props {
     return [
       this.posyandu,
       this.nik,
-      this.namaSuami,
-      this.nikSuami,
+      this.ibu,
+      this.kehamilan,
       this.tanggalLahir,
       this.tempatLahir,
-      this.nomorHandphone,
       this.golonganDarah,
-      this.alamat,
       this.nomorBpjs,
-      this.statusKeluargaSejahtera,
-      this.nomorHandphoneAlternatif,
-      this.catatan
+      this.jenisKelamin,
+      this.note,
     ];
   }
 }
 
 @JsonSerializable(explicitToJson: false)
 class DataAtribut extends Equatable {
+  @JsonKey(name: "ID")
   final String id;
   final String slug;
   final String title;
@@ -302,6 +321,8 @@ class DataAtribut extends Equatable {
   factory DataAtribut.fromJson(Map<String, dynamic> json) =>
       _$DataAtributFromJson(json);
 
+  Map<String, dynamic> toJson() => _$DataAtributToJson(this);
+
   @override
   List<Object> get props {
     return <Object>[
@@ -316,9 +337,11 @@ class DataAtribut extends Equatable {
 
 @JsonSerializable(explicitToJson: false)
 class Data extends Equatable {
+  @JsonKey(name: "ID")
   final String id;
   final String content;
   final String caption;
+  @JsonKey(name: "data_type")
   final String dataType;
 
   Data({

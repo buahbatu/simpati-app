@@ -1,4 +1,4 @@
-import 'package:simpati/core/domain/model/children_model.dart';
 import 'package:simpati/core/repository/base_repository.dart';
+import 'package:simpati/feature/children/model/children.dart';
 
 abstract class ChildrenRepository extends BaseRepository<Children> {}

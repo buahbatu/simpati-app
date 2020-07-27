@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:simpati/core/domain/model/child_info.dart';
-import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:get/get.dart';
 import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/feature/mother/model/mother.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherRepositoryImpl extends MotherRepository {

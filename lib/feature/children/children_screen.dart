@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:simpati/core/domain/model/children_model.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/resources/res_strings.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
-import 'package:simpati/feature/home/login/login_dialog.dart';
+import 'package:simpati/feature/children/model/children.dart';
 import 'package:simpati/feature/repository/children_repository.dart';
 
 class ChildrenState {
@@ -26,10 +25,10 @@ class ChildrenAction
   // TODO: implement request
   @override
   Future<ChildrenState> initState() async {
-    // final child = await apiAssetRepo.getAll();
-    // if (child.isSuccess) {
-    //   return ChildrenState(children: child.data);
-    // }
+    final child = await apiAssetRepo.getAll();
+    if (child.isSuccess) {
+      return ChildrenState(children: child.data);
+    }
     return ChildrenState();
   }
 
@@ -80,13 +79,11 @@ class ChildrenScreen
       BuildContext context, ChildrenAction action, ChildrenState state) {
     //TODO: implement body
     return Scaffold(
-      body:
-          // state.children != null
-          //     ? ListView(
-          //         children: state.children.map((e) => motherList(e)).toList(),
-          //       )
-          //     : Container(),
-          Container(),
+      body: state.children != null
+          ? ListView(
+              children: state.children.map((e) => childrenList(e)).toList(),
+            )
+          : Container(),
       appBar: createAppBar(action, context),
     );
   }
@@ -103,7 +100,7 @@ class ChildrenScreen
     );
   }
 
-  Widget childrenList(ChildrenDatum data) {
+  Widget childrenList(Children data) {
     return Container(
       padding: EdgeInsets.all(12.0),
       child: Row(
@@ -118,7 +115,7 @@ class ChildrenScreen
           ),
           childInfo(data),
           Text(
-            "25 Thn",
+            "6 bln",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
           )
         ],
@@ -126,7 +123,7 @@ class ChildrenScreen
     );
   }
 
-  Widget childInfo(ChildrenDatum data) {
+  Widget childInfo(Children data) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -140,7 +137,7 @@ class ChildrenScreen
         Container(
           width: 270.0,
           child: Text(
-            "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
+            "Anak Ibu ${data.ibu}",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
           ),
@@ -151,7 +148,6 @@ class ChildrenScreen
         Wrap(
           spacing: 4,
           children: [
-            createChip("0 anak"),
             createChip("Berat Ideal"),
             createChip("Gizi Baik"),
           ],
