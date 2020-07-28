@@ -8,6 +8,7 @@ import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/resources/res_strings.dart';
 import 'package:simpati/core/utils/easter_egg.dart';
 import 'package:simpati/feature/children/model/children.dart';
+import 'package:simpati/feature/children/page/children_info_screen.dart';
 import 'package:simpati/feature/repository/children_repository.dart';
 
 class ChildrenState {
@@ -30,6 +31,10 @@ class ChildrenAction
       return ChildrenState(children: child.data);
     }
     return ChildrenState();
+  }
+
+  void navigateToDetailChild(String id) async {
+    Get.to(ChildrenInfoScreen(), arguments: id);
   }
 
   void getChildrens() async {
@@ -81,7 +86,8 @@ class ChildrenScreen
     return Scaffold(
       body: state.children != null
           ? ListView(
-              children: state.children.map((e) => childrenList(e)).toList(),
+              children:
+                  state.children.map((e) => childrenList(e, action)).toList(),
             )
           : Container(),
       appBar: createAppBar(action, context),
@@ -100,25 +106,28 @@ class ChildrenScreen
     );
   }
 
-  Widget childrenList(Children data) {
-    return Container(
-      padding: EdgeInsets.all(12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.black26,
-            child: Icon(LineAwesomeIcons.child, color: Colors.white),
-          ),
-          SizedBox(
-            width: 8.0,
-          ),
-          childInfo(data),
-          Text(
-            "6 bln",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-          )
-        ],
+  Widget childrenList(Children data, ChildrenAction action) {
+    return InkWell(
+      onTap: () => action.navigateToDetailChild(data.id),
+      child: Container(
+        padding: EdgeInsets.all(12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.black26,
+              child: Icon(LineAwesomeIcons.child, color: Colors.white),
+            ),
+            SizedBox(
+              width: 8.0,
+            ),
+            childInfo(data),
+            Text(
+              "6 bln",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+            )
+          ],
+        ),
       ),
     );
   }

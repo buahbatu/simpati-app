@@ -150,6 +150,32 @@ class ResponseChildren extends Equatable {
     return childrens;
   }
 
+  Children mapToChild() {
+    Children child = Children();
+    ChildrenForResponse item = childrenList.first;
+    child = child.copyWith(
+        id: item.id,
+        title: item.title,
+        content: item.content,
+        status: item.status,
+        createdAt: item.createdAt,
+        slug: item.slug,
+        note: getContentOrElse(item.atribut.note),
+        golonganDarah: getContentOrElse(item.atribut.golonganDarah),
+        ibu: getContentOrElse(item.atribut.ibu),
+        jenisKelamin: getContentOrElse(item.atribut.jenisKelamin),
+        kehamilan: getContentOrElse(item.atribut.kehamilan),
+        nik: getContentOrElse(item.atribut.nik),
+        nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
+        posyandu: getContentOrElse(item.atribut.posyandu),
+        tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
+        tempatLahir: getContentOrElse(item.atribut.tempatLahir));
+
+    childrens.add(child);
+
+    return child;
+  }
+
   String getContentOrElse(DataAtribut atribut, [String defaultValue = ""]) {
     if (atribut.data.isEmpty) return defaultValue;
     return atribut.data.first.content;
