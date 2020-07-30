@@ -19,7 +19,9 @@ class MotherRepositoryImpl extends MotherRepository {
 
   @override
   Future<Result<Mother>> add(Mother instance) async {
-    final motherRequest = Mother().motherToMotherRequest(instance);
+    // final motherRequest = Mother().motherToMotherRequest(instance);
+    final motherRequest = instance.motherToMotherRequest();
+    final api = Api;
     return await Api.v1
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
@@ -31,12 +33,13 @@ class MotherRepositoryImpl extends MotherRepository {
         final data = json["data"];
         if (data is List && data.isNotEmpty) {
           print(data);
-          // return Result.success(data, json);
-          return true;
+          // return Result.success(instance);
+          // return true;
+          // return ResponseMother.fromJson(json).mapToMother();
         }
-        return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
+        // return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
       },
-    ).withLoading();
+    );
   }
 
   @override

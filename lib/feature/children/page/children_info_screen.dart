@@ -24,13 +24,17 @@ class ChildrenInfoState {
   final List<Line> imaginary;
   // final List<ChildCheck> checks;
   final Line weightLine;
+  final ChildMedicalCheckup initialData;
+  final String id;
 
   ChildrenInfoState(
       {this.medicalCheckup,
+      this.id,
       this.child,
       this.lines,
       this.imaginary,
-      this.weightLine});
+      this.weightLine,
+      this.initialData});
 }
 
 class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
@@ -46,11 +50,19 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
       if (resultCheckUp.isSuccess) {
         print(resultCheckUp.data.first.title);
         return ChildrenInfoState(
-            child: result.data, medicalCheckup: resultCheckUp.data);
+            id: id, child: result.data, medicalCheckup: resultCheckUp.data);
       }
-      return ChildrenInfoState(child: result.data);
+      return ChildrenInfoState(child: result.data, id: id);
     }
-    return ChildrenInfoState();
+    return ChildrenInfoState(id: id);
+  }
+
+  void addMedicalCheckUp(ChildMedicalCheckup medCheck) async {
+    ChildMedicalCheckup request = medCheck.copyWith(anak: state.id);
+    final result = await apiChildRepo.addChildMedicalCheckUp(request);
+    // if (result.isSuccess) {
+    //   reloadScreen();
+    // }
   }
 }
 
@@ -357,7 +369,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                       children: <Widget>[
                         Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
                         Text(
-                          "state.child.createdAt",
+                          state.child.createdAt,
                           style: AppTextStyle.titleName.copyWith(fontSize: 10),
                         ),
                       ],
@@ -380,14 +392,14 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                 color: ResColor.primaryColor,
                 child: Icon(LineAwesomeIcons.plus, color: Colors.white),
                 onPressed: () {
-                  // showDialog(
-                  //   context: ctx,
-                  //   child: ChildMedicalCheckDialog(
-                  //     state.checks.length + 1,
-                  //     bloc,
-                  //     initialData,
-                  //   ),
-                  // );
+                  showDialog(
+                    context: context,
+                    child: ChildMedicalCheckDialog(
+                      state.medicalCheckup.length + 1,
+                      initialData: state.initialData,
+                    ),
+                  );
+                  print(state.initialData);
                 },
               ),
             ],

@@ -5,4 +5,6 @@ import 'package:simpati/feature/children/model/children_check.dart';
 
 abstract class ChildrenRepository extends BaseRepository<Children> {
   Future<Result<List<ChildMedicalCheckup>>> getChildMedicalCheck(String id);
+  Future<Result<ChildMedicalCheckup>> addChildMedicalCheckUp(
+      ChildMedicalCheckup medCheck);
 }

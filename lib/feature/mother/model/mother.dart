@@ -135,16 +135,16 @@ class Mother extends Equatable {
     );
   }
 
-  MotherRequest motherToMotherRequest(Mother mother) {
+  MotherRequest motherToMotherRequest() {
     final motherReq = MotherRequest();
     motherReq.atribut = MotherAtrForRequest();
-    motherReq.title = mother.title;
-    motherReq.atribut.namaSuami.content = mother.namaSuami;
-    motherReq.atribut.nik.content = mother.nik;
-    motherReq.atribut.tanggalLahir.content = mother.tanggalLahir;
-    motherReq.atribut.nomorHandphone.content = mother.nomorHandphone;
-    motherReq.atribut.golonganDarah.content = mother.golonganDarah;
-    motherReq.atribut.alamat.content = mother.alamat;
+    motherReq.title = this.title;
+    motherReq.atribut.namaSuami.content = this.namaSuami;
+    motherReq.atribut.nik.content = this.nik;
+    motherReq.atribut.tanggalLahir.content = this.tanggalLahir;
+    motherReq.atribut.nomorHandphone.content = this.nomorHandphone;
+    motherReq.atribut.golonganDarah.content = this.golonganDarah;
+    motherReq.atribut.alamat.content = this.alamat;
 
     return motherReq;
   }

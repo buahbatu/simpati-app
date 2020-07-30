@@ -69,20 +69,20 @@ class ChildMedicalCheckup extends Equatable {
       ];
 
   ChildMedicalCheckup copyWith({
-    final String id,
-    final String title,
-    final String slug,
-    final String content,
-    final String createdAt,
-    final String status,
-    final String tanggalCek,
-    final String metodePengukuran,
-    final String posyandu,
-    final String anak,
-    final String panjangBadan,
-    final String umurDalamBulan,
-    final String beratBadan,
-    final String diameterKepala,
+    String id,
+    String title,
+    String slug,
+    String content,
+    String createdAt,
+    String status,
+    String tanggalCek,
+    String metodePengukuran,
+    String posyandu,
+    String anak,
+    String panjangBadan,
+    String umurDalamBulan,
+    String beratBadan,
+    String diameterKepala,
   }) {
     return ChildMedicalCheckup(
       id: id ?? this.id,
@@ -100,6 +100,20 @@ class ChildMedicalCheckup extends Equatable {
       beratBadan: beratBadan ?? this.beratBadan,
       diameterKepala: diameterKepala ?? this.diameterKepala,
     );
+  }
+
+  ChildMedicalCheckRequest medChildRequest(ChildMedicalCheckup child) {
+    final medCheckReq = ChildMedicalCheckRequest();
+    medCheckReq.atribut = ChildMedicalCheckAtrForRequest();
+    medCheckReq.title = child.title;
+    medCheckReq.content = child.content;
+    medCheckReq.atribut.anak.content = child.id;
+    medCheckReq.atribut.tanggalCek.content = child.tanggalCek;
+    medCheckReq.atribut.metodeUkur.content = child.metodePengukuran;
+    medCheckReq.atribut.panjangBadan.content = child.panjangBadan;
+    medCheckReq.atribut.beratBadan.content = child.beratBadan;
+
+    return medCheckReq;
   }
 }
 
@@ -130,7 +144,7 @@ class CheckChildResponse extends Equatable {
         status: item.status,
         content: item.content,
         posyandu: getContentOrElse(item.atribut.posyandu),
-        createdAt: item.createdAt,
+        createdAt: item.createdAt ?? "",
         metodePengukuran: getContentOrElse(item.atribut.metodePengukuran),
         anak: getContentOrElse(item.atribut.anak),
         tanggalCek: getContentOrElse(item.atribut.tanggalCek),
@@ -335,6 +349,88 @@ class Data extends Equatable {
       this.content,
       this.caption,
       this.dataType,
+    ];
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChildMedicalCheckRequest extends Equatable {
+  String title;
+  String content;
+  ChildMedicalCheckAtrForRequest atribut;
+
+  ChildMedicalCheckRequest({this.title, this.content, this.atribut});
+
+  Map<String, dynamic> toJson() => _$ChildMedicalCheckRequestToJson(this);
+
+  @override
+  List<Object> get props {
+    return <Object>[this.title, this.content, this.atribut];
+  }
+}
+
+@JsonSerializable()
+class ChildMedicalCheckAtrForRequest extends Equatable {
+  @JsonKey(name: "anak")
+  final DataRequest anak;
+  @JsonKey(name: "tanggal_cek")
+  final DataRequest tanggalCek;
+  @JsonKey(name: "metode_pengukuran")
+  final DataRequest metodeUkur;
+  @JsonKey(name: "panjang_badan")
+  final DataRequest panjangBadan;
+  @JsonKey(name: "berat_badan")
+  final DataRequest beratBadan;
+
+  ChildMedicalCheckAtrForRequest({
+    DataRequest anak,
+    DataRequest tanggalCek,
+    DataRequest metodeUkur,
+    DataRequest panjangBadan,
+    DataRequest beratBadan,
+  })  : this.anak = anak ?? DataRequest(),
+        this.tanggalCek = tanggalCek ?? DataRequest(),
+        this.metodeUkur = metodeUkur ?? DataRequest(),
+        this.panjangBadan = panjangBadan ?? DataRequest(),
+        this.beratBadan = beratBadan ?? DataRequest();
+
+  Map<String, dynamic> toJson() => _$ChildMedicalCheckAtrForRequestToJson(this);
+
+  factory ChildMedicalCheckAtrForRequest.fromJson(Map<String, dynamic> json) =>
+      _$ChildMedicalCheckAtrForRequestFromJson(json);
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return <Object>[
+      this.anak,
+      this.tanggalCek,
+      this.metodeUkur,
+      this.panjangBadan,
+      this.beratBadan,
+    ];
+  }
+}
+
+@JsonSerializable()
+class DataRequest extends Equatable {
+  DataRequest({
+    this.content,
+    this.caption,
+  });
+
+  String content;
+  String caption;
+  Map<String, dynamic> toJson() => _$DataRequestToJson(this);
+  factory DataRequest.fromJson(Map<String, dynamic> json) =>
+      _$DataRequestFromJson(json);
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return <Object>[
+      this.content,
+      this.caption,
     ];
   }
 }

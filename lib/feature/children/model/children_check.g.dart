@@ -126,3 +126,68 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'caption': instance.caption,
       'data_type': instance.dataType,
     };
+
+ChildMedicalCheckRequest _$ChildMedicalCheckRequestFromJson(
+    Map<String, dynamic> json) {
+  return ChildMedicalCheckRequest(
+    title: json['title'] as String,
+    content: json['content'] as String,
+    atribut: json['atribut'] == null
+        ? null
+        : ChildMedicalCheckAtrForRequest.fromJson(
+            json['atribut'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ChildMedicalCheckRequestToJson(
+        ChildMedicalCheckRequest instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'content': instance.content,
+      'atribut': instance.atribut?.toJson(),
+    };
+
+ChildMedicalCheckAtrForRequest _$ChildMedicalCheckAtrForRequestFromJson(
+    Map<String, dynamic> json) {
+  return ChildMedicalCheckAtrForRequest(
+    anak: json['anak'] == null
+        ? null
+        : DataRequest.fromJson(json['anak'] as Map<String, dynamic>),
+    tanggalCek: json['tanggal_cek'] == null
+        ? null
+        : DataRequest.fromJson(json['tanggal_cek'] as Map<String, dynamic>),
+    metodeUkur: json['metode_pengukuran'] == null
+        ? null
+        : DataRequest.fromJson(
+            json['metode_pengukuran'] as Map<String, dynamic>),
+    panjangBadan: json['panjang_badan'] == null
+        ? null
+        : DataRequest.fromJson(json['panjang_badan'] as Map<String, dynamic>),
+    beratBadan: json['berat_badan'] == null
+        ? null
+        : DataRequest.fromJson(json['berat_badan'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ChildMedicalCheckAtrForRequestToJson(
+        ChildMedicalCheckAtrForRequest instance) =>
+    <String, dynamic>{
+      'anak': instance.anak,
+      'tanggal_cek': instance.tanggalCek,
+      'metode_pengukuran': instance.metodeUkur,
+      'panjang_badan': instance.panjangBadan,
+      'berat_badan': instance.beratBadan,
+    };
+
+DataRequest _$DataRequestFromJson(Map<String, dynamic> json) {
+  return DataRequest(
+    content: json['content'] as String,
+    caption: json['caption'] as String,
+  );
+}
+
+Map<String, dynamic> _$DataRequestToJson(DataRequest instance) =>
+    <String, dynamic>{
+      'content': instance.content,
+      'caption': instance.caption,
+    };

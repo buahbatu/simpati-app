@@ -96,4 +96,29 @@ class ChildrenRepositoryApi extends ChildrenRepository {
       return json;
     });
   }
+
+  @override
+  Future<Result<ChildMedicalCheckup>> addChildMedicalCheckUp(
+      ChildMedicalCheckup medCheck) async {
+    final medReq = ChildMedicalCheckup().medChildRequest(medCheck);
+    print("sss");
+    print(medReq.toString());
+    return await Api.v1
+        .post(
+      "/klaster-by-member-record-add/posyandu/anak-cek",
+      data: ([medReq.toJson()]),
+    )
+        .withParser(
+      (json) {
+        print(json);
+        final data = json["data"];
+        if (data is List && data.isNotEmpty) {
+          print(data);
+          // return Result.success(data, json);
+          return true;
+        }
+        return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
+      },
+    ).withLoading();
+  }
 }

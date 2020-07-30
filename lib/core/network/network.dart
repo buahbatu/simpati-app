@@ -16,6 +16,7 @@ typedef OptionUpdater = BaseOptions Function(BaseOptions);
 typedef DioFactory = Dio Function(BaseOptions);
 
 class Api {
+  // priva const DEFAULT_TIMEOUT = 30000; // 30ms
   static const DEFAULT_TIMEOUT = 30000; // 30ms
 
   @visibleForTesting

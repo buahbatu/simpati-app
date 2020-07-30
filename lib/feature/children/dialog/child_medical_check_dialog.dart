@@ -23,7 +23,8 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
     this.initialData,
     Key key,
   }) {
-    childCheck = initialData?.copyWith();
+    // print(initialData.title);
+    childCheck = initialData?.copyWith() ?? ChildMedicalCheckup();
   }
 
   var formatter = new DateFormat('yyyy-MM-dd');
@@ -49,7 +50,7 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
           Container(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Periksa ke 1',
+              'Periksa ke $index',
               style: AppTextStyle.sectionTitle,
             ),
           ),
@@ -62,8 +63,9 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                   child: FormUtils.buildField(
                     'Tanggal Periksa',
                     controller: dateController
-                      ..text = initialData.createdAt ??
-                          formatter.format(DateTime.now()),
+                      ..text = initialData?.createdAt != null
+                          ? initialData.createdAt
+                          : formatter.format(DateTime.now()),
                     isEnabled: false,
                     inputType: TextInputType.datetime,
                   ),
@@ -77,8 +79,10 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                           );
                           if (date != null) {
                             String format = formatter.format(date);
+                            print(format);
+
                             childCheck =
-                                initialData.copyWith(createdAt: format);
+                                childCheck?.copyWith(createdAt: format);
                             dateController.text = format;
                           }
                         }
@@ -123,14 +127,12 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                   children: <Widget>[
                     Expanded(
                       child: FormUtils.buildField(
-                        'Suhu Badan',
-                        suffix: '°C',
-                        value: "under development",
-                        isEnabled: true,
-                        inputType: TextInputType.number,
+                        'Metode ukur',
+                        // suffix: '°C',
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
                         onChanged: (s) {
-                          // final value = double.tryParse(s);
-                          // childCheck = childCheck.copyWith(temperature: value);
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
                         },
                       ),
                     ),
@@ -164,6 +166,17 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                 child: Text('Simpan'),
                 onPressed: () {
                   if (childCheck.isComplete()) {
+                    if (childCheck.createdAt != null) {
+                      String format = formatter.format(DateTime.now());
+                      childCheck = childCheck.copyWith(createdAt: format);
+                    }
+                    childCheck =
+                        childCheck.copyWith(title: "pemeriksaan #$index");
+                    // print(childCheck.createdAt);
+                    // print(childCheck.panjangBadan);
+                    // print(childCheck.beratBadan);
+                    print(childCheck.metodePengukuran);
+                    action.addMedicalCheckUp(childCheck);
                     // widget.bloc.add(Add(childCheck));
                     // Navigator.of(context).pop();
                   }
@@ -185,9 +198,9 @@ extension on ChildMedicalCheckup {
   }
 
   bool isComplete() {
-    return _isFilled(this?.createdAt) &&
-        _isFilled(this?.diameterKepala) &&
-        _isFilled(this?.beratBadan) &&
+    return _isFilled(this?.createdAt) ||
+        _isFilled(this?.diameterKepala) ||
+        _isFilled(this?.beratBadan) ||
         _isFilled(this?.panjangBadan);
   }
 }
