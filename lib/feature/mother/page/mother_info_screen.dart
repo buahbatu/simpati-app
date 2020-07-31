@@ -12,6 +12,7 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/feature/children/page/children_add.dart';
 import 'package:simpati/feature/mother/model/mother.dart';
 import 'package:simpati/feature/mother/model/pregnancy.dart';
 import 'package:simpati/feature/mother/page/dialog/add_pregnancy_dialog.dart';
@@ -21,7 +22,7 @@ import 'package:url_launcher/url_launcher.dart';
 class MotherInfoState {
   Mother mother;
   ChildInfo childInfo;
-  Pregnancy pregnancy = Pregnancy();
+  Pregnancy pregnancy;
   MotherInfoState({this.pregnancy, this.mother, this.childInfo});
 }
 
@@ -35,9 +36,12 @@ class MotherInfoAction
     final result = await apiMotherRepo.getByKey(Get.arguments);
     if (result.isSuccess) {
       final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
-      return MotherInfoState(mother: result.data, childInfo: resultChild.data);
+      return MotherInfoState(
+          pregnancy: Pregnancy(),
+          mother: result.data,
+          childInfo: resultChild.data);
     }
-    return MotherInfoState();
+    return MotherInfoState(pregnancy: Pregnancy());
   }
 
   void updateFormData(
@@ -47,14 +51,15 @@ class MotherInfoAction
       String bloodPressure,
       String height,
       String weight,
-      MenstruationCycle menstruationCycle,
+      String menstruationCycleTitle,
       String namaSuami,
       String bloodType}) {
-    if (name != null) state.pregnancy = state.pregnancy.copyWith(title: name);
+    if (height != null)
+      state.pregnancy = state.pregnancy.copyWith(height: height);
     if (nik != null) state.pregnancy = state.pregnancy.copyWith(nik: nik);
-    if (menstruationCycle != null)
+    if (menstruationCycleTitle != null)
       state.pregnancy =
-          state.pregnancy.copyWith(menstruationCycle: menstruationCycle);
+          state.pregnancy.copyWith(menstruationCycle: menstruationCycleTitle);
     if (namaSuami != null)
       state.pregnancy = state.pregnancy.copyWith(namaSuami: namaSuami);
   }
@@ -275,7 +280,9 @@ class MotherInfoScreen
                   shape: CircleBorder(),
                   color: ResColor.primaryColor,
                   child: Icon(LineAwesomeIcons.plus, color: Colors.white),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(ChildAddScreen());
+                  },
                 ),
               ),
             ],

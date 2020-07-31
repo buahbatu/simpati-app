@@ -123,7 +123,7 @@ class AddPregnancyDialog
                     final pick = await showCyclePick(context);
                     if (pick != null) {
                       print(pick.title);
-                      action.updateFormData(menstruationCycle: pick);
+                      action.updateFormData(menstruationCycleTitle: pick.title);
 
                       cycleController.text = pick.title;
                     }

@@ -15,9 +15,9 @@ class Pregnancy extends Equatable {
   final String namaSuami;
   final String id;
   final String lastMenstruation;
-  final MenstruationCycle menstruationCycle;
-  final double weight;
-  final double height;
+  final String menstruationCycle;
+  final String weight;
+  final String height;
   final String bloodPressure;
 
   Pregnancy({
@@ -39,10 +39,10 @@ class Pregnancy extends Equatable {
     String tanggalLahir,
     String namaSuami,
     String id,
-    DateTime lastMenstruation,
-    MenstruationCycle menstruationCycle,
-    double weight,
-    double height,
+    String lastMenstruation,
+    String menstruationCycle,
+    String weight,
+    String height,
     String bloodPressure,
   }) {
     return Pregnancy(
@@ -65,7 +65,7 @@ class Pregnancy extends Equatable {
     pregnancyReq.atribut.lastMenstruation.content = pregnancy.lastMenstruation;
     pregnancyReq.atribut.bloodPressure.content = pregnancy.bloodPressure;
     pregnancyReq.atribut.menstruationCycle.content =
-        pregnancy.menstruationCycle.title;
+        pregnancy.menstruationCycle;
 
     return pregnancyReq;
   }
@@ -85,7 +85,7 @@ class Pregnancy extends Equatable {
     return {
       'id': this.id,
       'lastMenstruation': this.lastMenstruation,
-      'menstruationCycle': this.menstruationCycle.key,
+      'menstruationCycle': this.menstruationCycle,
       'weight': this.weight,
       'height': this.height,
       'bloodPressure': this.bloodPressure,
