@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:simpati/core/domain/model/child_info.dart';
+import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:get/get.dart';
 import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
@@ -18,25 +19,28 @@ class MotherRepositoryImpl extends MotherRepository {
 
   @override
   Future<Result<Mother>> add(Mother instance) async {
-    final motherRequest = Mother().motherToMotherRequest(instance);
-    final res = await Api.v1
+    // final motherRequest = Mother().motherToMotherRequest(instance);
+    final motherRequest = instance.motherToMotherRequest();
+    final api = Api;
+    return await Api.v1
+
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
       data: ([motherRequest.toJson()]),
     )
-        .withParser((json) {
-      print(json);
-      final data = json["data"];
-      if (data is List && data.isNotEmpty) {
-        print(data);
-        return instance;
-      }
-
-      throw (TypeError());
-    }, errorOr: () {
-      return Result.error(MessageFailure(""));
-    }).withLoading();
-    return res;
+        .withParser(
+      (json) {
+        print(json);
+        final data = json["data"];
+        if (data is List && data.isNotEmpty) {
+          print(data);
+          // return Result.success(instance);
+          // return true;
+          // return ResponseMother.fromJson(json).mapToMother();
+        }
+        // return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
+      },
+    );
   }
 
   @override
