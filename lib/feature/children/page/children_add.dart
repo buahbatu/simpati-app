@@ -19,6 +19,11 @@ class ChildAddAction
   Future<ChildAddState> initState() async {
     return ChildAddState();
   }
+
+  bool chooseGender(bool isGirl) {
+    render();
+    return isGirl;
+  }
 }
 
 class ChildAddScreen
@@ -75,7 +80,7 @@ class ChildAddScreen
             //     ),
             //   );
             // } else {
-            //   _tabController.animateTo(1);
+            _tabController.animateTo(1);
             // }
           }),
           Step2AddChild(
@@ -92,6 +97,8 @@ class ChildAddScreen
               //   );
               // } else {
               //   // bloc.add(AddChildEvent());
+              _tabController.animateTo(2);
+
               // }
             },
           ),

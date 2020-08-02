@@ -12,6 +12,7 @@ class Step1Screen
   Step1Screen({Key key, this.onButtonClick});
 
   final nameFocus = FocusNode();
+  final nameController = TextEditingController();
   final husbandFocus = FocusNode();
   final TextEditingController dateController = TextEditingController();
   var formatter = new DateFormat('yyyy-MM-dd');
@@ -56,11 +57,11 @@ class Step1Screen
       child: ListView(
         children: <Widget>[
           Container(height: 24),
-          FormUtils.buildField(
-            'Nama Lengkap',
-            focusNode: nameFocus,
-            onChanged: (s) => action.updateFormData(name: s),
-          ),
+          FormUtils.buildField('Nama Lengkap',
+              focusNode: nameFocus,
+              value: nameController.text,
+              onChanged: (s) =>
+                  {action.updateFormData(name: s), nameController.text = s}),
           SizedBox(height: 8),
           FormUtils.buildField('NIK',
               inputType: TextInputType.number,

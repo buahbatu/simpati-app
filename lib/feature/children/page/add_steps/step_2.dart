@@ -17,6 +17,9 @@ class Step2AddChild
   final bloodController = TextEditingController();
   final imdController = TextEditingController();
   final kiaController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
+  final headSizeController = TextEditingController();
 
   final weightFocus = FocusNode();
   final tempFocus = FocusNode();
@@ -158,8 +161,10 @@ class Step2AddChild
                         'Tinggi Badan',
                         suffix: 'cm',
                         inputType: TextInputType.number,
+                        value: heightController.text,
                         nextForm: NextForm(focusScope, weightFocus),
                         onChanged: (s) {
+                          heightController.text = s;
                           final value = double.tryParse(s);
                           // bloc.child = bloc.child.copyWith(height: value);
                         },
@@ -172,26 +177,16 @@ class Step2AddChild
                         suffix: 'Kg',
                         inputType: TextInputType.number,
                         focusNode: weightFocus,
-                        nextForm: NextForm(focusScope, tempFocus),
+                        value: weightController.text,
+                        nextForm: NextForm(focusScope, headSizeFocus),
                         onChanged: (s) {
+                          weightController.text = s;
                           final value = double.tryParse(s);
                           // bloc.child = bloc.child.copyWith(weight: value);
                         },
                       ),
                     ),
                   ],
-                ),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Suhu Badan',
-                  suffix: '°C',
-                  inputType: TextInputType.number,
-                  focusNode: tempFocus,
-                  nextForm: NextForm(focusScope, headSizeFocus),
-                  onChanged: (s) {
-                    final value = double.tryParse(s);
-                    // bloc.child = bloc.child.copyWith(temperature: value);
-                  },
                 ),
                 Container(height: 8),
                 FormUtils.buildField(
@@ -211,9 +206,9 @@ class Step2AddChild
                     if (pick != null)
                       // setState(() {
                       //   bloc.child = bloc.child.copyWith(bloodType: pick);
-                      //   bloodController.text = pick;
-                      // });
-                      focusScope.requestFocus(FocusNode());
+                      bloodController.text = pick;
+                    // });
+                    focusScope.requestFocus(FocusNode());
                   },
                   child: FormUtils.buildField(
                     'Golongan Darah',
@@ -264,23 +259,13 @@ class Step2AddChild
             child: FlatButton(
               color: ResColor.primaryColor,
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: onButtonClick,
               child: Text('Lanjut'),
             ),
           )
           // Container(width: double.infinity, child: getButton())
         ],
       ),
-    );
-  }
-
-  Widget getButton() {
-    return FlatButton(
-      color: ResColor.primaryColor,
-      disabledColor: ResColor.profileBgColor,
-      textColor: Colors.white,
-      onPressed: () {},
-      child: Text('Simpan'),
     );
   }
 }

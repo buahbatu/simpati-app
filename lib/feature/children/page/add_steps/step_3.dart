@@ -19,6 +19,11 @@ class Step3AddChild
   final rwFocus = FocusNode();
   final hpFocus = FocusNode();
 
+  final rtController = TextEditingController();
+  final addressController = TextEditingController();
+  final rwController = TextEditingController();
+  final hpOrtuController = TextEditingController();
+
   @override
   Widget loadingViewBuilder(BuildContext context) => Container(
         color: ResColor.appBackground,
@@ -53,8 +58,10 @@ class Step3AddChild
                   'Alamat',
                   inputType: TextInputType.text,
                   focusNode: addressFocus,
+                  value: addressController.text,
                   nextForm: NextForm(focusScope, rtFocus),
                   onChanged: (s) {
+                    addressController.text = s;
                     final value = double.tryParse(s);
                     // bloc.child = bloc.child.copyWith(temperature: value);
                   },
@@ -66,8 +73,10 @@ class Step3AddChild
                       child: FormUtils.buildField(
                         'Rt',
                         inputType: TextInputType.number,
+                        value: rtController.text,
                         nextForm: NextForm(focusScope, rwFocus),
                         onChanged: (s) {
+                          rtController.text = s;
                           final value = double.tryParse(s);
                           // bloc.child = bloc.child.copyWith(height: value);
                         },
@@ -79,8 +88,10 @@ class Step3AddChild
                         'Rw',
                         inputType: TextInputType.number,
                         focusNode: rwFocus,
+                        value: rwController.text,
                         nextForm: NextForm(focusScope, rwFocus),
                         onChanged: (s) {
+                          rwController.text = s;
                           final value = double.tryParse(s);
                           // bloc.child = bloc.child.copyWith(weight: value);
                         },
@@ -94,7 +105,9 @@ class Step3AddChild
                   'Hp Orang Tua',
                   inputType: TextInputType.number,
                   focusNode: hpFocus,
+                  value: hpOrtuController.text,
                   onChanged: (s) {
+                    hpOrtuController.text = s;
                     final value = double.tryParse(s);
                     // bloc.child = bloc.child.copyWith(headSize: value);
                   },
