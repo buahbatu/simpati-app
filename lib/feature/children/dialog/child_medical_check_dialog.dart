@@ -12,13 +12,14 @@ import 'package:simpati/feature/children/page/children_info_screen.dart';
 
 class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
     ChildrenInfoAction, ChildrenInfoState> {
+  final String idAnak;
   final TextEditingController dateController = TextEditingController();
-
   final int index;
   final ChildMedicalCheckup initialData;
   ChildMedicalCheckup childCheck;
 
   ChildMedicalCheckDialog(
+    this.idAnak,
     this.index, {
     this.initialData,
     Key key,

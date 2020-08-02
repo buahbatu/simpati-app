@@ -12,6 +12,20 @@ class Children extends Equatable {
   final String status;
   final String ibu;
   final String kehamilan;
+
+  final String anakKe;
+  final String nomorKK;
+  final String beratLahir;
+  final String tinggi;
+  final String kia;
+  final String imd;
+  final String nikIbu;
+  final String hpIbu;
+  final String namaAnak;
+  final String alamat;
+  final String rt;
+  final String rw;
+
   final String posyandu;
   final String nik;
   final String tempatLahir;
@@ -27,9 +41,19 @@ class Children extends Equatable {
     final String slug,
     final String content,
     final String createdAt,
+    final String anakKe,
     final String status,
     final String ibu,
+    final String namaAnak,
     final String kehamilan,
+    final String nomorKK,
+    final String beratLahir,
+    final String tinggi,
+    final String kia,
+    final String imd,
+    final String nikIbu,
+    final String hpIbu,
+    final String alamat,
     final String posyandu,
     final String nik,
     final String tempatLahir,
@@ -37,16 +61,30 @@ class Children extends Equatable {
     final String nomorBpjs,
     final String note,
     final String jenisKelamin,
+    final String rt,
+    final String rw,
     final String golonganDarah,
   })  : this.id = id ?? "",
         this.title = title ?? "",
+        this.anakKe = anakKe ?? "",
         this.slug = slug ?? "",
         this.status = status ?? "",
         this.content = content ?? "",
         this.posyandu = posyandu ?? "",
         this.createdAt = createdAt ?? "",
+        this.nomorKK = nomorKK ?? "",
+        this.namaAnak = namaAnak ?? "",
+        this.beratLahir = beratLahir ?? "",
+        this.tinggi = tinggi ?? "",
+        this.kia = kia ?? "",
+        this.imd = imd ?? "",
+        this.nikIbu = nikIbu ?? "",
+        this.hpIbu = hpIbu ?? "",
+        this.alamat = alamat ?? "",
         this.kehamilan = kehamilan ?? "",
         this.jenisKelamin = jenisKelamin ?? "",
+        this.rt = rt ?? "",
+        this.rw = rw ?? "",
         this.nik = nik ?? "",
         this.ibu = ibu ?? "",
         this.tanggalLahir = tanggalLahir ?? "",
@@ -67,7 +105,16 @@ class Children extends Equatable {
       this.posyandu,
       this.createdAt,
       this.kehamilan,
+      this.nomorKK,
+      this.beratLahir,
+      this.tinggi,
+      this.kia,
+      this.imd,
+      this.nikIbu,
+      this.hpIbu,
+      this.alamat,
       this.jenisKelamin,
+      this.anakKe,
       this.nik,
       this.ibu,
       this.tanggalLahir,
@@ -78,40 +125,90 @@ class Children extends Equatable {
     ];
   }
 
-  Children copyWith(
-      {final String id,
-      final String title,
-      final String slug,
-      final String content,
-      final String createdAt,
-      final String status,
-      final String ibu,
-      final String kehamilan,
-      final String posyandu,
-      final String nik,
-      final String tempatLahir,
-      final String tanggalLahir,
-      final String nomorBpjs,
-      final String note,
-      final String jenisKelamin,
-      final String golonganDarah}) {
+  Children copyWith({
+    final String id,
+    final String title,
+    final String slug,
+    final String content,
+    final String createdAt,
+    final String anakKe,
+    final String status,
+    final String ibu,
+    final String kehamilan,
+    final String nomorKK,
+    final String beratLahir,
+    final String tinggi,
+    final String kia,
+    final String imd,
+    final String nikIbu,
+    final String hpIbu,
+    final String alamat,
+    final String posyandu,
+    final String nik,
+    final String tempatLahir,
+    final String tanggalLahir,
+    final String nomorBpjs,
+    final String namaAnak,
+    final String note,
+    final String jenisKelamin,
+    final String rt,
+    final String rw,
+    final String golonganDarah,
+  }) {
     return Children(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        slug: slug ?? this.slug,
-        status: status ?? this.status,
-        content: content ?? this.content,
-        posyandu: posyandu ?? this.posyandu,
-        createdAt: createdAt ?? this.createdAt,
-        kehamilan: kehamilan ?? this.kehamilan,
-        jenisKelamin: jenisKelamin ?? this.jenisKelamin,
-        nik: nik ?? this.nik,
-        ibu: ibu ?? this.ibu,
-        tanggalLahir: tanggalLahir ?? this.tanggalLahir,
-        tempatLahir: tempatLahir ?? this.tempatLahir,
-        nomorBpjs: nomorBpjs ?? this.nomorBpjs,
-        golonganDarah: golonganDarah ?? this.golonganDarah,
-        note: note ?? this.note);
+      id: id ?? this.id,
+      title: title ?? this.title,
+      slug: slug ?? this.slug,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      anakKe: anakKe ?? this.anakKe,
+      status: status ?? this.status,
+      namaAnak: namaAnak ?? this.namaAnak,
+      ibu: ibu ?? this.ibu,
+      kehamilan: kehamilan ?? this.kehamilan,
+      nomorKK: nomorKK ?? this.nomorKK,
+      beratLahir: beratLahir ?? this.beratLahir,
+      tinggi: tinggi ?? this.tinggi,
+      kia: kia ?? this.kia,
+      imd: imd ?? this.imd,
+      nikIbu: nikIbu ?? this.nikIbu,
+      hpIbu: hpIbu ?? this.hpIbu,
+      alamat: alamat ?? this.alamat,
+      posyandu: posyandu ?? this.posyandu,
+      nik: nik ?? this.nik,
+      tempatLahir: tempatLahir ?? this.tempatLahir,
+      tanggalLahir: tanggalLahir ?? this.tanggalLahir,
+      nomorBpjs: nomorBpjs ?? this.nomorBpjs,
+      note: note ?? this.note,
+      jenisKelamin: jenisKelamin ?? this.jenisKelamin,
+      rt: rt ?? this.rt,
+      rw: rw ?? this.rw,
+    );
+  }
+
+  ChildAddRequest toRequestBody() {
+    final childAdd = ChildAddRequest();
+    childAdd.atribut = ChildAddAtrForRequest();
+    childAdd.title = this.namaAnak;
+    childAdd.atribut.anakKe.content = this.anakKe;
+    childAdd.atribut.nomorKK.content = this.nomorKK;
+    childAdd.atribut.jenisKelamin.content = this.jenisKelamin;
+    childAdd.atribut.nik.content = this.nik;
+    childAdd.atribut.namaAnak.content = this.title;
+    childAdd.atribut.tanggalLahir.content = this.tanggalLahir;
+    childAdd.atribut.beratLahir.content = this.beratLahir;
+    childAdd.atribut.tinggi.content = this.tinggi;
+    childAdd.atribut.kia.content = this.kia;
+    childAdd.atribut.imd.content = this.imd;
+    childAdd.atribut.nikOrtu.content = this.nikIbu;
+    //nik ibu required
+    childAdd.atribut.ibu.content = this.nikIbu;
+    childAdd.atribut.hpOrtu.content = this.hpIbu;
+    childAdd.atribut.namaOrtu.content = this.ibu;
+    childAdd.atribut.alamat.content = this.alamat;
+    childAdd.atribut.rt.content = this.rt;
+    childAdd.atribut.rw.content = this.rw;
+    return childAdd;
   }
 }
 
@@ -389,6 +486,148 @@ class Data extends Equatable {
       this.content,
       this.caption,
       this.dataType,
+    ];
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class ChildAddRequest extends Equatable {
+  String title;
+  String content;
+  ChildAddAtrForRequest atribut;
+
+  ChildAddRequest({this.title, this.content, this.atribut});
+
+  Map<String, dynamic> toJson() => _$ChildAddRequestToJson(this);
+
+  @override
+  List<Object> get props {
+    return <Object>[this.title, this.content, this.atribut];
+  }
+}
+
+@JsonSerializable()
+class ChildAddAtrForRequest extends Equatable {
+  @JsonKey(name: "tanggal_lahir")
+  final DataRequest tanggalLahir;
+  @JsonKey(name: "anak_ke")
+  final DataRequest anakKe;
+  @JsonKey(name: "jenis_kelamin")
+  final DataRequest jenisKelamin;
+  @JsonKey(name: "nomor_KK")
+  final DataRequest nomorKK;
+  @JsonKey(name: "nik")
+  final DataRequest nik;
+  @JsonKey(name: "nama_anak")
+  final DataRequest namaAnak;
+
+  @JsonKey(name: "berat_lahir")
+  final DataRequest beratLahir;
+  @JsonKey(name: "tinggi")
+  final DataRequest tinggi;
+  @JsonKey(name: "kia")
+  final DataRequest kia;
+  @JsonKey(name: "imd")
+  final DataRequest imd;
+  @JsonKey(name: "nama_ortu")
+  final DataRequest namaOrtu;
+  @JsonKey(name: "ibu")
+  final DataRequest ibu;
+
+  @JsonKey(name: "nik_ortu")
+  final DataRequest nikOrtu;
+  @JsonKey(name: "hp_ortu")
+  final DataRequest hpOrtu;
+  @JsonKey(name: "alamat")
+  final DataRequest alamat;
+  @JsonKey(name: "rt")
+  final DataRequest rt;
+  @JsonKey(name: "rw")
+  final DataRequest rw;
+
+  ChildAddAtrForRequest({
+    DataRequest tanggalLahir,
+    DataRequest anakKe,
+    DataRequest jenisKelamin,
+    DataRequest nomorKK,
+    DataRequest nik,
+    DataRequest namaAnak,
+    DataRequest beratLahir,
+    DataRequest tinggi,
+    DataRequest kia,
+    DataRequest ibu,
+    DataRequest imd,
+    DataRequest namaOrtu,
+    DataRequest nikOrtu,
+    DataRequest hpOrtu,
+    DataRequest alamat,
+    DataRequest rt,
+    DataRequest rw,
+  })  : this.tanggalLahir = tanggalLahir ?? DataRequest(),
+        this.jenisKelamin = jenisKelamin ?? DataRequest(),
+        this.anakKe = anakKe ?? DataRequest(),
+        this.nomorKK = nomorKK ?? DataRequest(),
+        this.nik = nik ?? DataRequest(),
+        this.ibu = ibu ?? DataRequest(),
+        this.namaAnak = namaAnak ?? DataRequest(),
+        this.beratLahir = beratLahir ?? DataRequest(),
+        this.tinggi = tinggi ?? DataRequest(),
+        this.kia = kia ?? DataRequest(),
+        this.imd = imd ?? DataRequest(),
+        this.namaOrtu = namaOrtu ?? DataRequest(),
+        this.nikOrtu = nikOrtu ?? DataRequest(),
+        this.hpOrtu = hpOrtu ?? DataRequest(),
+        this.alamat = alamat ?? DataRequest(),
+        this.rt = rt ?? DataRequest(),
+        this.rw = rw ?? DataRequest();
+
+  Map<String, dynamic> toJson() => _$ChildAddAtrForRequestToJson(this);
+
+  factory ChildAddAtrForRequest.fromJson(Map<String, dynamic> json) =>
+      _$ChildAddAtrForRequestFromJson(json);
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return <Object>[
+      this.tanggalLahir,
+      this.jenisKelamin,
+      this.nomorKK,
+      this.nik,
+      this.namaAnak,
+      this.beratLahir,
+      this.tinggi,
+      this.kia,
+      this.imd,
+      this.namaOrtu,
+      this.nikOrtu,
+      this.hpOrtu,
+      this.alamat,
+      this.rt,
+      this.rw,
+    ];
+  }
+}
+
+@JsonSerializable()
+class DataRequest extends Equatable {
+  DataRequest({
+    this.content,
+    this.caption,
+  });
+
+  String content;
+  String caption;
+  Map<String, dynamic> toJson() => _$DataRequestToJson(this);
+  factory DataRequest.fromJson(Map<String, dynamic> json) =>
+      _$DataRequestFromJson(json);
+
+  @override
+  // TODO: implement props
+  List<Object> get props {
+    return <Object>[
+      this.content,
+      this.caption,
     ];
   }
 }

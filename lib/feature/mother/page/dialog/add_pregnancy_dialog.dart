@@ -185,7 +185,9 @@ class AddPregnancyDialog
               color: ResColor.primaryColor,
               textColor: Colors.white,
               child: Text('Simpan'),
-              onPressed: () {},
+              onPressed: () {
+                action.addPregnancy(state.pregnancy);
+              },
             ),
           )
         ],

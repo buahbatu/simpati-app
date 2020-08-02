@@ -44,11 +44,11 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
   @override
   Future<ChildrenInfoState> initState() async {
     final id = Get.arguments;
+    print(id);
     final result = await apiChildRepo.getByKey(id);
     if (result.isSuccess) {
       final resultCheckUp = await apiChildRepo.getChildMedicalCheck(id);
       if (resultCheckUp.isSuccess) {
-        print(resultCheckUp.data.first.title);
         return ChildrenInfoState(
             id: id, child: result.data, medicalCheckup: resultCheckUp.data);
       }
@@ -57,12 +57,30 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
     return ChildrenInfoState(id: id);
   }
 
+  Future<void> onReload() async {
+    final id = state.id;
+    final result = await apiChildRepo.getByKey(id);
+    if (result.isSuccess) {
+      final resultCheckUp = await apiChildRepo.getChildMedicalCheck(id);
+      if (resultCheckUp.isSuccess) {
+        return ChildrenInfoState(
+          id: id,
+          child: result.data,
+          medicalCheckup: resultCheckUp.data,
+        );
+      }
+      return ChildrenInfoState(child: result.data, id: id);
+    }
+    return ChildrenInfoState();
+  }
+
   void addMedicalCheckUp(ChildMedicalCheckup medCheck) async {
     ChildMedicalCheckup request = medCheck.copyWith(anak: state.id);
     final result = await apiChildRepo.addChildMedicalCheckUp(request);
-    // if (result.isSuccess) {
-    //   reloadScreen();
-    // }
+    if (result.isSuccess) {
+      Get.back();
+      reloadScreen();
+    }
   }
 }
 
@@ -100,21 +118,24 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
       body: state.child != null
-          ? ListView(
-              shrinkWrap: true,
-              children: [
-                createNameSection(state),
-                SizedBox(height: 8),
-                createPersonalInfo(state),
-                SizedBox(height: 8),
-                createHealthInfo(state),
-                SizedBox(height: 8),
-                createWeightHistory(state),
-                SizedBox(height: 8),
-                createCheckupHistory(state, context),
-                SizedBox(height: 8),
-                createImmunizationHistory(state),
-              ],
+          ? RefreshIndicator(
+              onRefresh: () => action.onReload(),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  createNameSection(state),
+                  SizedBox(height: 8),
+                  createPersonalInfo(state),
+                  SizedBox(height: 8),
+                  createHealthInfo(state),
+                  SizedBox(height: 8),
+                  createWeightHistory(state),
+                  SizedBox(height: 8),
+                  createCheckupHistory(state, context),
+                  SizedBox(height: 8),
+                  createImmunizationHistory(state),
+                ],
+              ),
             )
           : Align(
               alignment: Alignment.center,
@@ -378,6 +399,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                       showDialog(
                         context: context,
                         child: ChildMedicalCheckDialog(
+                          state.id,
                           i + 1,
                           initialData: state.medicalCheckup[i],
                         ),
@@ -395,6 +417,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                   showDialog(
                     context: context,
                     child: ChildMedicalCheckDialog(
+                      state.id,
                       state.medicalCheckup.length + 1,
                       initialData: state.initialData,
                     ),

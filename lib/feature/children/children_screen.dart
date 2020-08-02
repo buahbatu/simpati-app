@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:simpati/core/framework/base_action.dart';
@@ -37,9 +38,10 @@ class ChildrenAction
     Get.to(ChildrenInfoScreen(), arguments: id);
   }
 
-  void getChildrens() async {
-    // state.mother = await apiAssetRepo.getAll();
-    // print(state.mother.data[0].slug.toString());
+  Future<void> getChildrens() async {
+    final child = await apiAssetRepo.getAll();
+    ChildrenState(children: child.data);
+    reloadScreen();
   }
 
   void openDialog() {
@@ -77,7 +79,14 @@ class ChildrenScreen
   ChildrenAction initAction() => ChildrenAction();
 
   @override
-  Widget loadingViewBuilder(BuildContext context) => Container();
+  Widget loadingViewBuilder(BuildContext context) => Container(
+        child: Center(
+          child: SpinKitChasingDots(
+            color: ResColor.primaryColor,
+            size: 50.0,
+          ),
+        ),
+      );
 
   @override
   Widget render(
@@ -85,9 +94,12 @@ class ChildrenScreen
     //TODO: implement body
     return Scaffold(
       body: state.children != null
-          ? ListView(
-              children:
-                  state.children.map((e) => childrenList(e, action)).toList(),
+          ? RefreshIndicator(
+              onRefresh: () => action.getChildrens(),
+              child: ListView(
+                children:
+                    state.children.map((e) => childrenList(e, action)).toList(),
+              ),
             )
           : Container(),
       appBar: createAppBar(action, context),

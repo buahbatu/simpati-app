@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:simpati/core/framework/base_child_view.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
@@ -18,6 +19,10 @@ class Step3AddChild
   final rtFocus = FocusNode();
   final rwFocus = FocusNode();
   final hpFocus = FocusNode();
+  final TextEditingController motherNameController = TextEditingController();
+  final TextEditingController motherNikController = TextEditingController();
+  final motherNameFocus = FocusNode();
+  final motherNikFocus = FocusNode();
 
   final rtController = TextEditingController();
   final addressController = TextEditingController();
@@ -45,7 +50,8 @@ class Step3AddChild
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Informasi Kontak', style: AppTextStyle.registerTitle),
+          Text('Informasi Kontak & Orang tua',
+              style: AppTextStyle.registerTitle),
           Text(
             'Pastikan alamat dan kontak terisi dengan baik',
             style: AppTextStyle.titleName.copyWith(fontSize: 12),
@@ -54,6 +60,44 @@ class Step3AddChild
             child: ListView(
               children: <Widget>[
                 Container(height: 24),
+                Container(height: 8),
+                FormUtils.buildField(
+                  'Nama Ibu',
+                  focusNode: motherNameFocus,
+                  nextForm: NextForm(focusScope, motherNikFocus),
+                  value: motherNameController.text,
+                  isEnabled: true,
+                  onChanged: (s) {
+                    action.updateFormData(namaOrtu: s);
+                    motherNameController.text = s;
+                  },
+                ),
+                SizedBox(height: 8),
+                FormUtils.buildField(
+                  'Nik Ibu',
+                  focusNode: motherNikFocus,
+                  inputType: TextInputType.number,
+                  value: motherNikController.text,
+                  nextForm: NextForm(focusScope, hpFocus),
+                  isEnabled: true,
+                  onChanged: (s) {
+                    action.updateFormData(nikOrtu: s);
+                    motherNikController.text = s;
+                  },
+                ),
+                Container(height: 8),
+                FormUtils.buildField(
+                  'Hp Orang Tua',
+                  inputType: TextInputType.number,
+                  focusNode: hpFocus,
+                  value: hpOrtuController.text,
+                  nextForm: NextForm(focusScope, addressFocus),
+                  onChanged: (s) {
+                    action.updateFormData(hpOrtu: s);
+                    hpOrtuController.text = s;
+                  },
+                ),
+                Container(height: 8),
                 FormUtils.buildField(
                   'Alamat',
                   inputType: TextInputType.text,
@@ -61,9 +105,8 @@ class Step3AddChild
                   value: addressController.text,
                   nextForm: NextForm(focusScope, rtFocus),
                   onChanged: (s) {
+                    action.updateFormData(alamat: s);
                     addressController.text = s;
-                    final value = double.tryParse(s);
-                    // bloc.child = bloc.child.copyWith(temperature: value);
                   },
                 ),
                 Container(height: 8),
@@ -74,11 +117,11 @@ class Step3AddChild
                         'Rt',
                         inputType: TextInputType.number,
                         value: rtController.text,
+                        focusNode: rtFocus,
                         nextForm: NextForm(focusScope, rwFocus),
                         onChanged: (s) {
+                          action.updateFormData(rt: s);
                           rtController.text = s;
-                          final value = double.tryParse(s);
-                          // bloc.child = bloc.child.copyWith(height: value);
                         },
                       ),
                     ),
@@ -91,28 +134,13 @@ class Step3AddChild
                         value: rwController.text,
                         nextForm: NextForm(focusScope, rwFocus),
                         onChanged: (s) {
+                          action.updateFormData(rw: s);
                           rwController.text = s;
-                          final value = double.tryParse(s);
-                          // bloc.child = bloc.child.copyWith(weight: value);
                         },
                       ),
                     ),
                   ],
                 ),
-                Container(height: 8),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Hp Orang Tua',
-                  inputType: TextInputType.number,
-                  focusNode: hpFocus,
-                  value: hpOrtuController.text,
-                  onChanged: (s) {
-                    hpOrtuController.text = s;
-                    final value = double.tryParse(s);
-                    // bloc.child = bloc.child.copyWith(headSize: value);
-                  },
-                ),
-                Container(height: 8),
               ],
             ),
           ),
@@ -127,7 +155,7 @@ class Step3AddChild
       color: ResColor.primaryColor,
       disabledColor: ResColor.profileBgColor,
       textColor: Colors.white,
-      onPressed: () {},
+      onPressed: onButtonClick,
       child: Text('Simpan'),
     );
   }

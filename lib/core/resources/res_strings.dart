@@ -5,6 +5,7 @@ class ResString {
   static const TITLE_CHILDREN = 'Daftar Anak';
   static const TITLE_ARTICLE = 'Artikel';
   static const TITLE_NOTIFICATION = 'Notifikasi';
+  static const TITLE_BERANDA = 'Beranda';
 
   // Screen Asset
   static const TITLE_ASSET = TITLE_APP;

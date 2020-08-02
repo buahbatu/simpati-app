@@ -107,7 +107,7 @@ class ChildMedicalCheckup extends Equatable {
     medCheckReq.atribut = ChildMedicalCheckAtrForRequest();
     medCheckReq.title = child.title;
     medCheckReq.content = child.content;
-    medCheckReq.atribut.anak.content = child.id;
+    medCheckReq.atribut.anak.content = child.anak;
     medCheckReq.atribut.tanggalCek.content = child.tanggalCek;
     medCheckReq.atribut.metodeUkur.content = child.metodePengukuran;
     medCheckReq.atribut.panjangBadan.content = child.panjangBadan;

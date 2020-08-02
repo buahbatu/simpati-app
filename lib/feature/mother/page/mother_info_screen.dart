@@ -23,7 +23,8 @@ class MotherInfoState {
   Mother mother;
   ChildInfo childInfo;
   Pregnancy pregnancy;
-  MotherInfoState({this.pregnancy, this.mother, this.childInfo});
+  final String idIbu;
+  MotherInfoState({this.pregnancy, this.mother, this.childInfo, this.idIbu});
 }
 
 class MotherInfoAction
@@ -37,11 +38,25 @@ class MotherInfoAction
     if (result.isSuccess) {
       final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
       return MotherInfoState(
+          idIbu: Get.arguments,
           pregnancy: Pregnancy(),
           mother: result.data,
           childInfo: resultChild.data);
     }
     return MotherInfoState(pregnancy: Pregnancy());
+  }
+
+  Future<void> onReloadScreen() async {
+    final result = await apiMotherRepo.getByKey(Get.arguments);
+    if (result.isSuccess) {
+      final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
+      MotherInfoState(
+          idIbu: Get.arguments,
+          pregnancy: Pregnancy(),
+          mother: result.data,
+          childInfo: resultChild.data);
+      reloadScreen();
+    }
   }
 
   void updateFormData(
@@ -56,12 +71,25 @@ class MotherInfoAction
       String bloodType}) {
     if (height != null)
       state.pregnancy = state.pregnancy.copyWith(height: height);
-    if (nik != null) state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    if (nik != null) {
+      state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    }
     if (menstruationCycleTitle != null)
       state.pregnancy =
           state.pregnancy.copyWith(menstruationCycle: menstruationCycleTitle);
     if (namaSuami != null)
       state.pregnancy = state.pregnancy.copyWith(namaSuami: namaSuami);
+    if (bloodPressure != null)
+      state.pregnancy = state.pregnancy.copyWith(bloodPressure: bloodPressure);
+    state.pregnancy = state.pregnancy.copyWith(id: state.idIbu);
+  }
+
+  void addPregnancy(Pregnancy pregnancy) async {
+    final result = await apiMotherRepo.addPregnancy(pregnancy);
+    if (result.isSuccess) {
+      Get.back();
+      reloadScreen();
+    }
   }
 }
 
@@ -90,7 +118,9 @@ class MotherInfoScreen
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
       body: state.mother != null
-          ? getContents(state.mother, state.childInfo, context)
+          ? RefreshIndicator(
+              onRefresh: () => action.reloadScreen(),
+              child: getContents(state.mother, state.childInfo, context))
           : Align(
               alignment: Alignment.center,
               child: Column(
