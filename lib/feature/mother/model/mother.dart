@@ -135,6 +135,7 @@ class Mother extends Equatable {
     );
   }
 
+
   MotherRequest motherToMotherRequest() {
     final motherReq = MotherRequest();
     motherReq.atribut = MotherAtrForRequest();
@@ -144,7 +145,7 @@ class Mother extends Equatable {
     motherReq.atribut.tanggalLahir.content = this.tanggalLahir;
     motherReq.atribut.nomorHandphone.content = this.nomorHandphone;
     motherReq.atribut.golonganDarah.content = this.golonganDarah;
-    motherReq.atribut.alamat.content = this.alamat;
+
 
     return motherReq;
   }

@@ -5,6 +5,5 @@ import 'package:simpati/core/repository/repository.dart';
 import 'package:simpati/feature/mother/model/mother.dart';
 
 abstract class MotherRepository extends BaseRepository<Mother> {
-  Future<Result<MotherInfo>> getMotherById(String id);
   Future<Result<ChildInfo>> getChildByIdMother(String id);
 }

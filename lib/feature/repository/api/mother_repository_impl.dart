@@ -23,6 +23,7 @@ class MotherRepositoryImpl extends MotherRepository {
     final motherRequest = instance.motherToMotherRequest();
     final api = Api;
     return await Api.v1
+
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
       data: ([motherRequest.toJson()]),
@@ -79,25 +80,18 @@ class MotherRepositoryImpl extends MotherRepository {
   }
 
   @override
-  Future<Result<Mother>> getByKey(ins) {
-    // TODO: implement getByKey
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Result<MotherInfo>> getMotherById(String id) async {
+  Future<Result<Mother>> getByKey(ins) async {
     return await Api.v1.get(
-      "/klaster-by-member-relation-child",
+      "/klaster-by-member-relation-sub",
       queryParameters: {
         "klaster_slug": "posyandu",
         "klaster_slug_get": "ibu",
-        "klaster_record_id": id,
-        "klaster_slug_child": "kehamilan",
+        "klaster_record_id": ins,
         "simple": true
       },
     ).withParser(
       (json) {
-        return MotherInfo.fromJson(json);
+        return ResponseMother.fromJson(json).mapToMother();
       },
       errorParser: (json) {
         return json;

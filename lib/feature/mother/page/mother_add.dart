@@ -98,8 +98,8 @@ class MotherAddAction
     if (result.isError) {
       showSnackBar(message: result.failure.data);
     } else if (result.isSuccess) {
-      showSnackBar(message: "Berhasil menambahkan ibu");
       Get.back();
+      showSnackBar(message: "Berhasil menambahkan ibu");
     }
   }
 
