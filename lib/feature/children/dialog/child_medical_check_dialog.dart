@@ -130,6 +130,39 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                       child: FormUtils.buildField(
                         'Metode ukur',
                         // suffix: '°C',
+                        value: childCheck?.metodePengukuran,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Lingkar Kepala',
+                        suffix: 'cm',
+                        value: childCheck?.diameterKepala?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Umur dalam hari',
+                        // suffix: '°C',
+                        value: childCheck?.umurDalamHari,
                         isEnabled: initialData == null,
                         inputType: TextInputType.text,
                         onChanged: (s) {
@@ -140,9 +173,225 @@ class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
                     Container(width: 8),
                     Expanded(
                       child: FormUtils.buildField(
-                        'Lingkar Kepala',
-                        suffix: 'cm',
-                        value: childCheck?.diameterKepala?.toString(),
+                        'Gizi BB U',
+                        value: childCheck?.statusGiziBbU?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Gizi TB U',
+                        // suffix: '°C',
+                        value: childCheck?.statusGiziTbU,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Gizi BB TB',
+                        value: childCheck?.statusGiziBbTb?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Vitamin A',
+                        // suffix: '°C',
+                        value: childCheck?.vitaminA,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 1',
+                        value: childCheck?.asiBulan1?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 2',
+                        // suffix: '°C',
+                        value: childCheck?.asiBulan2,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 3',
+                        value: childCheck?.asiBulan3?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 4',
+                        // suffix: '°C',
+                        value: childCheck?.asiBulan4,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 5',
+                        value: childCheck?.asiBulan5.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Asi Bulan 6',
+                        // suffix: '°C',
+                        value: childCheck?.asiBulan6,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Pemberian Ke',
+                        value: childCheck?.pemberianKe?.toString(),
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Sumber PMT',
+                        // suffix: '°C',
+                        value: childCheck?.sumberPmt,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Pemberian Pusat',
+                        value: childCheck?.pemberianPusat,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.number,
+                        onChanged: (s) {
+                          final value = double.tryParse(s);
+                          childCheck = childCheck.copyWith(
+                              diameterKepala: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Tahun produksi',
+                        // suffix: '°C',
+                        value: childCheck?.tahunProduksi,
+                        isEnabled: initialData == null,
+                        inputType: TextInputType.text,
+                        onChanged: (s) {
+                          childCheck = childCheck.copyWith(metodePengukuran: s);
+                        },
+                      ),
+                    ),
+                    Container(width: 8),
+                    Expanded(
+                      child: FormUtils.buildField(
+                        'Pemberian daerah',
+                        value: childCheck?.pemberianDaerah,
                         isEnabled: initialData == null,
                         inputType: TextInputType.number,
                         onChanged: (s) {

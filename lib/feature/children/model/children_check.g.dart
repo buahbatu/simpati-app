@@ -64,17 +64,72 @@ AtributForResponse _$AtributForResponseFromJson(Map<String, dynamic> json) {
     panjangBadan: json['panjang_badan'] == null
         ? null
         : DataAtribut.fromJson(json['panjang_badan'] as Map<String, dynamic>),
-    umurDalamBulan: json['umur_(dalam_bulan)'] == null
+    umurDalamHari: json['umur_dalam_hari'] == null
         ? null
-        : DataAtribut.fromJson(
-            json['umur_(dalam_bulan)'] as Map<String, dynamic>),
+        : DataAtribut.fromJson(json['umur_dalam_hari'] as Map<String, dynamic>),
     beratBadan: json['berat_badan'] == null
         ? null
         : DataAtribut.fromJson(json['berat_badan'] as Map<String, dynamic>),
     diameterKepala: json['diameter_kepala'] == null
         ? null
         : DataAtribut.fromJson(json['diameter_kepala'] as Map<String, dynamic>),
-  );
+  )
+    ..statusGiziBbU = json['status_gizi_bb_u'] == null
+        ? null
+        : DataAtribut.fromJson(json['status_gizi_bb_u'] as Map<String, dynamic>)
+    ..statusGiziTbU = json['status_gizi_tb_u'] == null
+        ? null
+        : DataAtribut.fromJson(json['status_gizi_tb_u'] as Map<String, dynamic>)
+    ..statusGiziBbTb = json['status_gizi_bb_tb'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['status_gizi_bb_tb'] as Map<String, dynamic>)
+    ..zScoreBbU = json['zscore_bb_u'] == null
+        ? null
+        : DataAtribut.fromJson(json['zscore_bb_u'] as Map<String, dynamic>)
+    ..zScoreTbU = json['zscore_tb_u'] == null
+        ? null
+        : DataAtribut.fromJson(json['zscore_tb_u'] as Map<String, dynamic>)
+    ..zScoreBbTb = json['zscore_bb_tb'] == null
+        ? null
+        : DataAtribut.fromJson(json['zscore_bb_tb'] as Map<String, dynamic>)
+    ..vitaminA = json['vitamin_a'] == null
+        ? null
+        : DataAtribut.fromJson(json['vitamin_a'] as Map<String, dynamic>)
+    ..asiBulan1 = json['asi_bulan_1'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_1'] as Map<String, dynamic>)
+    ..asiBulan2 = json['asi_bulan_2'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_2'] as Map<String, dynamic>)
+    ..asiBulan3 = json['asi_bulan_3'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_3'] as Map<String, dynamic>)
+    ..asiBulan4 = json['asi_bulan_4'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_4'] as Map<String, dynamic>)
+    ..asiBulan5 = json['asi_bulan_5'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_5'] as Map<String, dynamic>)
+    ..asiBulan6 = json['asi_bulan_6'] == null
+        ? null
+        : DataAtribut.fromJson(json['asi_bulan_6'] as Map<String, dynamic>)
+    ..pemberianKe = json['pemberian_ke'] == null
+        ? null
+        : DataAtribut.fromJson(json['pemberian_ke'] as Map<String, dynamic>)
+    ..sumberPmt = json['sumber_pmt'] == null
+        ? null
+        : DataAtribut.fromJson(json['sumber_pmt'] as Map<String, dynamic>)
+    ..pemberianPusat = json['pemberian_pusat'] == null
+        ? null
+        : DataAtribut.fromJson(json['pemberian_pusat'] as Map<String, dynamic>)
+    ..tahunProduksi = json['tahun_produksi'] == null
+        ? null
+        : DataAtribut.fromJson(json['tahun_produksi'] as Map<String, dynamic>)
+    ..pemberianDaerah = json['pemberian_daerah'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['pemberian_daerah'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$AtributForResponseToJson(AtributForResponse instance) =>
@@ -84,9 +139,27 @@ Map<String, dynamic> _$AtributForResponseToJson(AtributForResponse instance) =>
       'posyandu': instance.posyandu?.toJson(),
       'anak': instance.anak?.toJson(),
       'panjang_badan': instance.panjangBadan?.toJson(),
-      'umur_(dalam_bulan)': instance.umurDalamBulan?.toJson(),
+      'umur_dalam_hari': instance.umurDalamHari?.toJson(),
       'berat_badan': instance.beratBadan?.toJson(),
       'diameter_kepala': instance.diameterKepala?.toJson(),
+      'status_gizi_bb_u': instance.statusGiziBbU?.toJson(),
+      'status_gizi_tb_u': instance.statusGiziTbU?.toJson(),
+      'status_gizi_bb_tb': instance.statusGiziBbTb?.toJson(),
+      'zscore_bb_u': instance.zScoreBbU?.toJson(),
+      'zscore_tb_u': instance.zScoreTbU?.toJson(),
+      'zscore_bb_tb': instance.zScoreBbTb?.toJson(),
+      'vitamin_a': instance.vitaminA?.toJson(),
+      'asi_bulan_1': instance.asiBulan1?.toJson(),
+      'asi_bulan_2': instance.asiBulan2?.toJson(),
+      'asi_bulan_3': instance.asiBulan3?.toJson(),
+      'asi_bulan_4': instance.asiBulan4?.toJson(),
+      'asi_bulan_5': instance.asiBulan5?.toJson(),
+      'asi_bulan_6': instance.asiBulan6?.toJson(),
+      'pemberian_ke': instance.pemberianKe?.toJson(),
+      'sumber_pmt': instance.sumberPmt?.toJson(),
+      'pemberian_pusat': instance.pemberianPusat?.toJson(),
+      'tahun_produksi': instance.tahunProduksi?.toJson(),
+      'pemberian_daerah': instance.pemberianDaerah?.toJson(),
     };
 
 DataAtribut _$DataAtributFromJson(Map<String, dynamic> json) {
