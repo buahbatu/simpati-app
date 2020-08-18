@@ -217,10 +217,26 @@ class ChildMedicalCheckup extends Equatable {
     medCheckReq.title = child.title;
     medCheckReq.content = child.content;
     medCheckReq.atribut.anak.content = child.anak;
+
     medCheckReq.atribut.tanggalCek.content = child.tanggalCek;
     medCheckReq.atribut.metodeUkur.content = child.metodePengukuran;
     medCheckReq.atribut.panjangBadan.content = child.panjangBadan;
     medCheckReq.atribut.beratBadan.content = child.beratBadan;
+    medCheckReq.atribut.umurDalamHari.content = child.umurDalamHari;
+    medCheckReq.atribut.diameterKepala.content = child.diameterKepala;
+
+    medCheckReq.atribut.vitaminA.content = child.vitaminA;
+    medCheckReq.atribut.asi1.content = child.asiBulan1;
+    medCheckReq.atribut.asi2.content = child.asiBulan2;
+    medCheckReq.atribut.asi3.content = child.asiBulan3;
+    medCheckReq.atribut.asi4.content = child.asiBulan4;
+    medCheckReq.atribut.asi5.content = child.asiBulan5;
+    medCheckReq.atribut.asi6.content = child.asiBulan6;
+    medCheckReq.atribut.pemberianKe.content = child.pemberianKe;
+    medCheckReq.atribut.pemberianPusat.content = child.pemberianPusat;
+    medCheckReq.atribut.tahunProduksi.content = child.tahunProduksi;
+    medCheckReq.atribut.pemberianDaerah.content = child.pemberianDaerah;
+    medCheckReq.atribut.sumberPmt.content = child.sumberPmt;
 
     return medCheckReq;
   }
@@ -408,7 +424,6 @@ class AtributForResponse extends Equatable {
   DataAtribut tahunProduksi;
   @JsonKey(name: "pemberian_daerah")
   DataAtribut pemberianDaerah;
-  @JsonKey(name: "diameter_kepala")
   AtributForResponse({
     DataAtribut tanggalCek,
     DataAtribut metodePengukuran,
@@ -544,6 +559,34 @@ class ChildMedicalCheckAtrForRequest extends Equatable {
   final DataRequest panjangBadan;
   @JsonKey(name: "berat_badan")
   final DataRequest beratBadan;
+  @JsonKey(name: "umur_dalam_hari")
+  final DataRequest umurDalamHari;
+  @JsonKey(name: "diameter_kepala")
+  final DataRequest diameterKepala;
+  @JsonKey(name: "vitamin_a")
+  final DataRequest vitaminA;
+  @JsonKey(name: "asi_bulan_1")
+  final DataRequest asi1;
+  @JsonKey(name: "asi_bulan_2")
+  final DataRequest asi2;
+  @JsonKey(name: "asi_bulan_3")
+  final DataRequest asi3;
+  @JsonKey(name: "asi_bulan_4")
+  final DataRequest asi4;
+  @JsonKey(name: "asi_bulan_5")
+  final DataRequest asi5;
+  @JsonKey(name: "asi_bulan_6")
+  final DataRequest asi6;
+  @JsonKey(name: "pemberian_ke")
+  final DataRequest pemberianKe;
+  @JsonKey(name: "sumber_pmt")
+  final DataRequest sumberPmt;
+  @JsonKey(name: "pemberian_pusat")
+  final DataRequest pemberianPusat;
+  @JsonKey(name: "tahun_produksi")
+  final DataRequest tahunProduksi;
+  @JsonKey(name: "pemberian_daerah")
+  final DataRequest pemberianDaerah;
 
   ChildMedicalCheckAtrForRequest({
     DataRequest anak,
@@ -551,11 +594,39 @@ class ChildMedicalCheckAtrForRequest extends Equatable {
     DataRequest metodeUkur,
     DataRequest panjangBadan,
     DataRequest beratBadan,
+    DataRequest umurDalamHari,
+    DataRequest diameterKepala,
+    DataRequest vitaminA,
+    DataRequest asi1,
+    DataRequest asi2,
+    DataRequest asi3,
+    DataRequest asi4,
+    DataRequest asi5,
+    DataRequest asi6,
+    DataRequest pemberianKe,
+    DataRequest sumberPmt,
+    DataRequest pemberianPusat,
+    DataRequest tahunProduksi,
+    DataRequest pemberianDaerah,
   })  : this.anak = anak ?? DataRequest(),
         this.tanggalCek = tanggalCek ?? DataRequest(),
         this.metodeUkur = metodeUkur ?? DataRequest(),
         this.panjangBadan = panjangBadan ?? DataRequest(),
-        this.beratBadan = beratBadan ?? DataRequest();
+        this.beratBadan = beratBadan ?? DataRequest(),
+        this.umurDalamHari = umurDalamHari ?? DataRequest(),
+        this.diameterKepala = diameterKepala ?? DataRequest(),
+        this.vitaminA = vitaminA ?? DataRequest(),
+        this.asi1 = asi1 ?? DataRequest(),
+        this.asi2 = asi2 ?? DataRequest(),
+        this.asi3 = asi3 ?? DataRequest(),
+        this.asi4 = asi4 ?? DataRequest(),
+        this.asi5 = asi5 ?? DataRequest(),
+        this.asi6 = asi6 ?? DataRequest(),
+        this.pemberianKe = pemberianKe ?? DataRequest(),
+        this.sumberPmt = sumberPmt ?? DataRequest(),
+        this.pemberianPusat = pemberianPusat ?? DataRequest(),
+        this.tahunProduksi = tahunProduksi ?? DataRequest(),
+        this.pemberianDaerah = pemberianDaerah ?? DataRequest();
 
   Map<String, dynamic> toJson() => _$ChildMedicalCheckAtrForRequestToJson(this);
 

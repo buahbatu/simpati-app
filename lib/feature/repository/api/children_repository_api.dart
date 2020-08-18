@@ -101,7 +101,8 @@ class ChildrenRepositoryApi extends ChildrenRepository {
         "klaster_slug_get": "anak",
         "klaster_record_id": id,
         "simple": true,
-        "klaster_slug_child": "anak-cek"
+        "klaster_slug_child": "anak-cek",
+        "limit": -1
       },
     ).withParser((json) {
       return CheckChildResponse.fromJson(json).mapToChildCheck();

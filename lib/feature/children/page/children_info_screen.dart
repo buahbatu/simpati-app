@@ -89,8 +89,8 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
     }
   }
 
-  void navigateToAddCheck() {
-    Get.to(AddCheckInfoScreen());
+  void navigateToAddCheck(String id) {
+    Get.to(AddCheckInfoScreen(id));
   }
 }
 
@@ -404,7 +404,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                       children: <Widget>[
                         Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
                         Text(
-                          state.child.createdAt,
+                          state.medicalCheckup[i].tanggalCek,
                           style: AppTextStyle.titleName.copyWith(fontSize: 10),
                         ),
                       ],
@@ -429,7 +429,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                 color: ResColor.primaryColor,
                 child: Icon(LineAwesomeIcons.plus, color: Colors.white),
                 onPressed: () {
-                  action.navigateToAddCheck();
+                  action.navigateToAddCheck(state.child.id);
                   // showDialog(
                   //   context: context,
                   //   child: ChildMedicalCheckDialog(

@@ -170,7 +170,6 @@ class Step1AddChild
                   onTap: () async {
                     final pick = await showGenderPick(context);
                     if (pick != null) action.updateFormData(jenisKelamin: pick);
-
                     genderController.text = pick;
                     focusScope.requestFocus(FocusNode());
                   },

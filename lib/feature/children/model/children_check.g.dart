@@ -239,6 +239,49 @@ ChildMedicalCheckAtrForRequest _$ChildMedicalCheckAtrForRequestFromJson(
     beratBadan: json['berat_badan'] == null
         ? null
         : DataRequest.fromJson(json['berat_badan'] as Map<String, dynamic>),
+    umurDalamHari: json['umur_dalam_hari'] == null
+        ? null
+        : DataRequest.fromJson(json['umur_dalam_hari'] as Map<String, dynamic>),
+    diameterKepala: json['diameter_kepala'] == null
+        ? null
+        : DataRequest.fromJson(json['diameter_kepala'] as Map<String, dynamic>),
+    vitaminA: json['vitamin_a'] == null
+        ? null
+        : DataRequest.fromJson(json['vitamin_a'] as Map<String, dynamic>),
+    asi1: json['asi_bulan_1'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_1'] as Map<String, dynamic>),
+    asi2: json['asi_bulan_2'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_2'] as Map<String, dynamic>),
+    asi3: json['asi_bulan_3'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_3'] as Map<String, dynamic>),
+    asi4: json['asi_bulan_4'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_4'] as Map<String, dynamic>),
+    asi5: json['asi_bulan_5'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_5'] as Map<String, dynamic>),
+    asi6: json['asi_bulan_6'] == null
+        ? null
+        : DataRequest.fromJson(json['asi_bulan_6'] as Map<String, dynamic>),
+    pemberianKe: json['pemberian_ke'] == null
+        ? null
+        : DataRequest.fromJson(json['pemberian_ke'] as Map<String, dynamic>),
+    sumberPmt: json['sumber_pmt'] == null
+        ? null
+        : DataRequest.fromJson(json['sumber_pmt'] as Map<String, dynamic>),
+    pemberianPusat: json['pemberian_pusat'] == null
+        ? null
+        : DataRequest.fromJson(json['pemberian_pusat'] as Map<String, dynamic>),
+    tahunProduksi: json['tahun_produksi'] == null
+        ? null
+        : DataRequest.fromJson(json['tahun_produksi'] as Map<String, dynamic>),
+    pemberianDaerah: json['pemberian_daerah'] == null
+        ? null
+        : DataRequest.fromJson(
+            json['pemberian_daerah'] as Map<String, dynamic>),
   );
 }
 
@@ -250,6 +293,20 @@ Map<String, dynamic> _$ChildMedicalCheckAtrForRequestToJson(
       'metode_pengukuran': instance.metodeUkur,
       'panjang_badan': instance.panjangBadan,
       'berat_badan': instance.beratBadan,
+      'umur_dalam_hari': instance.umurDalamHari,
+      'diameter_kepala': instance.diameterKepala,
+      'vitamin_a': instance.vitaminA,
+      'asi_bulan_1': instance.asi1,
+      'asi_bulan_2': instance.asi2,
+      'asi_bulan_3': instance.asi3,
+      'asi_bulan_4': instance.asi4,
+      'asi_bulan_5': instance.asi5,
+      'asi_bulan_6': instance.asi6,
+      'pemberian_ke': instance.pemberianKe,
+      'sumber_pmt': instance.sumberPmt,
+      'pemberian_pusat': instance.pemberianPusat,
+      'tahun_produksi': instance.tahunProduksi,
+      'pemberian_daerah': instance.pemberianDaerah,
     };
 
 DataRequest _$DataRequestFromJson(Map<String, dynamic> json) {

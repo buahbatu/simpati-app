@@ -81,7 +81,7 @@ class InfoCheckScreen
               children: <Widget>[
                 FormUtils.buildField(
                   'Tanggal Periksa',
-                  value: state.infoMedical.createdAt,
+                  value: state.infoMedical.tanggalCek,
                   isEnabled: false,
                   inputType: TextInputType.datetime,
                 ),
@@ -167,6 +167,30 @@ class InfoCheckScreen
                 FormUtils.buildField(
                   'Gizi BB TB',
                   value: state.infoMedical?.statusGiziBbTb,
+                  isEnabled: false,
+                  inputType: TextInputType.number,
+                  onChanged: (s) {},
+                ),
+                SizedBox(height: 8),
+                FormUtils.buildField(
+                  'Z Score BB U',
+                  value: state.infoMedical?.zScoreBbU,
+                  isEnabled: false,
+                  inputType: TextInputType.number,
+                  onChanged: (s) {},
+                ),
+                SizedBox(height: 8),
+                FormUtils.buildField(
+                  'Z Score BB TB',
+                  value: state.infoMedical?.zScoreBbTb,
+                  isEnabled: false,
+                  inputType: TextInputType.number,
+                  onChanged: (s) {},
+                ),
+                SizedBox(height: 8),
+                FormUtils.buildField(
+                  'Z Score TB U',
+                  value: state.infoMedical?.zScoreTbU,
                   isEnabled: false,
                   inputType: TextInputType.number,
                   onChanged: (s) {},

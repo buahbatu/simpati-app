@@ -29,6 +29,7 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
   final ukurFocus = FocusNode();
   final lkFocus = FocusNode();
   final umurHariFocus = FocusNode();
+  String tanggalPeriksa;
 
   @override
   Widget loadingViewBuilder(BuildContext context) => Container(
@@ -64,7 +65,8 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
                     child: FormUtils.buildField(
                       'Tanggal Periksa',
                       controller: dateController
-                        ..text = formatter.format(DateTime.now()),
+                        ..text =
+                            tanggalPeriksa ?? formatter.format(DateTime.now()),
                       isEnabled: false,
                       inputType: TextInputType.datetime,
                     ),
@@ -75,9 +77,9 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
                         firstDate: DateTime(1940),
                         lastDate: DateTime(2080),
                       );
-                      String tanggalPeriksa = formatter.format(date);
                       if (date != null) {
                         print(tanggalPeriksa);
+                        tanggalPeriksa = formatter.format(date);
                         action.updateFormData(tanggalPeriksa: tanggalPeriksa);
                         dateController.text = tanggalPeriksa;
                       }
@@ -107,6 +109,7 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
                         'Panjang Badan',
                         suffix: 'Cm',
                         focusNode: pbFocus,
+                        value: pbController.text,
                         nextForm: NextForm(focusScope, ukurFocus),
                         inputType: TextInputType.number,
                         onChanged: (s) {
@@ -139,6 +142,7 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
                         'Lingkar Kepala',
                         inputType: TextInputType.number,
                         focusNode: lkFocus,
+                        value: lkController.text,
                         nextForm: NextForm(focusScope, umurHariFocus),
                         suffix: 'Cm',
                         onChanged: (s) {
@@ -152,6 +156,7 @@ class AddCheckInfo1 extends BaseChildView<AddCheckInfoScreen,
                       child: FormUtils.buildField(
                         'Umur Dalam Hari',
                         focusNode: umurHariFocus,
+                        value: umurHariController.text,
                         suffix: 'Hari',
                         inputType: TextInputType.number,
                         onChanged: (s) {
