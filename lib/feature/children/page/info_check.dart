@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/resources/res_color.dart';
@@ -49,6 +48,13 @@ class InfoCheckScreen
   Widget createAppBar(BuildContext context, String title) {
     return AppBar(
       elevation: 0,
+      actions: [
+        IconButton(
+          icon: Icon(Icons.delete),
+          color: ResColor.primaryColor,
+          onPressed: () {},
+        )
+      ],
       iconTheme: IconThemeData(color: ResColor.primaryColor),
       titleSpacing: 0,
       title: Text(

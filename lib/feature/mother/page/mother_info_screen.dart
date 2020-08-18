@@ -13,6 +13,7 @@ import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/feature/children/page/children_add.dart';
+import 'package:simpati/feature/children/page/children_info_screen.dart';
 import 'package:simpati/feature/mother/model/mother.dart';
 import 'package:simpati/feature/mother/model/pregnancy.dart';
 import 'package:simpati/feature/mother/page/dialog/add_pregnancy_dialog.dart';
@@ -44,6 +45,10 @@ class MotherInfoAction
           childInfo: resultChild.data);
     }
     return MotherInfoState(pregnancy: Pregnancy());
+  }
+
+  void navigateToDetailChild(String id) async {
+    Get.to(ChildrenInfoScreen(), arguments: id);
   }
 
   Future<void> onReloadScreen() async {
@@ -120,7 +125,8 @@ class MotherInfoScreen
       body: state.mother != null
           ? RefreshIndicator(
               onRefresh: () => action.reloadScreen(),
-              child: getContents(state.mother, state.childInfo, context))
+              child:
+                  getContents(state.mother, state.childInfo, context, action))
           : Align(
               alignment: Alignment.center,
               child: Column(
@@ -189,7 +195,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget getContents(Mother mother, ChildInfo childInfo, BuildContext context) {
+  Widget getContents(Mother mother, ChildInfo childInfo, BuildContext context,
+      MotherInfoAction action) {
     return ListView(
       shrinkWrap: true,
       children: [
@@ -199,7 +206,7 @@ class MotherInfoScreen
         // SizedBox(height: 8),
         createPregnancyInfo(mother, context),
         SizedBox(height: 8),
-        createChildInfo(context, childInfo),
+        createChildInfo(context, childInfo, action),
         SizedBox(height: 8),
         createPersonalInfo(mother),
         SizedBox(height: 8),
@@ -288,7 +295,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildInfo(BuildContext context, ChildInfo state) {
+  Widget createChildInfo(
+      BuildContext context, ChildInfo state, MotherInfoAction action) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -301,7 +309,9 @@ class MotherInfoScreen
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              ...state.data.map((e) => createChildCircle(context, e)).toList(),
+              ...state.data
+                  .map((e) => createChildCircle(context, e, action))
+                  .toList(),
               SizedBox(
                 height: 59,
                 width: 59,
@@ -322,7 +332,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildCircle(BuildContext ctx, ChildInfoDatum e) {
+  Widget createChildCircle(
+      BuildContext ctx, ChildInfoDatum e, MotherInfoAction action) {
     return Column(
       children: <Widget>[
         Material(
@@ -338,7 +349,9 @@ class MotherInfoScreen
                 backgroundColor: Colors.white,
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  action.navigateToDetailChild(e.id);
+                },
                 shape: CircleBorder(),
                 color: ResColor.profileBgColor,
                 padding: const EdgeInsets.all(7.5),

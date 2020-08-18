@@ -135,6 +135,12 @@ class AddCheckInfoScreen extends BaseView<AddCheckInfoScreen,
   Widget createAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
+      actions: [
+        Icon(
+          Icons.delete,
+          color: ResColor.primaryColor,
+        )
+      ],
       iconTheme: IconThemeData(color: ResColor.primaryColor),
       titleSpacing: 0,
       backgroundColor: ResColor.appBackground,
