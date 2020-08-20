@@ -2,6 +2,7 @@ import 'package:simpati/core/classifier/graph_data_reader.dart';
 import 'package:simpati/feature/children/model/children.dart';
 
 class ChildClassifier {
+  // TODO: buat statistik perkembangan anak
   // final Children child;
 
   // ChildClassifier(this.child);

@@ -37,6 +37,9 @@ PregnancyAtrForRequest _$PregnancyAtrForRequestFromJson(
     tanggalLahir: json['tanggal_lahir'] == null
         ? null
         : DataRequest.fromJson(json['tanggal_lahir'] as Map<String, dynamic>),
+    ibu: json['ibu'] == null
+        ? null
+        : DataRequest.fromJson(json['ibu'] as Map<String, dynamic>),
     lastMenstruation: json['terakhir_mensturasi'] == null
         ? null
         : DataRequest.fromJson(
@@ -67,6 +70,7 @@ Map<String, dynamic> _$PregnancyAtrForRequestToJson(
       'terakhir_mensturasi': instance.lastMenstruation,
       'siklus_menstruasi': instance.menstruationCycle,
       'berat': instance.weight,
+      'ibu': instance.ibu,
       'tinggi': instance.height,
       'tekanan_darah': instance.bloodPressure,
     };

@@ -164,9 +164,8 @@ class Step2AddChild
                         value: heightController.text,
                         nextForm: NextForm(focusScope, weightFocus),
                         onChanged: (s) {
+                          action.updateFormData(tinggi: s);
                           heightController.text = s;
-                          final value = double.tryParse(s);
-                          // bloc.child = bloc.child.copyWith(height: value);
                         },
                       ),
                     ),
@@ -180,51 +179,22 @@ class Step2AddChild
                         value: weightController.text,
                         nextForm: NextForm(focusScope, headSizeFocus),
                         onChanged: (s) {
+                          action.updateFormData(beratLahir: s);
                           weightController.text = s;
-                          final value = double.tryParse(s);
-                          // bloc.child = bloc.child.copyWith(weight: value);
                         },
                       ),
                     ),
                   ],
                 ),
-                Container(height: 8),
-                FormUtils.buildField(
-                  'Lingkar Kepala',
-                  suffix: 'cm',
-                  inputType: TextInputType.number,
-                  focusNode: headSizeFocus,
-                  onChanged: (s) {
-                    final value = double.tryParse(s);
-                    // bloc.child = bloc.child.copyWith(headSize: value);
-                  },
-                ),
-                Container(height: 8),
-                InkWell(
-                  onTap: () async {
-                    final pick = await showBloodPick(context);
-                    if (pick != null)
-                      // setState(() {
-                      //   bloc.child = bloc.child.copyWith(bloodType: pick);
-                      bloodController.text = pick;
-                    // });
-                    focusScope.requestFocus(FocusNode());
-                  },
-                  child: FormUtils.buildField(
-                    'Golongan Darah',
-                    isEnabled: false,
-                    controller: bloodController,
-                  ),
-                ),
                 SizedBox(height: 8),
                 InkWell(
                   onTap: () async {
                     final pick = await showImdPick(context);
-                    if (pick != null)
-                      // setState(() {
-                      //   bloc.child = bloc.child.copyWith(bloodType: pick);
+                    if (pick != null) {
+                      action.updateFormData(imd: pick);
                       imdController.text = pick;
-                    // });
+                    }
+
                     focusScope.requestFocus(FocusNode());
                   },
                   child: FormUtils.buildField(
@@ -237,12 +207,10 @@ class Step2AddChild
                 InkWell(
                   onTap: () async {
                     final pick = await showKiaPick(context);
-                    if (pick != null) kiaController.text = pick;
-
-                    // setState(() {
-                    //   bloc.child = bloc.child.copyWith(bloodType: pick);
-                    //   bloodController.text = pick;
-                    // });
+                    if (pick != null) {
+                      action.updateFormData(kia: pick);
+                      kiaController.text = pick;
+                    }
                     focusScope.requestFocus(FocusNode());
                   },
                   child: FormUtils.buildField(

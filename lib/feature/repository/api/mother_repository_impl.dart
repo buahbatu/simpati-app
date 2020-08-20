@@ -7,6 +7,7 @@ import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/feature/mother/model/mother.dart';
+import 'package:simpati/feature/mother/model/pregnancy.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherRepositoryImpl extends MotherRepository {
@@ -21,26 +22,23 @@ class MotherRepositoryImpl extends MotherRepository {
   Future<Result<Mother>> add(Mother instance) async {
     // final motherRequest = Mother().motherToMotherRequest(instance);
     final motherRequest = instance.motherToMotherRequest();
-    final api = Api;
     return await Api.v1
-
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
       data: ([motherRequest.toJson()]),
     )
-        .withParser(
-      (json) {
-        print(json);
-        final data = json["data"];
-        if (data is List && data.isNotEmpty) {
-          print(data);
-          // return Result.success(instance);
-          // return true;
-          // return ResponseMother.fromJson(json).mapToMother();
-        }
-        // return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
-      },
-    );
+        .withParser((json) {
+      print(json);
+      final data = json["data"];
+      if (data is List && data.isNotEmpty) {
+        print(data);
+        return instance;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal memasukan data"));
+    });
   }
 
   @override
@@ -118,5 +116,27 @@ class MotherRepositoryImpl extends MotherRepository {
         return json;
       },
     );
+  }
+
+  @override
+  Future<Result<Pregnancy>> addPregnancy(Pregnancy pregnancy) async {
+    final motherRequest = pregnancy.pregnancyToMotherRequest();
+    return await Api.v1
+        .post(
+      "/klaster-by-member-record-add/posyandu/kehamilan",
+      data: ([motherRequest.toJson()]),
+    )
+        .withParser((json) {
+      print(json);
+      final data = json["data"];
+      if (data is List && data.isNotEmpty) {
+        print(data);
+        return pregnancy;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal memasukan data"));
+    });
   }
 }

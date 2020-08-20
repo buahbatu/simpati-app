@@ -17,9 +17,28 @@ class ChildMedicalCheckup extends Equatable {
   final String posyandu;
   final String anak;
   final String panjangBadan;
-  final String umurDalamBulan;
+
+  final String umurDalamHari;
   final String beratBadan;
   final String diameterKepala;
+  final String statusGiziBbU;
+  final String statusGiziTbU;
+  final String statusGiziBbTb;
+  final String zScoreBbU;
+  final String zScoreTbU;
+  final String zScoreBbTb;
+  final String vitaminA;
+  final String asiBulan1;
+  final String asiBulan2;
+  final String asiBulan3;
+  final String asiBulan4;
+  final String asiBulan5;
+  final String asiBulan6;
+  final String pemberianKe;
+  final String sumberPmt;
+  final String pemberianPusat;
+  final String tahunProduksi;
+  final String pemberianDaerah;
 
   ChildMedicalCheckup({
     final String id,
@@ -33,9 +52,27 @@ class ChildMedicalCheckup extends Equatable {
     final String posyandu,
     final String anak,
     final String panjangBadan,
-    final String umurDalamBulan,
+    final String umurDalamHari,
     final String beratBadan,
     final String diameterKepala,
+    final String statusGiziBbU,
+    final String statusGiziTbU,
+    final String statusGiziBbTb,
+    final String zScoreBbU,
+    final String zScoreTbU,
+    final String zScoreBbTb,
+    final String vitaminA,
+    final String asiBulan1,
+    final String asiBulan2,
+    final String asiBulan3,
+    final String asiBulan4,
+    final String asiBulan5,
+    final String asiBulan6,
+    final String pemberianKe,
+    final String sumberPmt,
+    final String pemberianPusat,
+    final String tahunProduksi,
+    final String pemberianDaerah,
   })  : this.id = id ?? "",
         this.title = title ?? "",
         this.slug = slug ?? "",
@@ -46,10 +83,28 @@ class ChildMedicalCheckup extends Equatable {
         this.metodePengukuran = metodePengukuran ?? "",
         this.anak = anak ?? "",
         this.tanggalCek = tanggalCek ?? "",
-        this.umurDalamBulan = umurDalamBulan ?? "",
-        this.panjangBadan = panjangBadan ?? "",
+        this.umurDalamHari = umurDalamHari ?? "",
         this.beratBadan = beratBadan ?? "",
-        this.diameterKepala = diameterKepala ?? "";
+        this.panjangBadan = panjangBadan ?? "",
+        this.diameterKepala = diameterKepala ?? "",
+        this.statusGiziBbU = statusGiziBbU ?? "",
+        this.statusGiziTbU = statusGiziTbU ?? "",
+        this.statusGiziBbTb = statusGiziBbTb ?? "",
+        this.zScoreBbU = zScoreBbU ?? "",
+        this.zScoreTbU = zScoreTbU ?? "",
+        this.zScoreBbTb = zScoreBbTb ?? "",
+        this.vitaminA = vitaminA ?? "",
+        this.asiBulan1 = asiBulan1 ?? "",
+        this.asiBulan2 = asiBulan2 ?? "",
+        this.asiBulan3 = asiBulan3 ?? "",
+        this.asiBulan4 = asiBulan4 ?? "",
+        this.asiBulan5 = asiBulan5 ?? "",
+        this.asiBulan6 = asiBulan6 ?? "",
+        this.pemberianKe = pemberianKe ?? "",
+        this.sumberPmt = sumberPmt ?? "",
+        this.pemberianPusat = pemberianPusat ?? "",
+        this.tahunProduksi = tahunProduksi ?? "",
+        this.pemberianDaerah = pemberianDaerah ?? "";
   @override
   List<Object> get props => <Object>[
         this.id,
@@ -62,10 +117,28 @@ class ChildMedicalCheckup extends Equatable {
         this.metodePengukuran,
         this.anak,
         this.tanggalCek,
-        this.umurDalamBulan,
-        this.panjangBadan,
+        this.umurDalamHari,
         this.beratBadan,
+        this.panjangBadan,
         this.diameterKepala,
+        this.statusGiziBbU,
+        this.statusGiziTbU,
+        this.statusGiziBbTb,
+        this.zScoreBbU,
+        this.zScoreTbU,
+        this.zScoreBbTb,
+        this.vitaminA,
+        this.asiBulan1,
+        this.asiBulan2,
+        this.asiBulan3,
+        this.asiBulan4,
+        this.asiBulan5,
+        this.asiBulan6,
+        this.pemberianKe,
+        this.sumberPmt,
+        this.pemberianPusat,
+        this.tahunProduksi,
+        this.pemberianDaerah,
       ];
 
   ChildMedicalCheckup copyWith({
@@ -80,25 +153,61 @@ class ChildMedicalCheckup extends Equatable {
     String posyandu,
     String anak,
     String panjangBadan,
-    String umurDalamBulan,
+    String umurDalamHari,
     String beratBadan,
     String diameterKepala,
+    String statusGiziBbU,
+    String statusGiziTbU,
+    String statusGiziBbTb,
+    String zScoreBbU,
+    String zScoreTbU,
+    String zScoreBbTb,
+    String vitaminA,
+    String asiBulan1,
+    String asiBulan2,
+    String asiBulan3,
+    String asiBulan4,
+    String asiBulan5,
+    String asiBulan6,
+    String pemberianKe,
+    String sumberPmt,
+    String pemberianPusat,
+    String tahunProduksi,
+    String pemberianDaerah,
   }) {
     return ChildMedicalCheckup(
       id: id ?? this.id,
       title: title ?? this.title,
       slug: slug ?? this.slug,
-      status: status ?? this.status,
       content: content ?? this.content,
-      posyandu: posyandu ?? this.posyandu,
       createdAt: createdAt ?? this.createdAt,
-      metodePengukuran: metodePengukuran ?? this.metodePengukuran,
-      anak: anak ?? this.anak,
+      status: status ?? this.status,
       tanggalCek: tanggalCek ?? this.tanggalCek,
-      umurDalamBulan: umurDalamBulan ?? this.umurDalamBulan,
+      metodePengukuran: metodePengukuran ?? this.metodePengukuran,
+      posyandu: posyandu ?? this.posyandu,
+      anak: anak ?? this.anak,
       panjangBadan: panjangBadan ?? this.panjangBadan,
+      umurDalamHari: umurDalamHari ?? this.umurDalamHari,
       beratBadan: beratBadan ?? this.beratBadan,
       diameterKepala: diameterKepala ?? this.diameterKepala,
+      statusGiziBbU: statusGiziBbU ?? this.statusGiziBbU,
+      statusGiziTbU: statusGiziTbU ?? this.statusGiziTbU,
+      statusGiziBbTb: statusGiziBbTb ?? this.statusGiziBbTb,
+      zScoreBbU: zScoreBbU ?? this.zScoreBbU,
+      zScoreTbU: zScoreTbU ?? this.zScoreTbU,
+      zScoreBbTb: zScoreBbTb ?? this.zScoreBbTb,
+      vitaminA: vitaminA ?? this.vitaminA,
+      asiBulan1: asiBulan1 ?? this.asiBulan1,
+      asiBulan2: asiBulan2 ?? this.asiBulan2,
+      asiBulan3: asiBulan3 ?? this.asiBulan3,
+      asiBulan4: asiBulan4 ?? this.asiBulan4,
+      asiBulan5: asiBulan5 ?? this.asiBulan5,
+      asiBulan6: asiBulan6 ?? this.asiBulan6,
+      pemberianKe: pemberianKe ?? this.pemberianKe,
+      sumberPmt: sumberPmt ?? this.sumberPmt,
+      pemberianPusat: pemberianPusat ?? this.pemberianPusat,
+      tahunProduksi: tahunProduksi ?? this.tahunProduksi,
+      pemberianDaerah: pemberianDaerah ?? this.pemberianDaerah,
     );
   }
 
@@ -107,11 +216,27 @@ class ChildMedicalCheckup extends Equatable {
     medCheckReq.atribut = ChildMedicalCheckAtrForRequest();
     medCheckReq.title = child.title;
     medCheckReq.content = child.content;
-    medCheckReq.atribut.anak.content = child.id;
+    medCheckReq.atribut.anak.content = child.anak;
+
     medCheckReq.atribut.tanggalCek.content = child.tanggalCek;
     medCheckReq.atribut.metodeUkur.content = child.metodePengukuran;
     medCheckReq.atribut.panjangBadan.content = child.panjangBadan;
     medCheckReq.atribut.beratBadan.content = child.beratBadan;
+    medCheckReq.atribut.umurDalamHari.content = child.umurDalamHari;
+    medCheckReq.atribut.diameterKepala.content = child.diameterKepala;
+
+    medCheckReq.atribut.vitaminA.content = child.vitaminA;
+    medCheckReq.atribut.asi1.content = child.asiBulan1;
+    medCheckReq.atribut.asi2.content = child.asiBulan2;
+    medCheckReq.atribut.asi3.content = child.asiBulan3;
+    medCheckReq.atribut.asi4.content = child.asiBulan4;
+    medCheckReq.atribut.asi5.content = child.asiBulan5;
+    medCheckReq.atribut.asi6.content = child.asiBulan6;
+    medCheckReq.atribut.pemberianKe.content = child.pemberianKe;
+    medCheckReq.atribut.pemberianPusat.content = child.pemberianPusat;
+    medCheckReq.atribut.tahunProduksi.content = child.tahunProduksi;
+    medCheckReq.atribut.pemberianDaerah.content = child.pemberianDaerah;
+    medCheckReq.atribut.sumberPmt.content = child.sumberPmt;
 
     return medCheckReq;
   }
@@ -148,10 +273,28 @@ class CheckChildResponse extends Equatable {
         metodePengukuran: getContentOrElse(item.atribut.metodePengukuran),
         anak: getContentOrElse(item.atribut.anak),
         tanggalCek: getContentOrElse(item.atribut.tanggalCek),
-        umurDalamBulan: getContentOrElse(item.atribut.umurDalamBulan),
+        umurDalamHari: getContentOrElse(item.atribut.umurDalamHari),
         panjangBadan: getContentOrElse(item.atribut.panjangBadan),
         beratBadan: getContentOrElse(item.atribut.beratBadan),
         diameterKepala: getContentOrElse(item.atribut.diameterKepala),
+        statusGiziBbU: getContentOrElse(item.atribut.statusGiziBbU),
+        statusGiziTbU: getContentOrElse(item.atribut.statusGiziTbU),
+        statusGiziBbTb: getContentOrElse(item.atribut.statusGiziBbTb),
+        zScoreBbU: getContentOrElse(item.atribut.zScoreBbU),
+        zScoreTbU: getContentOrElse(item.atribut.zScoreTbU),
+        zScoreBbTb: getContentOrElse(item.atribut.zScoreBbTb),
+        vitaminA: getContentOrElse(item.atribut.vitaminA),
+        asiBulan1: getContentOrElse(item.atribut.asiBulan1),
+        asiBulan2: getContentOrElse(item.atribut.asiBulan2),
+        asiBulan3: getContentOrElse(item.atribut.asiBulan3),
+        asiBulan4: getContentOrElse(item.atribut.asiBulan4),
+        asiBulan5: getContentOrElse(item.atribut.asiBulan5),
+        asiBulan6: getContentOrElse(item.atribut.asiBulan6),
+        pemberianKe: getContentOrElse(item.atribut.pemberianKe),
+        sumberPmt: getContentOrElse(item.atribut.sumberPmt),
+        pemberianPusat: getContentOrElse(item.atribut.pemberianPusat),
+        tahunProduksi: getContentOrElse(item.atribut.tahunProduksi),
+        pemberianDaerah: getContentOrElse(item.atribut.pemberianDaerah),
       );
       childMed.add(childMedCheck);
     }
@@ -239,20 +382,55 @@ class AtributForResponse extends Equatable {
   final DataAtribut anak;
   @JsonKey(name: "panjang_badan")
   final DataAtribut panjangBadan;
-  @JsonKey(name: "umur_(dalam_bulan)")
-  final DataAtribut umurDalamBulan;
+  @JsonKey(name: "umur_dalam_hari")
+  final DataAtribut umurDalamHari;
   @JsonKey(name: "berat_badan")
   final DataAtribut beratBadan;
   @JsonKey(name: "diameter_kepala")
   final DataAtribut diameterKepala;
-
+  @JsonKey(name: "status_gizi_bb_u")
+  DataAtribut statusGiziBbU;
+  @JsonKey(name: "status_gizi_tb_u")
+  DataAtribut statusGiziTbU;
+  @JsonKey(name: "status_gizi_bb_tb")
+  DataAtribut statusGiziBbTb;
+  @JsonKey(name: "zscore_bb_u")
+  DataAtribut zScoreBbU;
+  @JsonKey(name: "zscore_tb_u")
+  DataAtribut zScoreTbU;
+  @JsonKey(name: "zscore_bb_tb")
+  DataAtribut zScoreBbTb;
+  @JsonKey(name: "vitamin_a")
+  DataAtribut vitaminA;
+  @JsonKey(name: "asi_bulan_1")
+  DataAtribut asiBulan1;
+  @JsonKey(name: "asi_bulan_2")
+  DataAtribut asiBulan2;
+  @JsonKey(name: "asi_bulan_3")
+  DataAtribut asiBulan3;
+  @JsonKey(name: "asi_bulan_4")
+  DataAtribut asiBulan4;
+  @JsonKey(name: "asi_bulan_5")
+  DataAtribut asiBulan5;
+  @JsonKey(name: "asi_bulan_6")
+  DataAtribut asiBulan6;
+  @JsonKey(name: "pemberian_ke")
+  DataAtribut pemberianKe;
+  @JsonKey(name: "sumber_pmt")
+  DataAtribut sumberPmt;
+  @JsonKey(name: "pemberian_pusat")
+  DataAtribut pemberianPusat;
+  @JsonKey(name: "tahun_produksi")
+  DataAtribut tahunProduksi;
+  @JsonKey(name: "pemberian_daerah")
+  DataAtribut pemberianDaerah;
   AtributForResponse({
     DataAtribut tanggalCek,
     DataAtribut metodePengukuran,
     DataAtribut posyandu,
     DataAtribut anak,
     DataAtribut panjangBadan,
-    DataAtribut umurDalamBulan,
+    DataAtribut umurDalamHari,
     DataAtribut beratBadan,
     DataAtribut diameterKepala,
   })  : this.tanggalCek = tanggalCek ?? DataAtribut(),
@@ -260,7 +438,7 @@ class AtributForResponse extends Equatable {
         this.posyandu = posyandu ?? DataAtribut(),
         this.anak = anak ?? DataAtribut(),
         this.panjangBadan = panjangBadan ?? DataAtribut(),
-        this.umurDalamBulan = umurDalamBulan ?? DataAtribut(),
+        this.umurDalamHari = umurDalamHari ?? DataAtribut(),
         this.beratBadan = beratBadan ?? DataAtribut(),
         this.diameterKepala = diameterKepala ?? DataAtribut();
 
@@ -276,7 +454,7 @@ class AtributForResponse extends Equatable {
       this.posyandu,
       this.anak,
       this.panjangBadan,
-      this.umurDalamBulan,
+      this.umurDalamHari,
       this.beratBadan,
       this.diameterKepala,
     ];
@@ -381,6 +559,34 @@ class ChildMedicalCheckAtrForRequest extends Equatable {
   final DataRequest panjangBadan;
   @JsonKey(name: "berat_badan")
   final DataRequest beratBadan;
+  @JsonKey(name: "umur_dalam_hari")
+  final DataRequest umurDalamHari;
+  @JsonKey(name: "diameter_kepala")
+  final DataRequest diameterKepala;
+  @JsonKey(name: "vitamin_a")
+  final DataRequest vitaminA;
+  @JsonKey(name: "asi_bulan_1")
+  final DataRequest asi1;
+  @JsonKey(name: "asi_bulan_2")
+  final DataRequest asi2;
+  @JsonKey(name: "asi_bulan_3")
+  final DataRequest asi3;
+  @JsonKey(name: "asi_bulan_4")
+  final DataRequest asi4;
+  @JsonKey(name: "asi_bulan_5")
+  final DataRequest asi5;
+  @JsonKey(name: "asi_bulan_6")
+  final DataRequest asi6;
+  @JsonKey(name: "pemberian_ke")
+  final DataRequest pemberianKe;
+  @JsonKey(name: "sumber_pmt")
+  final DataRequest sumberPmt;
+  @JsonKey(name: "pemberian_pusat")
+  final DataRequest pemberianPusat;
+  @JsonKey(name: "tahun_produksi")
+  final DataRequest tahunProduksi;
+  @JsonKey(name: "pemberian_daerah")
+  final DataRequest pemberianDaerah;
 
   ChildMedicalCheckAtrForRequest({
     DataRequest anak,
@@ -388,11 +594,39 @@ class ChildMedicalCheckAtrForRequest extends Equatable {
     DataRequest metodeUkur,
     DataRequest panjangBadan,
     DataRequest beratBadan,
+    DataRequest umurDalamHari,
+    DataRequest diameterKepala,
+    DataRequest vitaminA,
+    DataRequest asi1,
+    DataRequest asi2,
+    DataRequest asi3,
+    DataRequest asi4,
+    DataRequest asi5,
+    DataRequest asi6,
+    DataRequest pemberianKe,
+    DataRequest sumberPmt,
+    DataRequest pemberianPusat,
+    DataRequest tahunProduksi,
+    DataRequest pemberianDaerah,
   })  : this.anak = anak ?? DataRequest(),
         this.tanggalCek = tanggalCek ?? DataRequest(),
         this.metodeUkur = metodeUkur ?? DataRequest(),
         this.panjangBadan = panjangBadan ?? DataRequest(),
-        this.beratBadan = beratBadan ?? DataRequest();
+        this.beratBadan = beratBadan ?? DataRequest(),
+        this.umurDalamHari = umurDalamHari ?? DataRequest(),
+        this.diameterKepala = diameterKepala ?? DataRequest(),
+        this.vitaminA = vitaminA ?? DataRequest(),
+        this.asi1 = asi1 ?? DataRequest(),
+        this.asi2 = asi2 ?? DataRequest(),
+        this.asi3 = asi3 ?? DataRequest(),
+        this.asi4 = asi4 ?? DataRequest(),
+        this.asi5 = asi5 ?? DataRequest(),
+        this.asi6 = asi6 ?? DataRequest(),
+        this.pemberianKe = pemberianKe ?? DataRequest(),
+        this.sumberPmt = sumberPmt ?? DataRequest(),
+        this.pemberianPusat = pemberianPusat ?? DataRequest(),
+        this.tahunProduksi = tahunProduksi ?? DataRequest(),
+        this.pemberianDaerah = pemberianDaerah ?? DataRequest();
 
   Map<String, dynamic> toJson() => _$ChildMedicalCheckAtrForRequestToJson(this);
 

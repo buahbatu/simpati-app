@@ -38,9 +38,22 @@ class ChildrenRepositoryApi extends ChildrenRepository {
   }
 
   @override
-  Future<Result<Children>> add(Children instance) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<Result<Children>> add(Children instance) async {
+    final childBody = instance.toRequestBody();
+    return await Api.v1
+        .post("/klaster-by-member-record-add/posyandu/anak",
+            data: ([childBody.toJson()]))
+        .withParser((json) {
+      final data = json['data'];
+      print(data);
+      if (data is List && data.isNotEmpty) {
+        return instance;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal memasukan data"));
+    }).withLoading();
   }
 
   @override
@@ -88,7 +101,8 @@ class ChildrenRepositoryApi extends ChildrenRepository {
         "klaster_slug_get": "anak",
         "klaster_record_id": id,
         "simple": true,
-        "klaster_slug_child": "anak-cek"
+        "klaster_slug_child": "anak-cek",
+        "limit": -1
       },
     ).withParser((json) {
       return CheckChildResponse.fromJson(json).mapToChildCheck();
@@ -101,24 +115,23 @@ class ChildrenRepositoryApi extends ChildrenRepository {
   Future<Result<ChildMedicalCheckup>> addChildMedicalCheckUp(
       ChildMedicalCheckup medCheck) async {
     final medReq = ChildMedicalCheckup().medChildRequest(medCheck);
-    print("sss");
     print(medReq.toString());
     return await Api.v1
         .post(
       "/klaster-by-member-record-add/posyandu/anak-cek",
       data: ([medReq.toJson()]),
     )
-        .withParser(
-      (json) {
-        print(json);
-        final data = json["data"];
-        if (data is List && data.isNotEmpty) {
-          print(data);
-          // return Result.success(data, json);
-          return true;
-        }
-        return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
-      },
-    ).withLoading();
+        .withParser((json) {
+      print(json);
+      final data = json["data"];
+      if (data is List && data.isNotEmpty) {
+        print(data);
+        return medCheck;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
+    }).withLoading();
   }
 }

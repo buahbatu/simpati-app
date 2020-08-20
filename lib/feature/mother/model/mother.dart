@@ -135,7 +135,6 @@ class Mother extends Equatable {
     );
   }
 
-
   MotherRequest motherToMotherRequest() {
     final motherReq = MotherRequest();
     motherReq.atribut = MotherAtrForRequest();

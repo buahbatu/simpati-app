@@ -15,6 +15,8 @@ import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/feature/children/dialog/child_medical_check_dialog.dart';
 import 'package:simpati/feature/children/model/children.dart';
 import 'package:simpati/feature/children/model/children_check.dart';
+import 'package:simpati/feature/children/page/add_check_steps/add_check_info.dart';
+import 'package:simpati/feature/children/page/info_check.dart';
 import 'package:simpati/feature/repository/children_repository.dart';
 
 class ChildrenInfoState {
@@ -44,11 +46,11 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
   @override
   Future<ChildrenInfoState> initState() async {
     final id = Get.arguments;
+    print(id);
     final result = await apiChildRepo.getByKey(id);
     if (result.isSuccess) {
       final resultCheckUp = await apiChildRepo.getChildMedicalCheck(id);
       if (resultCheckUp.isSuccess) {
-        print(resultCheckUp.data.first.title);
         return ChildrenInfoState(
             id: id, child: result.data, medicalCheckup: resultCheckUp.data);
       }
@@ -57,12 +59,38 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
     return ChildrenInfoState(id: id);
   }
 
+  void navigateToInfoScreen(ChildMedicalCheckup medicalCheckup) {
+    Get.to(InfoCheckScreen(medicalCheckup));
+  }
+
+  Future<void> onReload() async {
+    final id = state.id;
+    final result = await apiChildRepo.getByKey(id);
+    if (result.isSuccess) {
+      final resultCheckUp = await apiChildRepo.getChildMedicalCheck(id);
+      if (resultCheckUp.isSuccess) {
+        return ChildrenInfoState(
+          id: id,
+          child: result.data,
+          medicalCheckup: resultCheckUp.data,
+        );
+      }
+      return ChildrenInfoState(child: result.data, id: id);
+    }
+    return ChildrenInfoState();
+  }
+
   void addMedicalCheckUp(ChildMedicalCheckup medCheck) async {
     ChildMedicalCheckup request = medCheck.copyWith(anak: state.id);
     final result = await apiChildRepo.addChildMedicalCheckUp(request);
-    // if (result.isSuccess) {
-    //   reloadScreen();
-    // }
+    if (result.isSuccess) {
+      Get.back();
+      reloadScreen();
+    }
+  }
+
+  void navigateToAddCheck(String id) {
+    Get.to(AddCheckInfoScreen(id));
   }
 }
 
@@ -100,21 +128,24 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
       body: state.child != null
-          ? ListView(
-              shrinkWrap: true,
-              children: [
-                createNameSection(state),
-                SizedBox(height: 8),
-                createPersonalInfo(state),
-                SizedBox(height: 8),
-                createHealthInfo(state),
-                SizedBox(height: 8),
-                createWeightHistory(state),
-                SizedBox(height: 8),
-                createCheckupHistory(state, context),
-                SizedBox(height: 8),
-                createImmunizationHistory(state),
-              ],
+          ? RefreshIndicator(
+              onRefresh: () => action.onReload(),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  createNameSection(state),
+                  SizedBox(height: 8),
+                  createPersonalInfo(state),
+                  SizedBox(height: 8),
+                  createHealthInfo(state),
+                  SizedBox(height: 8),
+                  createWeightHistory(state),
+                  SizedBox(height: 8),
+                  createCheckupHistory(state, context, action),
+                  SizedBox(height: 8),
+                  createImmunizationHistory(state),
+                ],
+              ),
             )
           : Align(
               alignment: Alignment.center,
@@ -296,7 +327,7 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
               Expanded(
                 child: FormUtils.buildField(
                   'Panjang Badan',
-                  value: "90",
+                  value: state.child.tinggi,
                   isEnabled: false,
                   suffix: 'cm',
                 ),
@@ -344,7 +375,11 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
     );
   }
 
-  Widget createCheckupHistory(ChildrenInfoState state, BuildContext context) {
+  Widget createCheckupHistory(
+    ChildrenInfoState state,
+    BuildContext context,
+    ChildrenInfoAction action,
+  ) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -369,19 +404,21 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                       children: <Widget>[
                         Text('Ke ${i + 1}', style: AppTextStyle.sectionTitle),
                         Text(
-                          state.child.createdAt,
+                          state.medicalCheckup[i].tanggalCek,
                           style: AppTextStyle.titleName.copyWith(fontSize: 10),
                         ),
                       ],
                     ),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        child: ChildMedicalCheckDialog(
-                          i + 1,
-                          initialData: state.medicalCheckup[i],
-                        ),
-                      );
+                      action.navigateToInfoScreen(state.medicalCheckup[i]);
+                      // showDialog(
+                      //   context: context,
+                      //   child: ChildMedicalCheckDialog(
+                      //     state.id,
+                      //     i + 1,
+                      //     initialData: state.medicalCheckup[i],
+                      //   ),
+                      // );
                     }),
               ).reversed,
               FlatButton(
@@ -392,14 +429,15 @@ class ChildrenInfoScreen extends BaseView<ChildrenInfoScreen,
                 color: ResColor.primaryColor,
                 child: Icon(LineAwesomeIcons.plus, color: Colors.white),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    child: ChildMedicalCheckDialog(
-                      state.medicalCheckup.length + 1,
-                      initialData: state.initialData,
-                    ),
-                  );
-                  print(state.initialData);
+                  action.navigateToAddCheck(state.child.id);
+                  // showDialog(
+                  //   context: context,
+                  //   child: ChildMedicalCheckDialog(
+                  //     state.id,
+                  //     state.medicalCheckup.length + 1,
+                  //     initialData: state.initialData,
+                  //   ),
+                  // );
                 },
               ),
             ],

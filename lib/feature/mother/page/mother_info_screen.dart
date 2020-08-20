@@ -13,6 +13,7 @@ import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
 import 'package:simpati/feature/children/page/children_add.dart';
+import 'package:simpati/feature/children/page/children_info_screen.dart';
 import 'package:simpati/feature/mother/model/mother.dart';
 import 'package:simpati/feature/mother/model/pregnancy.dart';
 import 'package:simpati/feature/mother/page/dialog/add_pregnancy_dialog.dart';
@@ -23,7 +24,8 @@ class MotherInfoState {
   Mother mother;
   ChildInfo childInfo;
   Pregnancy pregnancy;
-  MotherInfoState({this.pregnancy, this.mother, this.childInfo});
+  final String idIbu;
+  MotherInfoState({this.pregnancy, this.mother, this.childInfo, this.idIbu});
 }
 
 class MotherInfoAction
@@ -37,11 +39,29 @@ class MotherInfoAction
     if (result.isSuccess) {
       final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
       return MotherInfoState(
+          idIbu: Get.arguments,
           pregnancy: Pregnancy(),
           mother: result.data,
           childInfo: resultChild.data);
     }
     return MotherInfoState(pregnancy: Pregnancy());
+  }
+
+  void navigateToDetailChild(String id) async {
+    Get.to(ChildrenInfoScreen(), arguments: id);
+  }
+
+  Future<void> onReloadScreen() async {
+    final result = await apiMotherRepo.getByKey(Get.arguments);
+    if (result.isSuccess) {
+      final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
+      MotherInfoState(
+          idIbu: Get.arguments,
+          pregnancy: Pregnancy(),
+          mother: result.data,
+          childInfo: resultChild.data);
+      reloadScreen();
+    }
   }
 
   void updateFormData(
@@ -56,12 +76,25 @@ class MotherInfoAction
       String bloodType}) {
     if (height != null)
       state.pregnancy = state.pregnancy.copyWith(height: height);
-    if (nik != null) state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    if (nik != null) {
+      state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    }
     if (menstruationCycleTitle != null)
       state.pregnancy =
           state.pregnancy.copyWith(menstruationCycle: menstruationCycleTitle);
     if (namaSuami != null)
       state.pregnancy = state.pregnancy.copyWith(namaSuami: namaSuami);
+    if (bloodPressure != null)
+      state.pregnancy = state.pregnancy.copyWith(bloodPressure: bloodPressure);
+    state.pregnancy = state.pregnancy.copyWith(id: state.idIbu);
+  }
+
+  void addPregnancy(Pregnancy pregnancy) async {
+    final result = await apiMotherRepo.addPregnancy(pregnancy);
+    if (result.isSuccess) {
+      Get.back();
+      reloadScreen();
+    }
   }
 }
 
@@ -90,7 +123,10 @@ class MotherInfoScreen
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
       body: state.mother != null
-          ? getContents(state.mother, state.childInfo, context)
+          ? RefreshIndicator(
+              onRefresh: () => action.reloadScreen(),
+              child:
+                  getContents(state.mother, state.childInfo, context, action))
           : Align(
               alignment: Alignment.center,
               child: Column(
@@ -159,7 +195,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget getContents(Mother mother, ChildInfo childInfo, BuildContext context) {
+  Widget getContents(Mother mother, ChildInfo childInfo, BuildContext context,
+      MotherInfoAction action) {
     return ListView(
       shrinkWrap: true,
       children: [
@@ -169,7 +206,7 @@ class MotherInfoScreen
         // SizedBox(height: 8),
         createPregnancyInfo(mother, context),
         SizedBox(height: 8),
-        createChildInfo(context, childInfo),
+        createChildInfo(context, childInfo, action),
         SizedBox(height: 8),
         createPersonalInfo(mother),
         SizedBox(height: 8),
@@ -258,7 +295,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildInfo(BuildContext context, ChildInfo state) {
+  Widget createChildInfo(
+      BuildContext context, ChildInfo state, MotherInfoAction action) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -271,7 +309,9 @@ class MotherInfoScreen
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              ...state.data.map((e) => createChildCircle(context, e)).toList(),
+              ...state.data
+                  .map((e) => createChildCircle(context, e, action))
+                  .toList(),
               SizedBox(
                 height: 59,
                 width: 59,
@@ -292,7 +332,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildCircle(BuildContext ctx, ChildInfoDatum e) {
+  Widget createChildCircle(
+      BuildContext ctx, ChildInfoDatum e, MotherInfoAction action) {
     return Column(
       children: <Widget>[
         Material(
@@ -308,7 +349,9 @@ class MotherInfoScreen
                 backgroundColor: Colors.white,
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  action.navigateToDetailChild(e.id);
+                },
                 shape: CircleBorder(),
                 color: ResColor.profileBgColor,
                 padding: const EdgeInsets.all(7.5),

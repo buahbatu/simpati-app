@@ -21,16 +21,16 @@ class Step1AddChild
   final TextEditingController nameController = TextEditingController();
   final TextEditingController nikController = TextEditingController();
   final TextEditingController kkController = TextEditingController();
-  final TextEditingController motherNameController = TextEditingController();
-  final TextEditingController motherNikController = TextEditingController();
+
+  final TextEditingController anakKeController = TextEditingController();
   var formatter = new DateFormat('yyyy-MM-dd');
 
   final nameFocus = FocusNode();
+  final anakKeFocus = FocusNode();
   final nikFocus = FocusNode();
   final kkFocus = FocusNode();
-  final motherNameFocus = FocusNode();
+
   final birthDateFocus = FocusNode();
-  final motherNikFocus = FocusNode();
 
   @override
   Widget loadingViewBuilder(BuildContext context) => Container(
@@ -95,22 +95,38 @@ class Step1AddChild
               children: <Widget>[
                 Container(height: 24),
                 FormUtils.buildField(
+                  'Anak Ke',
+                  focusNode: anakKeFocus,
+                  inputType: TextInputType.number,
+                  nextForm: NextForm(focusScope, nameFocus),
+                  value: anakKeController.text,
+                  onChanged: (s) {
+                    action.updateFormData(anakKe: s);
+                    anakKeController.text = s;
+                  },
+                ),
+                Container(height: 8),
+                FormUtils.buildField(
                   'Nama Lengkap',
                   focusNode: nameFocus,
                   nextForm: NextForm(focusScope, nikFocus),
                   value: nameController.text,
                   onChanged: (s) {
+                    action.updateFormData(namaAnak: s);
+
                     nameController.text = s;
                   },
                 ),
                 Container(height: 8),
                 FormUtils.buildField(
-                  'Nik Anak',
+                  'NIK Anak',
                   inputType: TextInputType.number,
                   focusNode: nikFocus,
                   nextForm: NextForm(focusScope, kkFocus),
                   value: nikController.text,
                   onChanged: (s) {
+                    action.updateFormData(nik: s);
+
                     nikController.text = s;
                   },
                 ),
@@ -122,6 +138,8 @@ class Step1AddChild
                   nextForm: NextForm(focusScope, birthDateFocus),
                   value: kkController.text,
                   onChanged: (s) {
+                    action.updateFormData(nomorKK: s);
+
                     kkController.text = s;
                   },
                 ),
@@ -130,7 +148,6 @@ class Step1AddChild
                   child: FormUtils.buildField('Tanggal Lahir',
                       controller: dateController,
                       focusNode: birthDateFocus,
-                      nextForm: NextForm(focusScope, motherNameFocus),
                       isEnabled: false,
                       inputType: TextInputType.datetime),
                   onTap: () async {
@@ -140,12 +157,11 @@ class Step1AddChild
                       firstDate: DateTime(1940),
                       lastDate: DateTime(2080),
                     );
-                    if (date != null) {
-                      // bloc.child = bloc.child.copyWith(birthDate: date);
-                      // setState(() {
-                      dateController.text = formatter.format(date);
-                      // });
-                    }
+                    final format = formatter.format(date);
+
+                    action.updateFormData(tanggalLahir: format);
+                    dateController.text = format;
+
                     focusScope.requestFocus(FocusNode());
                   },
                 ),
@@ -153,11 +169,8 @@ class Step1AddChild
                 InkWell(
                   onTap: () async {
                     final pick = await showGenderPick(context);
-                    if (pick != null)
-                      // setState(() {
-                      //   bloc.child = bloc.child.copyWith(bloodType: pick);
-                      genderController.text = pick;
-                    // });
+                    if (pick != null) action.updateFormData(jenisKelamin: pick);
+                    genderController.text = pick;
                     focusScope.requestFocus(FocusNode());
                   },
                   child: FormUtils.buildField(
@@ -167,27 +180,6 @@ class Step1AddChild
                   ),
                 ),
                 SizedBox(height: 8),
-                FormUtils.buildField(
-                  'Nama Ibu',
-                  focusNode: motherNameFocus,
-                  nextForm: NextForm(focusScope, motherNikFocus),
-                  value: motherNameController.text,
-                  isEnabled: true,
-                  onChanged: (s) {
-                    motherNameController.text = s;
-                  },
-                ),
-                SizedBox(height: 8),
-                FormUtils.buildField(
-                  'Nik Ibu',
-                  focusNode: motherNikFocus,
-                  inputType: TextInputType.number,
-                  value: motherNikController.text,
-                  isEnabled: true,
-                  onChanged: (s) {
-                    motherNikController.text = s;
-                  },
-                ),
               ],
             ),
           ),

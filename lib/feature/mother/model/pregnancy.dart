@@ -55,17 +55,17 @@ class Pregnancy extends Equatable {
     );
   }
 
-  PregnancyRequest pregnancyToMotherRequest(Pregnancy pregnancy) {
+  PregnancyRequest pregnancyToMotherRequest() {
     final pregnancyReq = PregnancyRequest();
     pregnancyReq.atribut = PregnancyAtrForRequest();
-    pregnancyReq.title = pregnancy.title;
-    pregnancyReq.atribut.namaSuami.content = pregnancy.namaSuami;
-    pregnancyReq.atribut.nik.content = pregnancy.nik;
-    pregnancyReq.atribut.tanggalLahir.content = pregnancy.tanggalLahir;
-    pregnancyReq.atribut.lastMenstruation.content = pregnancy.lastMenstruation;
-    pregnancyReq.atribut.bloodPressure.content = pregnancy.bloodPressure;
-    pregnancyReq.atribut.menstruationCycle.content =
-        pregnancy.menstruationCycle;
+    pregnancyReq.title = this.title;
+    pregnancyReq.atribut.namaSuami.content = this.namaSuami;
+    pregnancyReq.atribut.nik.content = this.nik;
+    pregnancyReq.atribut.ibu.content = this.id;
+    pregnancyReq.atribut.tanggalLahir.content = this.tanggalLahir;
+    pregnancyReq.atribut.lastMenstruation.content = this.lastMenstruation;
+    pregnancyReq.atribut.bloodPressure.content = this.bloodPressure;
+    pregnancyReq.atribut.menstruationCycle.content = this.menstruationCycle;
 
     return pregnancyReq;
   }
@@ -201,6 +201,8 @@ class PregnancyAtrForRequest extends Equatable {
   final DataRequest menstruationCycle;
   @JsonKey(name: "berat")
   final DataRequest weight;
+  @JsonKey(name: "ibu")
+  final DataRequest ibu;
   @JsonKey(name: "tinggi")
   final DataRequest height;
   @JsonKey(name: "tekanan_darah")
@@ -211,6 +213,7 @@ class PregnancyAtrForRequest extends Equatable {
       DataRequest nik,
       DataRequest namaSuami,
       DataRequest tanggalLahir,
+      DataRequest ibu,
       DataRequest lastMenstruation,
       DataRequest menstruationCycle,
       DataRequest weight,
@@ -224,6 +227,7 @@ class PregnancyAtrForRequest extends Equatable {
         this.menstruationCycle = menstruationCycle ?? DataRequest(),
         this.weight = weight ?? DataRequest(),
         this.height = height ?? DataRequest(),
+        this.ibu = ibu ?? DataRequest(),
         this.bloodPressure = bloodPressure ?? DataRequest();
 
   Map<String, dynamic> toJson() => _$PregnancyAtrForRequestToJson(this);
