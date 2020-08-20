@@ -7,6 +7,7 @@ import 'package:simpati/feature/children/page/children_info_screen.dart';
 
 class GrowthChart extends BaseChildView<ChildrenInfoScreen, ChildrenInfoAction,
     ChildrenInfoState> {
+  // TODO: implement chart perkembangan anak
   // final Children child;
 
   // const GrowthChart({Key key, this.child}) : super(key: key);
