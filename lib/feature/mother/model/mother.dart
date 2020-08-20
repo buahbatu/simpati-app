@@ -145,6 +145,7 @@ class Mother extends Equatable {
     motherReq.atribut.nomorHandphone.content = this.nomorHandphone;
     motherReq.atribut.golonganDarah.content = this.golonganDarah;
 
+
     return motherReq;
   }
 }
