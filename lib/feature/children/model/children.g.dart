@@ -79,6 +79,48 @@ AtributForResponse _$AtributForResponseFromJson(Map<String, dynamic> json) {
     note: json['note'] == null
         ? null
         : DataAtribut.fromJson(json['note'] as Map<String, dynamic>),
+    beratLahir: json['berat_lahir'] == null
+        ? null
+        : DataAtribut.fromJson(json['berat_lahir'] as Map<String, dynamic>),
+    tinggi: json['tinggi'] == null
+        ? null
+        : DataAtribut.fromJson(json['tinggi'] as Map<String, dynamic>),
+    kia: json['kia'] == null
+        ? null
+        : DataAtribut.fromJson(json['kia'] as Map<String, dynamic>),
+    imd: json['imd'] == null
+        ? null
+        : DataAtribut.fromJson(json['imd'] as Map<String, dynamic>),
+    namaOrtu: json['nama_orang_tua'] == null
+        ? null
+        : DataAtribut.fromJson(json['nama_orang_tua'] as Map<String, dynamic>),
+    nikOrtu: json['nik_orang_tua'] == null
+        ? null
+        : DataAtribut.fromJson(json['nik_orang_tua'] as Map<String, dynamic>),
+    hpOrtu: json['nomor_handphone'] == null
+        ? null
+        : DataAtribut.fromJson(json['nomor_handphone'] as Map<String, dynamic>),
+    alamat: json['alamat'] == null
+        ? null
+        : DataAtribut.fromJson(json['alamat'] as Map<String, dynamic>),
+    rt: json['rt'] == null
+        ? null
+        : DataAtribut.fromJson(json['rt'] as Map<String, dynamic>),
+    rw: json['rw'] == null
+        ? null
+        : DataAtribut.fromJson(json['rw'] as Map<String, dynamic>),
+    statusGiziTbU: json['status_gizi_tb_u'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['status_gizi_tb_u'] as Map<String, dynamic>),
+    statusGiziBbU: json['status_gizi_bb_u'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['status_gizi_bb_u'] as Map<String, dynamic>),
+    statusGiziBbTb: json['status_gizi_bb_tb'] == null
+        ? null
+        : DataAtribut.fromJson(
+            json['status_gizi_bb_tb'] as Map<String, dynamic>),
   );
 }
 
@@ -94,6 +136,19 @@ Map<String, dynamic> _$AtributForResponseToJson(AtributForResponse instance) =>
       'bpjs_number': instance.nomorBpjs?.toJson(),
       'jenis_kelamin': instance.jenisKelamin?.toJson(),
       'note': instance.note?.toJson(),
+      'berat_lahir': instance.beratLahir?.toJson(),
+      'tinggi': instance.tinggi?.toJson(),
+      'kia': instance.kia?.toJson(),
+      'imd': instance.imd?.toJson(),
+      'nama_orang_tua': instance.namaOrtu?.toJson(),
+      'nik_orang_tua': instance.nikOrtu?.toJson(),
+      'nomor_handphone': instance.hpOrtu?.toJson(),
+      'alamat': instance.alamat?.toJson(),
+      'rt': instance.rt?.toJson(),
+      'rw': instance.rw?.toJson(),
+      'status_gizi_tb_u': instance.statusGiziTbU?.toJson(),
+      'status_gizi_bb_u': instance.statusGiziBbU?.toJson(),
+      'status_gizi_bb_tb': instance.statusGiziBbTb?.toJson(),
     };
 
 DataAtribut _$DataAtributFromJson(Map<String, dynamic> json) {
@@ -206,6 +261,18 @@ ChildAddAtrForRequest _$ChildAddAtrForRequestFromJson(
     rw: json['rw'] == null
         ? null
         : DataRequest.fromJson(json['rw'] as Map<String, dynamic>),
+    statusGiziTbU: json['status_gizi_tb_u'] == null
+        ? null
+        : DataRequest.fromJson(
+            json['status_gizi_tb_u'] as Map<String, dynamic>),
+    statusGiziBbU: json['status_gizi_bb_u'] == null
+        ? null
+        : DataRequest.fromJson(
+            json['status_gizi_bb_u'] as Map<String, dynamic>),
+    statusGiziBbTb: json['status_gizi_bb_tb'] == null
+        ? null
+        : DataRequest.fromJson(
+            json['status_gizi_bb_tb'] as Map<String, dynamic>),
   );
 }
 
@@ -229,6 +296,9 @@ Map<String, dynamic> _$ChildAddAtrForRequestToJson(
       'alamat': instance.alamat,
       'rt': instance.rt,
       'rw': instance.rw,
+      'status_gizi_tb_u': instance.statusGiziTbU,
+      'status_gizi_bb_u': instance.statusGiziBbU,
+      'status_gizi_bb_tb': instance.statusGiziBbTb,
     };
 
 DataRequest _$DataRequestFromJson(Map<String, dynamic> json) {

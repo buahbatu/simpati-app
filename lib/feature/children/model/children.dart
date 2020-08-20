@@ -35,6 +35,10 @@ class Children extends Equatable {
   final String jenisKelamin;
   final String golonganDarah;
 
+  final String statusGiziTbU;
+  final String statusGiziBbU;
+  final String statusGiziBbTb;
+
   Children({
     final String id,
     final String title,
@@ -64,6 +68,9 @@ class Children extends Equatable {
     final String rt,
     final String rw,
     final String golonganDarah,
+    final String statusGiziTbU,
+    final String statusGiziBbU,
+    final String statusGiziBbTb,
   })  : this.id = id ?? "",
         this.title = title ?? "",
         this.anakKe = anakKe ?? "",
@@ -91,6 +98,9 @@ class Children extends Equatable {
         this.tempatLahir = tempatLahir ?? "",
         this.nomorBpjs = nomorBpjs ?? "",
         this.golonganDarah = golonganDarah ?? "",
+        this.statusGiziTbU = statusGiziTbU ?? "",
+        this.statusGiziBbU = statusGiziBbU ?? "",
+        this.statusGiziBbTb = statusGiziBbTb ?? "",
         this.note = note ?? "";
 
   @override
@@ -134,6 +144,7 @@ class Children extends Equatable {
     final String anakKe,
     final String status,
     final String ibu,
+    final String namaAnak,
     final String kehamilan,
     final String nomorKK,
     final String beratLahir,
@@ -148,12 +159,14 @@ class Children extends Equatable {
     final String tempatLahir,
     final String tanggalLahir,
     final String nomorBpjs,
-    final String namaAnak,
     final String note,
     final String jenisKelamin,
     final String rt,
     final String rw,
     final String golonganDarah,
+    final String statusGiziTbU,
+    final String statusGiziBbU,
+    final String statusGiziBbTb,
   }) {
     return Children(
       id: id ?? this.id,
@@ -163,8 +176,8 @@ class Children extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       anakKe: anakKe ?? this.anakKe,
       status: status ?? this.status,
-      namaAnak: namaAnak ?? this.namaAnak,
       ibu: ibu ?? this.ibu,
+      namaAnak: namaAnak ?? this.namaAnak,
       kehamilan: kehamilan ?? this.kehamilan,
       nomorKK: nomorKK ?? this.nomorKK,
       beratLahir: beratLahir ?? this.beratLahir,
@@ -183,6 +196,10 @@ class Children extends Equatable {
       jenisKelamin: jenisKelamin ?? this.jenisKelamin,
       rt: rt ?? this.rt,
       rw: rw ?? this.rw,
+      golonganDarah: golonganDarah ?? this.golonganDarah,
+      statusGiziTbU: statusGiziTbU ?? this.statusGiziTbU,
+      statusGiziBbU: statusGiziBbU ?? this.statusGiziBbU,
+      statusGiziBbTb: statusGiziBbTb ?? this.statusGiziBbTb,
     );
   }
 
@@ -225,22 +242,26 @@ class ResponseChildren extends Equatable {
     for (var item in childrenList) {
       Children child = Children();
       child = child.copyWith(
-          id: item.id,
-          title: item.title,
-          content: item.content,
-          status: item.status,
-          createdAt: item.createdAt,
-          slug: item.slug,
-          note: getContentOrElse(item.atribut.note),
-          golonganDarah: getContentOrElse(item.atribut.golonganDarah),
-          ibu: getContentOrElse(item.atribut.ibu),
-          jenisKelamin: getContentOrElse(item.atribut.jenisKelamin),
-          kehamilan: getContentOrElse(item.atribut.kehamilan),
-          nik: getContentOrElse(item.atribut.nik),
-          nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
-          posyandu: getContentOrElse(item.atribut.posyandu),
-          tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
-          tempatLahir: getContentOrElse(item.atribut.tempatLahir));
+        id: item.id,
+        title: item.title,
+        content: item.content,
+        status: item.status,
+        createdAt: item.createdAt,
+        slug: item.slug,
+        note: getContentOrElse(item.atribut.note),
+        golonganDarah: getContentOrElse(item.atribut.golonganDarah),
+        ibu: getContentOrElse(item.atribut.ibu),
+        jenisKelamin: getContentOrElse(item.atribut.jenisKelamin),
+        kehamilan: getContentOrElse(item.atribut.kehamilan),
+        nik: getContentOrElse(item.atribut.nik),
+        nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
+        posyandu: getContentOrElse(item.atribut.posyandu),
+        tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
+        tempatLahir: getContentOrElse(item.atribut.tempatLahir),
+        statusGiziBbTb: getContentOrElse(item.atribut.statusGiziBbTb),
+        statusGiziBbU: getContentOrElse(item.atribut.statusGiziBbU),
+        statusGiziTbU: getContentOrElse(item.atribut.statusGiziTbU),
+      );
 
       childrens.add(child);
     }
@@ -377,6 +398,35 @@ class AtributForResponse extends Equatable {
   @JsonKey(name: 'note')
   final DataAtribut note;
 
+  @JsonKey(name: "berat_lahir")
+  final DataAtribut beratLahir;
+  @JsonKey(name: "tinggi")
+  final DataAtribut tinggi;
+  @JsonKey(name: "kia")
+  final DataAtribut kia;
+  @JsonKey(name: "imd")
+  final DataAtribut imd;
+  @JsonKey(name: "nama_orang_tua")
+  final DataAtribut namaOrtu;
+
+  @JsonKey(name: "nik_orang_tua")
+  final DataAtribut nikOrtu;
+  @JsonKey(name: "nomor_handphone")
+  final DataAtribut hpOrtu;
+  @JsonKey(name: "alamat")
+  final DataAtribut alamat;
+  @JsonKey(name: "rt")
+  final DataAtribut rt;
+  @JsonKey(name: "rw")
+  final DataAtribut rw;
+
+  @JsonKey(name: "status_gizi_tb_u")
+  final DataAtribut statusGiziTbU;
+  @JsonKey(name: "status_gizi_bb_u")
+  final DataAtribut statusGiziBbU;
+  @JsonKey(name: "status_gizi_bb_tb")
+  final DataAtribut statusGiziBbTb;
+
   AtributForResponse({
     DataAtribut posyandu,
     DataAtribut nik,
@@ -388,6 +438,19 @@ class AtributForResponse extends Equatable {
     DataAtribut nomorBpjs,
     DataAtribut jenisKelamin,
     DataAtribut note,
+    DataAtribut beratLahir,
+    DataAtribut tinggi,
+    DataAtribut kia,
+    DataAtribut imd,
+    DataAtribut namaOrtu,
+    DataAtribut nikOrtu,
+    DataAtribut hpOrtu,
+    DataAtribut alamat,
+    DataAtribut rt,
+    DataAtribut rw,
+    DataAtribut statusGiziTbU,
+    DataAtribut statusGiziBbU,
+    DataAtribut statusGiziBbTb,
   })  : this.posyandu = posyandu ?? DataAtribut(),
         this.nik = nik ?? DataAtribut(),
         this.ibu = ibu ?? DataAtribut(),
@@ -397,6 +460,19 @@ class AtributForResponse extends Equatable {
         this.golonganDarah = golonganDarah ?? DataAtribut(),
         this.nomorBpjs = nomorBpjs ?? DataAtribut(),
         this.jenisKelamin = jenisKelamin ?? DataAtribut(),
+        this.beratLahir = beratLahir ?? DataAtribut,
+        this.tinggi = tinggi ?? DataAtribut,
+        this.kia = kia ?? DataAtribut,
+        this.imd = imd ?? DataAtribut,
+        this.namaOrtu = namaOrtu ?? DataAtribut,
+        this.nikOrtu = nikOrtu ?? DataAtribut,
+        this.hpOrtu = hpOrtu ?? DataAtribut,
+        this.alamat = alamat ?? DataAtribut,
+        this.rt = rt ?? DataAtribut,
+        this.rw = rw ?? DataAtribut,
+        this.statusGiziTbU = statusGiziTbU ?? DataAtribut,
+        this.statusGiziBbU = statusGiziBbU ?? DataAtribut,
+        this.statusGiziBbTb = statusGiziBbTb ?? DataAtribut,
         this.note = note ?? DataAtribut();
 
   factory AtributForResponse.fromJson(Map<String, dynamic> json) =>
@@ -545,6 +621,13 @@ class ChildAddAtrForRequest extends Equatable {
   @JsonKey(name: "rw")
   final DataRequest rw;
 
+  @JsonKey(name: "status_gizi_tb_u")
+  final DataRequest statusGiziTbU;
+  @JsonKey(name: "status_gizi_bb_u")
+  final DataRequest statusGiziBbU;
+  @JsonKey(name: "status_gizi_bb_tb")
+  final DataRequest statusGiziBbTb;
+
   ChildAddAtrForRequest({
     DataRequest tanggalLahir,
     DataRequest anakKe,
@@ -563,6 +646,9 @@ class ChildAddAtrForRequest extends Equatable {
     DataRequest alamat,
     DataRequest rt,
     DataRequest rw,
+    DataRequest statusGiziTbU,
+    DataRequest statusGiziBbU,
+    DataRequest statusGiziBbTb,
   })  : this.tanggalLahir = tanggalLahir ?? DataRequest(),
         this.jenisKelamin = jenisKelamin ?? DataRequest(),
         this.anakKe = anakKe ?? DataRequest(),
@@ -579,6 +665,9 @@ class ChildAddAtrForRequest extends Equatable {
         this.hpOrtu = hpOrtu ?? DataRequest(),
         this.alamat = alamat ?? DataRequest(),
         this.rt = rt ?? DataRequest(),
+        this.statusGiziTbU = statusGiziTbU ?? DataRequest(),
+        this.statusGiziBbU = statusGiziBbU ?? DataRequest(),
+        this.statusGiziBbTb = statusGiziBbTb ?? DataRequest(),
         this.rw = rw ?? DataRequest();
 
   Map<String, dynamic> toJson() => _$ChildAddAtrForRequestToJson(this);

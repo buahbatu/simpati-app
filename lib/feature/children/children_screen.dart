@@ -134,10 +134,10 @@ class ChildrenScreen
               width: 8.0,
             ),
             childInfo(data),
-            Text(
-              "6 bln",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
-            )
+            // Text(
+            //   "6 bln",
+            //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+            // )
           ],
         ),
       ),
@@ -166,28 +166,25 @@ class ChildrenScreen
         SizedBox(
           height: 8.0,
         ),
-        Wrap(
-          spacing: 4,
-          children: [
-            createChip("Berat Ideal"),
-            createChip("Gizi Baik"),
-          ],
-        )
+        createChip(data.statusGiziBbU ?? ""),
       ],
     );
   }
 
   Container createChip(String title) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: ResColor.accentColor),
-      child: Text(title,
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-          )),
-    );
+    return title != ""
+        ? Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: ResColor.accentColor),
+            child: Text(title,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                )),
+          )
+        : Container();
   }
 }
