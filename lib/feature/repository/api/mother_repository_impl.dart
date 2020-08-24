@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:simpati/core/domain/model/child_info.dart';
-import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:get/get.dart';
 import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/repository/result.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/feature/mother/model/mother.dart';
+import 'package:simpati/feature/mother/model/pregnancy.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
 
 class MotherRepositoryImpl extends MotherRepository {
@@ -19,24 +20,25 @@ class MotherRepositoryImpl extends MotherRepository {
 
   @override
   Future<Result<Mother>> add(Mother instance) async {
-    final motherRequest = Mother().motherToMotherRequest(instance);
+    // final motherRequest = Mother().motherToMotherRequest(instance);
+    final motherRequest = instance.motherToMotherRequest();
     return await Api.v1
         .post(
       "/klaster-by-member-record-add/posyandu/ibu",
       data: ([motherRequest.toJson()]),
     )
-        .withParser(
-      (json) {
-        print(json);
-        final data = json["data"];
-        if (data is List && data.isNotEmpty) {
-          print(data);
-          // return Result.success(data, json);
-          return true;
-        }
-        return Result.error(MessageFailure("Gagal input silahkan coba lagi"));
-      },
-    ).withLoading();
+        .withParser((json) {
+      print(json);
+      final data = json["data"];
+      if (data is List && data.isNotEmpty) {
+        print(data);
+        return instance;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal memasukan data"));
+    });
   }
 
   @override
@@ -76,25 +78,18 @@ class MotherRepositoryImpl extends MotherRepository {
   }
 
   @override
-  Future<Result<Mother>> getByKey(ins) {
-    // TODO: implement getByKey
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Result<MotherInfo>> getMotherById(String id) async {
+  Future<Result<Mother>> getByKey(ins) async {
     return await Api.v1.get(
-      "/klaster-by-member-relation-child",
+      "/klaster-by-member-relation-sub",
       queryParameters: {
         "klaster_slug": "posyandu",
         "klaster_slug_get": "ibu",
-        "klaster_record_id": id,
-        "klaster_slug_child": "kehamilan",
+        "klaster_record_id": ins,
         "simple": true
       },
     ).withParser(
       (json) {
-        return MotherInfo.fromJson(json);
+        return ResponseMother.fromJson(json).mapToMother();
       },
       errorParser: (json) {
         return json;
@@ -121,5 +116,27 @@ class MotherRepositoryImpl extends MotherRepository {
         return json;
       },
     );
+  }
+
+  @override
+  Future<Result<Pregnancy>> addPregnancy(Pregnancy pregnancy) async {
+    final motherRequest = pregnancy.pregnancyToMotherRequest();
+    return await Api.v1
+        .post(
+      "/klaster-by-member-record-add/posyandu/kehamilan",
+      data: ([motherRequest.toJson()]),
+    )
+        .withParser((json) {
+      print(json);
+      final data = json["data"];
+      if (data is List && data.isNotEmpty) {
+        print(data);
+        return pregnancy;
+      } else {
+        throw (TypeError());
+      }
+    }, errorOr: () {
+      return Result.error(MessageFailure("Gagal memasukan data"));
+    });
   }
 }

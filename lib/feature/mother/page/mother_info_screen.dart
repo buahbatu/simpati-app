@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:recase/recase.dart';
 import 'package:simpati/core/domain/model/child_info.dart';
 import 'package:simpati/core/domain/model/mother_info.dart';
 import 'package:simpati/core/framework/base_action.dart';
@@ -13,12 +12,20 @@ import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/core/utils/form_utils.dart';
+import 'package:simpati/feature/children/page/children_add.dart';
+import 'package:simpati/feature/children/page/children_info_screen.dart';
+import 'package:simpati/feature/mother/model/mother.dart';
+import 'package:simpati/feature/mother/model/pregnancy.dart';
+import 'package:simpati/feature/mother/page/dialog/add_pregnancy_dialog.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MotherInfoState {
-  MotherInfo motherInfo;
+  Mother mother;
   ChildInfo childInfo;
-  MotherInfoState({this.motherInfo, this.childInfo});
+  Pregnancy pregnancy;
+  final String idIbu;
+  MotherInfoState({this.pregnancy, this.mother, this.childInfo, this.idIbu});
 }
 
 class MotherInfoAction
@@ -28,15 +35,66 @@ class MotherInfoAction
   @override
   Future<MotherInfoState> initState() async {
     print(Get.arguments);
-    // Future.wait([]);
-    final result = await apiMotherRepo.getMotherById(Get.arguments);
-    if (result.data.data.isNotEmpty) {}
+    final result = await apiMotherRepo.getByKey(Get.arguments);
     if (result.isSuccess) {
       final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
       return MotherInfoState(
-          motherInfo: result.data, childInfo: resultChild.data);
+          idIbu: Get.arguments,
+          pregnancy: Pregnancy(),
+          mother: result.data,
+          childInfo: resultChild.data);
     }
-    return MotherInfoState();
+    return MotherInfoState(pregnancy: Pregnancy());
+  }
+
+  void navigateToDetailChild(String id) async {
+    Get.to(ChildrenInfoScreen(), arguments: id);
+  }
+
+  Future<void> onReloadScreen() async {
+    final result = await apiMotherRepo.getByKey(Get.arguments);
+    if (result.isSuccess) {
+      final resultChild = await apiMotherRepo.getChildByIdMother(Get.arguments);
+      MotherInfoState(
+          idIbu: Get.arguments,
+          pregnancy: Pregnancy(),
+          mother: result.data,
+          childInfo: resultChild.data);
+      reloadScreen();
+    }
+  }
+
+  void updateFormData(
+      {String nik,
+      String name,
+      String lastMenstruation,
+      String bloodPressure,
+      String height,
+      String weight,
+      String menstruationCycleTitle,
+      String namaSuami,
+      String bloodType}) {
+    if (height != null)
+      state.pregnancy = state.pregnancy.copyWith(height: height);
+    if (nik != null) {
+      state.pregnancy = state.pregnancy.copyWith(nik: nik);
+    }
+    if (menstruationCycleTitle != null)
+      state.pregnancy =
+          state.pregnancy.copyWith(menstruationCycle: menstruationCycleTitle);
+    if (namaSuami != null)
+      state.pregnancy = state.pregnancy.copyWith(namaSuami: namaSuami);
+    if (bloodPressure != null)
+      state.pregnancy = state.pregnancy.copyWith(bloodPressure: bloodPressure);
+    state.pregnancy = state.pregnancy.copyWith(id: state.idIbu);
+  }
+
+  void addPregnancy(Pregnancy pregnancy) async {
+    final result = await apiMotherRepo.addPregnancy(pregnancy);
+    if (result.isSuccess) {
+      Get.back();
+      reloadScreen();
+    }
   }
 }
 
@@ -64,8 +122,11 @@ class MotherInfoScreen
     return Scaffold(
       appBar: createAppBar(context),
       backgroundColor: ResColor.appBackground,
-      body: state.motherInfo.data.isNotEmpty
-          ? getContents(state.motherInfo, state.childInfo, context)
+      body: state.mother != null
+          ? RefreshIndicator(
+              onRefresh: () => action.reloadScreen(),
+              child:
+                  getContents(state.mother, state.childInfo, context, action))
           : Align(
               alignment: Alignment.center,
               child: Column(
@@ -89,7 +150,7 @@ class MotherInfoScreen
     );
   }
 
-  Widget createNameSection() {
+  Widget createNameSection(Mother mother) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 21, right: 21, bottom: 16),
@@ -105,9 +166,9 @@ class MotherInfoScreen
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("alifia", style: AppTextStyle.registerTitle),
+                Text(mother.title, style: AppTextStyle.registerTitle),
                 Container(height: 3),
-                createAddress(),
+                createAddress(mother),
               ],
             ),
           ),
@@ -116,7 +177,7 @@ class MotherInfoScreen
     );
   }
 
-  Widget createAddress() {
+  Widget createAddress(Mother mother) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -124,7 +185,7 @@ class MotherInfoScreen
         Container(width: 4),
         Expanded(
           child: Text(
-            "asasd",
+            mother.alamat,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyle.titleName.copyWith(fontSize: 12),
@@ -134,27 +195,27 @@ class MotherInfoScreen
     );
   }
 
-  Widget getContents(
-      MotherInfo motherInfo, ChildInfo childInfo, BuildContext context) {
+  Widget getContents(Mother mother, ChildInfo childInfo, BuildContext context,
+      MotherInfoAction action) {
     return ListView(
       shrinkWrap: true,
       children: [
-        createNameSection(),
+        createNameSection(mother),
         SizedBox(height: 8),
-        createHealthCheckInfo(),
+        // createHealthCheckInfo(mother),
+        // SizedBox(height: 8),
+        createPregnancyInfo(mother, context),
         SizedBox(height: 8),
-        createPregnancyInfo(motherInfo, context),
+        createChildInfo(context, childInfo, action),
         SizedBox(height: 8),
-        createChildInfo(context, childInfo),
+        createPersonalInfo(mother),
         SizedBox(height: 8),
-        createPersonalInfo(),
-        SizedBox(height: 8),
-        createContactInfo(),
+        createContactInfo(mother),
       ],
     );
   }
 
-  Widget createContactInfo() {
+  Widget createContactInfo(Mother mother) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -164,16 +225,23 @@ class MotherInfoScreen
           Text('Informasi Kontak', style: AppTextStyle.sectionTitle),
           Container(height: 21),
           InkWell(
-            onTap: () async {},
+            onTap: () async {
+              String phone = 'tel:${mother.nomorHandphone}';
+              if (await canLaunch(phone)) {
+                await launch(phone);
+              } else {
+                throw 'Nomor tidak valid ${mother.nomorHandphone}';
+              }
+            },
             child: FormUtils.buildField('Nomor Telpon',
-                value: "123456",
+                value: mother.nomorHandphone,
                 isEnabled: false,
                 suffixIcon: Icon(LineAwesomeIcons.phone)),
           ),
           Container(height: 8),
           FormUtils.buildField(
             'Nama Suami',
-            value: "suami 1",
+            value: mother.namaSuami,
             isEnabled: false,
           ),
         ],
@@ -181,7 +249,7 @@ class MotherInfoScreen
     );
   }
 
-  Widget createPersonalInfo() {
+  Widget createPersonalInfo(Mother mother) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -192,31 +260,31 @@ class MotherInfoScreen
           Container(height: 21),
           FormUtils.buildField(
             'NIK (Nomor Induk Kependudukan)',
-            value: "212",
+            value: mother.nik,
             isEnabled: false,
           ),
           Container(height: 8),
           FormUtils.buildField(
             'Tanggal Lahir',
-            value: "21",
+            value: mother.tanggalLahir,
             isEnabled: false,
           ),
           Container(height: 8),
           Row(
             children: <Widget>[
-              Expanded(
-                child: FormUtils.buildField(
-                  'Tinggi Badan',
-                  value: "212",
-                  suffix: 'cm',
-                  isEnabled: false,
-                ),
-              ),
-              Container(width: 8),
+              // Expanded(
+              //   child: FormUtils.buildField(
+              //     'Tinggi Badan',
+              //     value: "212",
+              //     suffix: 'cm',
+              //     isEnabled: false,
+              //   ),
+              // ),
+              // Container(width: 8),
               Expanded(
                 child: FormUtils.buildField(
                   'Golongan Darah',
-                  value: "22",
+                  value: mother.golonganDarah,
                   isEnabled: false,
                 ),
               ),
@@ -227,7 +295,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildInfo(BuildContext context, ChildInfo state) {
+  Widget createChildInfo(
+      BuildContext context, ChildInfo state, MotherInfoAction action) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -240,7 +309,9 @@ class MotherInfoScreen
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              ...state.data.map((e) => createChildCircle(context, e)).toList(),
+              ...state.data
+                  .map((e) => createChildCircle(context, e, action))
+                  .toList(),
               SizedBox(
                 height: 59,
                 width: 59,
@@ -249,7 +320,9 @@ class MotherInfoScreen
                   shape: CircleBorder(),
                   color: ResColor.primaryColor,
                   child: Icon(LineAwesomeIcons.plus, color: Colors.white),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(ChildAddScreen());
+                  },
                 ),
               ),
             ],
@@ -259,7 +332,8 @@ class MotherInfoScreen
     );
   }
 
-  Widget createChildCircle(BuildContext ctx, ChildInfoDatum e) {
+  Widget createChildCircle(
+      BuildContext ctx, ChildInfoDatum e, MotherInfoAction action) {
     return Column(
       children: <Widget>[
         Material(
@@ -275,7 +349,9 @@ class MotherInfoScreen
                 backgroundColor: Colors.white,
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  action.navigateToDetailChild(e.id);
+                },
                 shape: CircleBorder(),
                 color: ResColor.profileBgColor,
                 padding: const EdgeInsets.all(7.5),
@@ -294,7 +370,7 @@ class MotherInfoScreen
     );
   }
 
-  Widget createPregnancyInfo(MotherInfo state, BuildContext context) {
+  Widget createPregnancyInfo(Mother state, BuildContext context) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),
@@ -307,23 +383,24 @@ class MotherInfoScreen
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              ...List.generate(
-                state.data[0].atribut.kehamilanKe.data.length,
-                (i) => createPregnancyButton(
-                    i, context, state.data[0].atribut.kehamilanKe.data[i]),
-              ).reversed,
+              //Todo: implemet api get kehamilan
+              // ...List.generate(
+              //   state.data[0].atribut.kehamilanKe.data.length,
+              //   (i) => createPregnancyButton(
+              //       i, context, state.data[0].atribut.kehamilanKe.data[i]),
+              // ).reversed,
               FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-                color: ResColor.primaryColor,
-                child: Icon(LineAwesomeIcons.plus, color: Colors.white),
-                onPressed: () => null,
-              ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  color: ResColor.primaryColor,
+                  child: Icon(LineAwesomeIcons.plus, color: Colors.white),
+                  onPressed: () => showDialog(
+                      context: context, child: AddPregnancyDialog())),
             ],
           ),
         ],
@@ -359,7 +436,7 @@ class MotherInfoScreen
     );
   }
 
-  Widget createHealthCheckInfo() {
+  Widget createHealthCheckInfo(Mother mother) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 16),

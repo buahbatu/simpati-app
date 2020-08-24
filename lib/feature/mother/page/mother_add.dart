@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:simpati/core/domain/model/mother.dart';
 import 'package:simpati/core/framework/base_action.dart';
 import 'package:simpati/core/framework/base_view.dart';
 import 'package:simpati/core/framework/mixin/ticker_action_mixin.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
+import 'package:simpati/feature/mother/model/mother.dart';
 import 'package:simpati/feature/mother/page/add_steps/step_1.dart';
 import 'package:simpati/feature/mother/page/add_steps/step_2.dart';
 import 'package:simpati/feature/repository/mother_repository.dart';
@@ -98,8 +98,8 @@ class MotherAddAction
     if (result.isError) {
       showSnackBar(message: result.failure.data);
     } else if (result.isSuccess) {
-      showSnackBar(message: "Berhasil menambahkan ibu");
       Get.back();
+      showSnackBar(message: "Berhasil menambahkan ibu");
     }
   }
 

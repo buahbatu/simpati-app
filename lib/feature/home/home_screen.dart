@@ -102,6 +102,7 @@ class HomeScreen extends BaseView<HomeScreen, HomeAction, HomeState> {
             child: FadeIndexedStack(
           index: state.selectedIndex,
           children: items.keys.toList(),
+          duration: const Duration(milliseconds: 300),
         )),
         bottomNavigationBar:
             createNavBar(state, action, items.values.toList()));
