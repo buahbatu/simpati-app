@@ -6,10 +6,10 @@ import 'package:simpati/core/framework/base_child_view.dart';
 import 'package:simpati/core/resources/app_text_style.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/utils/form_utils.dart';
-import 'package:simpati/feature/children/model/children.dart';
 import 'package:simpati/feature/children/model/children_check.dart';
 import 'package:simpati/feature/children/page/children_info_screen.dart';
 
+// ignore: must_be_immutable
 class ChildMedicalCheckDialog extends BaseChildView<ChildrenInfoScreen,
     ChildrenInfoAction, ChildrenInfoState> {
   final String idAnak;

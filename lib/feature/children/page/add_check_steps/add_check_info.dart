@@ -10,7 +10,6 @@ import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/resources/res_data_source.dart';
 import 'package:simpati/feature/children/model/children_check.dart';
 import 'package:simpati/feature/children/page/add_check_steps/info_1.dart';
-import 'package:simpati/feature/children/page/add_check_steps/info_2.dart';
 import 'package:simpati/feature/children/page/add_check_steps/info_3.dart';
 import 'package:simpati/feature/repository/children_repository.dart';
 
@@ -160,10 +159,6 @@ class AddCheckInfoScreen extends BaseView<AddCheckInfoScreen,
             state.childCheck;
             _tabController.animateTo(1);
           }),
-          // AddCheckInfo2(onButtonClick: () {
-          //   state.childCheck;
-          //   _tabController.animateTo(2);
-          // }),
           AddCheckInfo3(onButtonClick: () {
             state.childCheck;
             action.addMedicalCheckUp(state.childCheck);

@@ -148,7 +148,7 @@ class MotherScreen extends BaseView<MotherScreen, MotherAction, MotherState> {
         Container(
           width: 270.0,
           child: Text(
-            "Jl. Kasih ibu dan cinta, Sumedang, Jawa Barat sasdasdasasd",
+            e.alamat,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14.0),
           ),

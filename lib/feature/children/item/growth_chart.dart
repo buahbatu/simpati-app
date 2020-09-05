@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:simpati/core/classifier/graph_data_reader.dart';
 import 'package:simpati/core/framework/base_child_view.dart';
-import 'package:simpati/feature/children/model/children.dart';
 import 'package:simpati/feature/children/page/children_info_screen.dart';
 
 class GrowthChart extends BaseChildView<ChildrenInfoScreen, ChildrenInfoAction,

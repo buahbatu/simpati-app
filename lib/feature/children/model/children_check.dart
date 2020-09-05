@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:simpati/feature/children/model/children.dart';
-import 'package:equatable/equatable.dart';
 
 part 'children_check.g.dart';
 

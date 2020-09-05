@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:get/get.dart';
-import 'package:simpati/core/network/network.dart';
 import 'package:simpati/core/resources/res_color.dart';
 import 'package:simpati/core/utils/framework_service_locator.dart';
 import 'package:simpati/feature/home/home_screen.dart';

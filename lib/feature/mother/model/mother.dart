@@ -145,7 +145,6 @@ class Mother extends Equatable {
     motherReq.atribut.nomorHandphone.content = this.nomorHandphone;
     motherReq.atribut.golonganDarah.content = this.golonganDarah;
 
-
     return motherReq;
   }
 }
@@ -254,25 +253,27 @@ class ResponseMother extends Equatable {
     for (var item in motherList) {
       Mother mother = Mother();
       mother = mother.copyWith(
-          id: item.id,
-          title: item.title,
-          slug: item.slug,
-          content: item.content,
-          createdAt: item.createdAt,
-          status: item.status,
-          posyandu: item.atribut.posyandu.content,
-          nik: item.atribut.nik.content,
-          namaSuami: item.atribut.namaSuami.content,
-          nikSuami: item.atribut.nikSuami.content,
-          tanggalLahir: item.atribut.tanggalLahir.content,
-          tempatLahir: item.atribut.tempatLahir.content,
-          nomorHandphone: item.atribut.nomorHandphone.content,
-          golonganDarah: item.atribut.golonganDarah.content,
-          alamat: item.atribut.alamat.content,
-          nomorBpjs: item.atribut.nomorBpjs.content,
-          statusKeluargaSejahtera: item.atribut.statusKeluargaSejahtera.content,
-          nomorHandphoneAlternatif:
-              item.atribut.nomorHandphoneAlternatif.content);
+        id: item.id,
+        title: item.title,
+        slug: item.slug,
+        content: item.content,
+        createdAt: item.createdAt,
+        status: item.status,
+        posyandu: getContentOrElse(item.atribut.posyandu),
+        nik: getContentOrElse(item.atribut.nik),
+        namaSuami: getContentOrElse(item.atribut.namaSuami),
+        nikSuami: getContentOrElse(item.atribut.nikSuami),
+        tanggalLahir: getContentOrElse(item.atribut.tanggalLahir),
+        tempatLahir: getContentOrElse(item.atribut.tempatLahir),
+        nomorHandphone: getContentOrElse(item.atribut.nomorHandphone),
+        golonganDarah: getContentOrElse(item.atribut.golonganDarah),
+        alamat: getContentOrElse(item.atribut.alamat),
+        nomorBpjs: getContentOrElse(item.atribut.nomorBpjs),
+        statusKeluargaSejahtera:
+            getContentOrElse(item.atribut.statusKeluargaSejahtera),
+        nomorHandphoneAlternatif:
+            getContentOrElse(item.atribut.nomorHandphoneAlternatif),
+      );
       mothers.add(mother);
     }
     return mothers;

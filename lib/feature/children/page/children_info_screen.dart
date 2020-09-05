@@ -89,8 +89,9 @@ class ChildrenInfoAction extends BaseAction<ChildrenInfoScreen,
     }
   }
 
-  void navigateToAddCheck(String id) {
-    Get.to(AddCheckInfoScreen(id));
+  void navigateToAddCheck(String id) async {
+    await Get.to(AddCheckInfoScreen(id));
+    reloadScreen();
   }
 }
 
